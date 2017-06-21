@@ -63,7 +63,7 @@ android {
 
     signingConfigs {
         release {
-            File projectProperties = file("/Users/matthieu/Documents/work/development/keystores/LoLHeroes/lolheroes.properties")
+            File projectProperties = file("/Users/matthieu/Documents/work/development/keystores/LeagueChampions/leaguechampions.properties")
             if (projectProperties.exists()) {
                 Properties props = new Properties()
                 props.load(new FileInputStream(projectProperties))
@@ -107,7 +107,7 @@ android {
         variant.outputs.each { output ->
             def file = output.outputFile
             output.outputFile = new File(file.parent, file.name
-                    .replace("app", "LoLHeroes")
+                    .replace("app", "LeagueChampions")
                     .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + gitBuildNumber() + ".apk" : "-${productVersion}.apk")
             )
         }
