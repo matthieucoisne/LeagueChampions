@@ -1,6 +1,5 @@
 .DS_Store
 keystore/
-release/
 class_files.txt
 fabric.properties
 seeds.txt
