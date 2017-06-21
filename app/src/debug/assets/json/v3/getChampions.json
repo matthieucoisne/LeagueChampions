@@ -1,0 +1,108 @@
+{
+  "type": "champion",
+  "version": "7.10.1",
+  "data": {
+    "Sona": {
+      "id": 37,
+      "key": "Sona",
+      "name": "Sona",
+      "title": "Maven of the Strings"
+    },
+    "LeeSin": {
+      "id": 64,
+      "key": "LeeSin",
+      "name": "Lee Sin",
+      "title": "the Blind Monk"
+    },
+    "MissFortune": {
+      "id": 21,
+      "key": "MissFortune",
+      "name": "Miss Fortune",
+      "title": "the Bounty Hunter"
+    },
+    "Shaco": {
+      "id": 35,
+      "key": "Shaco",
+      "name": "Shaco",
+      "title": "the Demon Jester"
+    },
+    "Teemo": {
+      "id": 17,
+      "key": "Teemo",
+      "name": "Teemo",
+      "title": "the Swift Scout"
+    },
+    "Riven": {
+      "id": 92,
+      "key": "Riven",
+      "name": "Riven",
+      "title": "the Exile"
+    },
+    "Garen": {
+      "id": 86,
+      "key": "Garen",
+      "name": "Garen",
+      "title": "The Might of Demacia"
+    },
+    "Zed": {
+      "id": 238,
+      "key": "Zed",
+      "name": "Zed",
+      "title": "the Master of Shadows"
+    },
+    "Corki": {
+      "id": 42,
+      "key": "Corki",
+      "name": "Corki",
+      "title": "the Daring Bombardier"
+    },
+    "Tryndamere": {
+      "id": 23,
+      "key": "Tryndamere",
+      "name": "Tryndamere",
+      "title": "the Barbarian King"
+    },
+    "Graves": {
+      "id": 104,
+      "key": "Graves",
+      "name": "Graves",
+      "title": "the Outlaw"
+    },
+    "Vladimir": {
+      "id": 8,
+      "key": "Vladimir",
+      "name": "Vladimir",
+      "title": "the Crimson Reaper"
+    },
+    "Ziggs": {
+      "id": 115,
+      "key": "Ziggs",
+      "name": "Ziggs",
+      "title": "the Hexplosives Expert"
+    },
+    "Amumu": {
+      "id": 32,
+      "key": "Amumu",
+      "name": "Amumu",
+      "title": "the Sad Mummy"
+    },
+    "Lulu": {
+      "id": 117,
+      "key": "Lulu",
+      "name": "Lulu",
+      "title": "the Fae Sorceress"
+    },
+    "Nasus": {
+      "id": 75,
+      "key": "Nasus",
+      "name": "Nasus",
+      "title": "the Curator of the Sands"
+    },
+    "JarvanIV": {
+      "id": 59,
+      "key": "JarvanIV",
+      "name": "Jarvan IV",
+      "title": "the Exemplar of Demacia"
+    }
+  }
+}

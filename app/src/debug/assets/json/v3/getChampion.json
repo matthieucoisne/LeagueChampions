@@ -1,0 +1,29 @@
+{
+  "id": 92,
+  "key": "Riven",
+  "name": "Riven",
+  "title": "the Exile",
+  "lore": "''There is a place between war and murder in which our demons lurk.''<br><br>In Noxus, any citizen may rise to power regardless of race, gender, or social standing - strength is all that matters. It was with committed faith in this ideal that Riven strove to greatness. She showed early potential as a soldier, forcing herself to master the weight of a long sword when she was barely its height. She was ruthless and efficient as a warrior, but her true strength lay in her conviction. She entered battles without any trace of doubt in her mind: no ethical pause, no fear of death.<br><br>Riven became a leader amongst her peers; a poster child of the Noxian spirit. So exceptional was her passion that the High Command recognized her with a black stone rune sword forged and enchanted with Noxian sorcery. The weapon was heavier than a kite shield and nearly as broad - perfectly suited to her tastes. Soon after, she was deployed to Ionia as part of the Noxian invasion.<br><br>What began as war quickly became extermination. Noxian soldiers followed the terrifying Zaunite war machines across fields of death. It wasn't the glorious combat for which Riven trained. She carried out the orders of her superiors, terminating the remnants of a beaten and fractured enemy with extreme prejudice.<br><br>As the invasion continued, it became clear that the Ionian society would not be reformed, merely eliminated. During one bitter engagement, Riven's unit became surrounded by Ionian forces. They called for support as the enemy closed in around them. What they received instead was a barrage of biochemical terror launched by Singed. Riven watched as around her Ionian and Noxian alike fell victim to an unspeakably gruesome fate. She managed to escape the bombardment, though she could not erase the memory.<br><br>Counted dead by Noxus, she saw an opportunity to start anew. She shattered her sword, severing ties with the past, and wandered in self-imposed exile - on a quest to seek atonement and a way to save the pure Noxian vision in which she believed.",
+  "stats": {
+    "armor": 24.376,
+    "armorperlevel": 3.2,
+    "attackdamage": 56.04,
+    "attackdamageperlevel": 3,
+    "attackrange": 125,
+    "attackspeedoffset": 0,
+    "attackspeedperlevel": 3.5,
+    "crit": 0,
+    "critperlevel": 0,
+    "hp": 558.48,
+    "hpperlevel": 86,
+    "hpregen": 5.34,
+    "hpregenperlevel": 0.5,
+    "movespeed": 340,
+    "mp": 0,
+    "mpperlevel": 0,
+    "mpregen": 0,
+    "mpregenperlevel": 0,
+    "spellblock": 32.1,
+    "spellblockperlevel": 1.25
+  }
+}

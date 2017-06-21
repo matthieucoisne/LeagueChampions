@@ -1,0 +1,239 @@
+apply plugin: 'com.android.application'
+apply plugin: "io.fabric"
+apply plugin: "com.github.ben-manes.versions"
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.fabric.io/public"
+        }
+    }
+
+    dependencies {
+        classpath "io.fabric.tools:gradle:1.22.2"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.15.0"
+    }
+}
+
+repositories {
+    maven { url "https://maven.fabric.io/public" }
+}
+
+def libraries = rootProject.ext.libraries;
+def config = rootProject.ext.config;
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+
+def productVersion = "$versionMajor.$versionMinor.$versionPatch"
+
+def static gitBuildNumber() {
+    return "git rev-list HEAD --count --no-merges".execute().text.trim().toInteger()
+}
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.leaguechampions"
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    productFlavors {
+        prod {
+            def versionBuild = gitBuildNumber()
+            versionCode versionBuild
+            versionName "${productVersion}.${versionBuild}"
+            resValue "string", "app_name", "League Champions"
+        }
+        dev {
+            applicationIdSuffix ".dev"
+            versionCode 0
+            versionName "${productVersion}-DEV"
+            resValue "string", "app_name", "DEV - League Champions"
+            minSdkVersion 21
+            multiDexEnabled true
+        }
+    }
+
+    signingConfigs {
+        release {
+            File projectProperties = file("/Users/matthieu/Documents/work/development/keystores/LoLHeroes/lolheroes.properties")
+            if (projectProperties.exists()) {
+                Properties props = new Properties()
+                props.load(new FileInputStream(projectProperties))
+
+                storeFile file(props["keystore.path"])
+                storePassword props["keystore.password"]
+                keyAlias props["keystore.key.alias"]
+                keyPassword props["keystore.key.password"]
+            }
+        }
+        debug {
+            File keystoreDebug = file("/Users/matthieu/Documents/work/development/keystores/debug.keystore")
+            if (keystoreDebug.exists()) {
+                storeFile keystoreDebug
+                storePassword "android"
+                keyAlias "android"
+                keyPassword "android"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            useProguard true
+            signingConfig signingConfigs.release
+            ext.enableCrashlytics = false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            useProguard false
+            signingConfig signingConfigs.debug
+            ext.enableCrashlytics = false
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            output.outputFile = new File(file.parent, file.name
+                    .replace("app", "LoLHeroes")
+                    .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + gitBuildNumber() + ".apk" : "-${productVersion}.apk")
+            )
+        }
+    }
+
+    android.variantFilter { variant ->
+        if (variant.buildType.name == "debug") {
+            if (variant.getFlavors().get(0).name == "prod") {
+                variant.setIgnore(true)
+            }
+        } else if (variant.buildType.name == "release") {
+            if (variant.getFlavors().get(0).name == "dev") {
+                variant.setIgnore(true)
+            }
+        }
+    }
+
+    dexOptions {
+        maxProcessCount 8
+        javaMaxHeapSize "2g"
+        preDexLibraries true
+        dexInProcess true
+    }
+
+    packagingOptions {
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
+        exclude ".readme"
+    }
+
+    lintOptions {
+        abortOnError true
+        xmlReport false
+        htmlReport true
+        warning "InvalidPackage"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
+
+    // SUPPORT
+    compile "com.android.support:design:$libraries.supportLib"
+    compile "com.android.support:appcompat-v7:$libraries.supportLib"
+    compile "com.android.support:recyclerview-v7:$libraries.supportLib"
+    compile "com.android.support:support-compat:$libraries.supportLib"
+    compile "com.android.support:support-core-utils:$libraries.supportLib"
+    compile "com.android.support:support-core-ui:$libraries.supportLib"
+    compile "com.android.support:support-fragment:$libraries.supportLib"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // DAGGER
+    compile "com.google.dagger:dagger:$libraries.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$libraries.dagger"
+    provided "javax.annotation:jsr250-api:$libraries.javax_annotation"
+
+    // GSON
+    compile "com.google.code.gson:gson:$libraries.gson"
+
+    // OKIO
+    compile "com.squareup.okio:okio:$libraries.okio"
+
+    // OKHTTP
+    compile "com.squareup.okhttp3:okhttp:$libraries.okhttp"
+    compile "com.squareup.okhttp3:logging-interceptor:$libraries.okhttp"
+
+    // RETROFIT
+    compile "com.squareup.retrofit2:retrofit:$libraries.retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$libraries.retrofit"
+    debugCompile "com.squareup.retrofit2:retrofit-mock:$libraries.retrofit"
+
+    // PICASSO
+    compile "com.squareup.picasso:picasso:$libraries.picasso"
+    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:$libraries.picasso_okhttp"
+
+    compile "com.github.bumptech.glide:glide:$libraries.glide"
+    compile "com.github.bumptech.glide:okhttp3-integration:$libraries.glide_okhttp"
+
+    // JODA TIME
+    compile "joda-time:joda-time:$libraries.jodaTime"
+
+    // BUTTER KNIFE
+    compile "com.jakewharton:butterknife:$libraries.butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$libraries.butterknife"
+
+    // TIMBER
+    compile "com.jakewharton.timber:timber:$libraries.timber"
+
+    // CRASHLYTICS
+    compile("com.crashlytics.sdk.android:crashlytics:$libraries.crashlytics@aar") {
+        transitive = true
+    }
+
+    // LEAK CANARY
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$libraries.leakcanary"
+
+    // TESTS
+    testCompile "junit:junit:$libraries.junit"
+    testCompile "org.powermock:powermock-module-junit4:$libraries.powermock"
+    testCompile "org.powermock:powermock-core:$libraries.powermock"
+    testCompile "org.powermock:powermock-api-mockito:$libraries.powermock"
+    testCompile "org.mockito:mockito-core:$libraries.mockito"
+    testCompile("org.robolectric:robolectric:$libraries.robolectric") {
+        exclude group: "commons-logging", module: "commons-logging"
+        exclude group: "org.apache.httpcomponents", module: "httpclient"
+    }
+
+    testCompile "org.assertj:assertj-core:$libraries.assertj"
+    testCompile "org.hamcrest:hamcrest-library:$libraries.hamcrest"
+
+    androidTestCompile "com.android.support.test:runner:$libraries.supportTest"
+    androidTestCompile "com.android.support.test:rules:$libraries.supportTest"
+    androidTestCompile "com.android.support:support-annotations:$libraries.supportLib"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$libraries.espresso"
+    androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:$libraries.espresso"
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$libraries.espresso") {
+        exclude group: "com.android.support", module: "appcompat-v7"
+        exclude group: "com.android.support", module: "design"
+        exclude group: "com.android.support", module: "support-v4"
+        exclude module: "recyclerview-v7"
+    }
+}
+
+apply plugin: "com.google.gms.google-services"
