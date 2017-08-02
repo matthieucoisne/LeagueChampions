@@ -63,7 +63,7 @@ android {
 
     signingConfigs {
         release {
-            File projectProperties = file("/Users/matthieu/Documents/work/development/keystores/LeagueChampions/leaguechampions.properties")
+            File projectProperties = file("../keystores/leaguechampions.properties")
             if (projectProperties.exists()) {
                 Properties props = new Properties()
                 props.load(new FileInputStream(projectProperties))
@@ -75,7 +75,7 @@ android {
             }
         }
         debug {
-            File keystoreDebug = file("/Users/matthieu/Documents/work/development/keystores/debug.keystore")
+            File keystoreDebug = file("../keystores/debug.keystore")
             if (keystoreDebug.exists()) {
                 storeFile keystoreDebug
                 storePassword "android"
