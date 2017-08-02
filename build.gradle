@@ -8,10 +8,10 @@ ext {
     ]
 
     libraries = [
-            butterknife             : "8.6.0",
+            butterknife             : "8.7.0",
             crashlytics             : "2.6.8",
             dagger                  : "2.11",
-            firebase                : "11.0.1",
+            firebase                : "11.0.4",
             glide                   : "3.7.0",
             glide_okhttp            : "1.5.0",
             gson                    : "2.8.1",
