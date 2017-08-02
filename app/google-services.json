@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "257126764760",
+    "firebase_url": "https://firetest-1f999.firebaseio.com",
+    "project_id": "firetest-1f999",
+    "storage_bucket": "firetest-1f999.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257126764760:android:f7f3d181b415f207",
+        "android_client_info": {
+          "package_name": "com.leaguechampions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257126764760-qbcv0qr0r7hj0d7tp1f6ib93s6nj4c2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCozwI8H6kISaBiU-YGbLfoGz0dd2Y1Dn0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257126764760:android:22855cb4e1845df9",
+        "android_client_info": {
+          "package_name": "com.leaguechampions.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257126764760-qbcv0qr0r7hj0d7tp1f6ib93s6nj4c2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCozwI8H6kISaBiU-YGbLfoGz0dd2Y1Dn0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
