@@ -4,9 +4,7 @@ public class Const {
 
     private Const() {}
 
-    public static final String URL = "https://na1.api.riotgames.com/";
-
-    public static final String API_KEY = "YOUR_API_KEY";
+    public static final String URL = "http://ddragon.leagueoflegends.com/cdn/7.15.1/data/en_US/";
 
     public static final String KEY_CHAMPION_ID = "com.leaguechampions.championId";
     public static final String KEY_VERSION = "com.leaguechampions.version";

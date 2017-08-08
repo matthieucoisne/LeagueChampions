@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.leaguechampions.core.Const;
 import com.leaguechampions.model.Champion;
 import com.leaguechampions.datasource.remote.Api;
+import com.leaguechampions.model.RiotResponse;
 
 import java.io.IOException;
 
@@ -38,7 +39,7 @@ public class ChampionDetailsPresenter {
     }
 
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
-        int championId = arguments.getInt(Const.KEY_CHAMPION_ID);
+        String championId = arguments.getString(Const.KEY_CHAMPION_ID);
         String version = arguments.getString(Const.KEY_VERSION);
         getChampionDetails(version, championId);
     }
@@ -52,20 +53,20 @@ public class ChampionDetailsPresenter {
         return false;
     }
 
-    private void getChampionDetails(final String version, int championId) {
-        api.getChampion(championId).enqueue(new Callback<Champion>() {
+    private void getChampionDetails(final String version, final String championId) {
+        api.getChampion(championId).enqueue(new Callback<RiotResponse>() {
             @Override
-            public void onResponse(@NonNull Call<Champion> call, @NonNull Response<Champion> response) {
+            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
                 if (response.isSuccessful()) {
-                    Champion champion = response.body();
-                    viewable.showDetails(version, champion);
+                    RiotResponse riotResponse = response.body();
+                    viewable.showDetails(version, riotResponse.getData().get(championId));
                 } else {
                     viewable.showError("error " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Champion> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
                     viewable.showError("io failure");
                 } else {

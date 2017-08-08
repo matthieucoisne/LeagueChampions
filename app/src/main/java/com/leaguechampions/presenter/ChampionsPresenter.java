@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.leaguechampions.R;
-import com.leaguechampions.model.Champions;
+import com.leaguechampions.model.RiotResponse;
 import com.leaguechampions.datasource.remote.Api;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class ChampionsPresenter {
 
     public interface ChampionsViewable {
         void showSettings();
-        void setAdapter(Champions champions);
+        void setAdapter(RiotResponse riotResponse);
         void showError(String message);
     }
 
@@ -51,19 +51,19 @@ public class ChampionsPresenter {
     }
 
     private void getChampions() {
-        api.getChampions().enqueue(new Callback<Champions>() {
+        api.getChampions().enqueue(new Callback<RiotResponse>() {
             @Override
-            public void onResponse(@NonNull Call<Champions> call, @NonNull Response<Champions> response) {
+            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
                 if (response.isSuccessful()) {
-                    Champions champions = response.body();
-                    viewable.setAdapter(champions);
+                    RiotResponse riotResponse = response.body();
+                    viewable.setAdapter(riotResponse);
                 } else {
                     viewable.showError("error " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Champions> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
                     viewable.showError("io failure");
                 } else {

@@ -15,7 +15,7 @@ import com.leaguechampions.R;
 import com.leaguechampions.adapter.ChampionsAdapter;
 import com.leaguechampions.core.LeagueChampions;
 import com.leaguechampions.model.Champion;
-import com.leaguechampions.model.Champions;
+import com.leaguechampions.model.RiotResponse;
 import com.leaguechampions.presenter.ChampionsPresenter;
 import com.squareup.picasso.Picasso;
 
@@ -72,8 +72,8 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
     }
 
     @Override
-    public void setAdapter(Champions champions) {
-        adapter = new ChampionsAdapter(champions, picasso, new ChampionsAdapter.onItemClickListener() {
+    public void setAdapter(RiotResponse riotResponse) {
+        adapter = new ChampionsAdapter(riotResponse, picasso, new ChampionsAdapter.onItemClickListener() {
             @Override
             public void onItemClick(String version, Champion champion) {
                 startActivity(ChampionDetailsActivity.getIntent(ChampionsActivity.this, version, champion.getId()));

@@ -4,8 +4,7 @@ import android.support.annotation.NonNull;
 
 public class Champion implements Comparable<Champion> {
 
-    private int id;
-    private String key;
+    private String id;
     private String name;
     private String title;
     private String lore;
@@ -14,12 +13,8 @@ public class Champion implements Comparable<Champion> {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
-    }
-
-    public String getKey() {
-        return key;
     }
 
     public String getName() {

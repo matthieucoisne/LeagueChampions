@@ -1,22 +1,19 @@
 package com.leaguechampions.datasource.remote;
 
-import com.leaguechampions.model.Champion;
-import com.leaguechampions.model.Champions;
+import com.leaguechampions.model.RiotResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 /**
- * https://na1.api.riotgames.com/lol/static-data/v3/champions
- * https://na1.api.riotgames.com/lol/static-data/v3/champions/92?champData=lore&champData=stats
- *
- * https://discussion.developer.riotgames.com/articles/1326/request-validation-changes.html
+ * http://ddragon.leagueoflegends.com/cdn/7.15.1/data/en_US/champion.json
+ * http://ddragon.leagueoflegends.com/cdn/7.15.1/data/en_US/champion/Riven.json
  */
 public interface Api {
-    @GET("lol/static-data/v3/champions")
-    Call<Champions> getChampions();
+    @GET("champion.json")
+    Call<RiotResponse> getChampions();
 
-    @GET("lol/static-data/v3/champions/{championId}?champData=lore&champData=stats")
-    Call<Champion> getChampion(@Path("championId") int championId);
+    @GET("champion/{championId}.json")
+    Call<RiotResponse> getChampion(@Path("championId") String championId);
 }

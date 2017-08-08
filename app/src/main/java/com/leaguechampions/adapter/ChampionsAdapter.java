@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
 import com.leaguechampions.core.Const;
 import com.leaguechampions.model.Champion;
-import com.leaguechampions.model.Champions;
+import com.leaguechampions.model.RiotResponse;
 import com.leaguechampions.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
 
@@ -30,11 +30,11 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
     private final Picasso picasso;
     private final List<Champion> data;
 
-    public ChampionsAdapter(Champions champions, Picasso picasso, onItemClickListener listener) {
-        this.data = new ArrayList<>(champions.getData().values());
+    public ChampionsAdapter(RiotResponse riotResponse, Picasso picasso, onItemClickListener listener) {
+        this.data = new ArrayList<>(riotResponse.getData().values());
         Collections.sort(data);
         this.picasso = picasso;
-        this.version = champions.getVersion();
+        this.version = riotResponse.getVersion();
         this.listener = listener;
     }
 
@@ -51,9 +51,9 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         holder.tvChampion.setText(champion.getName());
 
         if (Const.isGlide) {
-            Glide.with(context).load(UrlUtils.getImageUrl(context, version, champion.getKey())).into(holder.ivChampion);
+            Glide.with(context).load(UrlUtils.getImageUrl(context, version, champion.getId())).into(holder.ivChampion);
         } else {
-            picasso.load(UrlUtils.getImageUrl(context, version, champion.getKey())).into(holder.ivChampion);
+            picasso.load(UrlUtils.getImageUrl(context, version, champion.getId())).into(holder.ivChampion);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

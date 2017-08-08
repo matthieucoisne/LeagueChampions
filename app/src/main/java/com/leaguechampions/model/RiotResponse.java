@@ -2,7 +2,7 @@ package com.leaguechampions.model;
 
 import java.util.Map;
 
-public class Champions {
+public class RiotResponse {
 
     private String version;
     private Map<String, Champion> data;

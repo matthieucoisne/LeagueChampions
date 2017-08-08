@@ -43,7 +43,7 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
     @Inject
     protected Picasso picasso;
 
-    public static Intent getIntent(Context context, String version, int championId) {
+    public static Intent getIntent(Context context, String version, String championId) {
         Intent intent = new Intent(context, ChampionDetailsActivity.class);
         intent.putExtra(Const.KEY_VERSION, version);
         intent.putExtra(Const.KEY_CHAMPION_ID, championId);
@@ -76,9 +76,9 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
     @Override
     public void showDetails(String version, Champion champion) {
         if (Const.isGlide) {
-            Glide.with(this).load(UrlUtils.getImageUrl(this, version, champion.getKey())).into(ivChampion);
+            Glide.with(this).load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
         } else {
-            picasso.load(UrlUtils.getImageUrl(this, version, champion.getKey())).into(ivChampion);
+            picasso.load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
         }
         tvName.setText(champion.getName());
         tvLore.setText(Html.fromHtml(champion.getLore()));
