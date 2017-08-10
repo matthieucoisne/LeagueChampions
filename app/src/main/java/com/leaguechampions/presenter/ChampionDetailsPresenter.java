@@ -2,11 +2,13 @@ package com.leaguechampions.presenter;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.view.MenuItem;
 
+import com.leaguechampions.R;
 import com.leaguechampions.core.Const;
-import com.leaguechampions.model.Champion;
 import com.leaguechampions.datasource.remote.Api;
+import com.leaguechampions.model.Champion;
 import com.leaguechampions.model.RiotResponse;
 
 import java.io.IOException;
@@ -19,13 +21,15 @@ import retrofit2.Response;
 
 public class ChampionDetailsPresenter {
 
-    private ChampionDetailsViewable viewable;
-
     private final Api api;
+    private String championId;
+    private String version;
+    private ChampionDetailsViewable viewable;
 
     public interface ChampionDetailsViewable {
         void showDetails(String version, Champion champion);
-        void showError(String message);
+        void showError(@StringRes int stringId);
+        void showError(@StringRes int stringId, int errorCode);
         void doFinish();
     }
 
@@ -39,9 +43,20 @@ public class ChampionDetailsPresenter {
     }
 
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
-        String championId = arguments.getString(Const.KEY_CHAMPION_ID);
-        String version = arguments.getString(Const.KEY_VERSION);
-        getChampionDetails(version, championId);
+        if (savedInstanceState != null) {
+            championId = savedInstanceState.getString(Const.KEY_CHAMPION_ID);
+            version = savedInstanceState.getString(Const.KEY_VERSION);
+        } else {
+            championId = arguments.getString(Const.KEY_CHAMPION_ID);
+            version = arguments.getString(Const.KEY_VERSION);
+        }
+
+        getChampionDetails();
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(Const.KEY_CHAMPION_ID, championId);
+        outState.putString(Const.KEY_VERSION, version);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -49,11 +64,12 @@ public class ChampionDetailsPresenter {
             case android.R.id.home:
                 viewable.doFinish();
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
-    private void getChampionDetails(final String version, final String championId) {
+    private void getChampionDetails() {
         api.getChampion(championId).enqueue(new Callback<RiotResponse>() {
             @Override
             public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
@@ -61,16 +77,16 @@ public class ChampionDetailsPresenter {
                     RiotResponse riotResponse = response.body();
                     viewable.showDetails(version, riotResponse.getData().get(championId));
                 } else {
-                    viewable.showError("error " + response.code());
+                    viewable.showError(R.string.error_code, response.code());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
-                    viewable.showError("io failure");
+                    viewable.showError(R.string.error_io);
                 } else {
-                    viewable.showError("failure");
+                    viewable.showError(R.string.error_something_went_wrong);
                 }
             }
         });

@@ -3,8 +3,12 @@ package com.leaguechampions.presenter;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.leaguechampions.model.Champion;
+import com.leaguechampions.R;
+import com.leaguechampions.core.Const;
 import com.leaguechampions.datasource.remote.Api;
+import com.leaguechampions.model.Champion;
+import com.leaguechampions.model.RiotResponse;
+import com.leaguechampions.utils.ReflectionUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,11 +17,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
@@ -25,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static org.mockito.Matchers.anyInt;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -34,25 +37,33 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Response.class})
 public class ChampionDetailsPresenterTest {
 
     private ChampionDetailsPresenter presenter;
 
-    @Mock ChampionDetailsPresenter.ChampionDetailsViewable viewable;
-    @Mock Bundle bundle;
-    @Mock Api api;
-    @Mock Call<Champion> call;
-    @Mock Champion champion;
+    private final String fieldChampionId = "championId";
+    private final String fieldVersion = "version";
 
-    @Captor ArgumentCaptor<Callback<Champion>> argumentCaptor;
+    private final String championId = "Riven";
+    private final String version = "1.0";
+
+    @Mock ChampionDetailsPresenter.ChampionDetailsViewable viewable;
+    @Mock Api api;
+    @Mock Call<RiotResponse> call;
+    @Mock RiotResponse riotResponse;
+    @Mock Champion champion;
+    @Mock Map<String, Champion> data;
+
+    @Captor ArgumentCaptor<Callback<RiotResponse>> argumentCaptor;
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        MockitoAnnotations.initMocks(this);
-
+    public void setUp() {
         presenter = new ChampionDetailsPresenter(api);
         presenter.setViewable(viewable);
+
+        when(api.getChampion(anyString())).thenReturn(call);
+        when(riotResponse.getData()).thenReturn(data);
+        when(riotResponse.getData().get(championId)).thenReturn(champion);
     }
 
     @After
@@ -62,13 +73,36 @@ public class ChampionDetailsPresenterTest {
 
     @Test
     public void testOnActivityCreated() {
-        when(api.getChampion(anyInt())).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
+        when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
 
-        presenter.onActivityCreated(null, bundle);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
+        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
+        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.success(champion)
+                Response.success(riotResponse)
+        );
+        verify(viewable).showDetails(anyString(), eq(champion));
+        verifyNoMoreInteractions(viewable);
+    }
+
+    @Test
+    public void testOnActivityCreated_WhenHasSavedInstanceState_RetrievesValuesFromSavedState() {
+        Bundle arguments = mock(Bundle.class);
+        Bundle savedInstanceState = mock(Bundle.class);
+        when(savedInstanceState.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(savedInstanceState.getString(Const.KEY_VERSION)).thenReturn(version);
+
+        presenter.onActivityCreated(savedInstanceState, arguments);
+
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
+        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
+        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
+        argumentCaptor.getValue().onResponse(call,
+                Response.success(riotResponse)
         );
         verify(viewable).showDetails(anyString(), eq(champion));
         verifyNoMoreInteractions(viewable);
@@ -76,44 +110,69 @@ public class ChampionDetailsPresenterTest {
 
     @Test
     public void testOnActivityCreated_WhenResponseError400_ShowsError() throws Exception {
-        when(api.getChampion(anyInt())).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
+        when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
 
-        presenter.onActivityCreated(null, bundle);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
+        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
+        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.<Champion>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
+                Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
-        verify(viewable).showError("error 400");
+        verify(viewable).showError(R.string.error_code, 400);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnActivityCreated_WhenIOFailure_ShowsError() throws Exception {
-        when(api.getChampion(anyInt())).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
+        when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
 
-        presenter.onActivityCreated(null, bundle);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
+        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
+        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(call,
                 new IOException()
         );
-        verify(viewable).showError("io failure");
+        verify(viewable).showError(R.string.error_io);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnActivityCreated_WhenFailure_ShowsError() throws Exception {
-        when(api.getChampion(anyInt())).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
+        when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
 
-        presenter.onActivityCreated(null, bundle);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
+        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
+        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(call,
                 new Throwable()
         );
-        verify(viewable).showError("failure");
+        verify(viewable).showError(R.string.error_something_went_wrong);
         verifyNoMoreInteractions(viewable);
+    }
+
+    @Test
+    public void testOnSaveInstanceState() {
+        ReflectionUtils.setField(presenter, fieldChampionId, championId);
+        ReflectionUtils.setField(presenter, fieldVersion, version);
+        Bundle bundle = mock(Bundle.class);
+
+        presenter.onSaveInstanceState(bundle);
+
+        verify(bundle).putString(Const.KEY_CHAMPION_ID, championId);
+        verify(bundle).putString(Const.KEY_VERSION, version);
+        verifyNoMoreInteractions(bundle, viewable);
     }
 
     @Test
@@ -121,8 +180,9 @@ public class ChampionDetailsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(android.R.id.home);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(true);
         verify(viewable).doFinish();
         verifyNoMoreInteractions(viewable);
     }
@@ -132,8 +192,9 @@ public class ChampionDetailsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(0);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(false);
         verifyNoMoreInteractions(viewable);
     }
 }

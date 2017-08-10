@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 public class SettingsPresenter {
 
-    private SettingsViewable viewable;
     private final SharedPreferences preferences;
+    private SettingsViewable viewable;
 
     // Workaround for BuildConfig.BUILD_TYPE in methods for Unit Tests
     private String buildType = BuildConfig.BUILD_TYPE;
@@ -44,8 +44,9 @@ public class SettingsPresenter {
             case android.R.id.home:
                 viewable.doFinish();
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     public void onMockModeCheckedChanged(boolean isChecked) {

@@ -1,11 +1,12 @@
 package com.leaguechampions.presenter;
 
+import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.leaguechampions.R;
-import com.leaguechampions.model.Champion;
-import com.leaguechampions.model.Champions;
 import com.leaguechampions.datasource.remote.Api;
+import com.leaguechampions.model.Champion;
+import com.leaguechampions.model.RiotResponse;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,8 +15,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
@@ -28,13 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Response.class})
 public class ChampionsPresenterTest {
 
     private ChampionsPresenter presenter;
@@ -46,17 +45,18 @@ public class ChampionsPresenterTest {
 
     @Mock ChampionsPresenter.ChampionsViewable viewable;
     @Mock Api api;
-    @Mock Call<Champions> call;
-    @Mock Champions champions;
+    @Mock Call<RiotResponse> call;
+    @Mock RiotResponse riotResponse;
 
-    @Captor ArgumentCaptor<Callback<Champions>> argumentCaptor;
+    @Captor ArgumentCaptor<Callback<RiotResponse>> argumentCaptor;
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        MockitoAnnotations.initMocks(this);
-
+    public void setUp() {
         presenter = new ChampionsPresenter(api);
         presenter.setViewable(viewable);
+
+        when(api.getChampions()).thenReturn(call);
+        when(riotResponse.getData()).thenReturn(data);
     }
 
     @After
@@ -66,58 +66,57 @@ public class ChampionsPresenterTest {
 
     @Test
     public void testOnActivityCreated() {
-        when(api.getChampions()).thenReturn(call);
-        when(champions.getData()).thenReturn(data);
+        Bundle arguments = mock(Bundle.class);
 
-        presenter.onActivityCreated(null, null);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        verify(api.getChampions()).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.success(champions)
+                Response.success(riotResponse)
         );
-        verify(viewable).setAdapter(champions);
+        verify(viewable).setAdapter(riotResponse);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnActivityCreated_WhenResponseError400_ShowsError() throws Exception {
-        when(api.getChampions()).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
 
-        presenter.onActivityCreated(null, null);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        verify(api.getChampions()).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.<Champions>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
+                Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
-        verify(viewable).showError("error 400");
+        verify(viewable).showError(R.string.error_code, 400);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnActivityCreated_WhenIOFailure_ShowsError() throws Exception {
-        when(api.getChampions()).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
 
-        presenter.onActivityCreated(null, null);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        verify(api.getChampions()).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(call,
                 new IOException()
         );
-        verify(viewable).showError("io failure");
+        verify(viewable).showError(R.string.error_io);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnActivityCreated_WhenFailure_ShowsError() throws Exception {
-        when(api.getChampions()).thenReturn(call);
+        Bundle arguments = mock(Bundle.class);
 
-        presenter.onActivityCreated(null, null);
+        presenter.onActivityCreated(null, arguments);
 
-        verify(call).enqueue(argumentCaptor.capture());
+        verify(api.getChampions()).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(call,
                 new Throwable()
         );
-        verify(viewable).showError("failure");
+        verify(viewable).showError(R.string.error_something_went_wrong);
         verifyNoMoreInteractions(viewable);
     }
 
@@ -126,8 +125,9 @@ public class ChampionsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(R.id.menu_settings);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(true);
         verify(viewable).showSettings();
         verifyNoMoreInteractions(viewable);
     }
@@ -137,8 +137,9 @@ public class ChampionsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(0);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(false);
         verifyNoMoreInteractions(viewable);
     }
 }

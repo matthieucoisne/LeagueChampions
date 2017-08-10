@@ -3,8 +3,9 @@ package com.leaguechampions.datasource.remote;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.leaguechampions.model.Champion;
-import com.leaguechampions.model.Champions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.leaguechampions.model.RiotResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,24 +42,32 @@ public class MockApi implements Api {
     }
 
     @Override
-    public Call<Champions> getChampions() {
-        String filePath = "json/v3/getChampions.json";
+    public Call<RiotResponse> getChampions() {
+        String filePath = "json/getChampions.json";
 
         try {
-            Champions champions = getDataFromFile(filePath, Champions.class);
-            return delegate.returning(Calls.response(champions)).getChampions();
+            RiotResponse riotResponse = getDataFromFile(filePath, RiotResponse.class);
+            return delegate.returningResponse(riotResponse).getChampions();
         } catch (IOException e) {
             return Calls.failure(e);
         }
     }
 
     @Override
-    public Call<Champion> getChampion(@Path("championId") int championId) {
-        String filePath = "json/v3/getChampion.json";
+    public Call<RiotResponse> getChampion(@Path("championId") String championId) {
+        String filePath = "json/getChampion.json";
 
         try {
-            Champion champion = getDataFromFile(filePath, Champion.class);
-            return delegate.returning(Calls.response(champion)).getChampion(championId);
+            // The file "getChampion.json" only contains data for championId "Riven"
+            // We need to change this key to the requested championId.
+            String json = getStringFromFile(filePath);
+            JsonObject jsonObjectResponse = gson.fromJson(json, JsonElement.class).getAsJsonObject();
+            JsonObject jsonObjectData = jsonObjectResponse.getAsJsonObject("data");
+            jsonObjectData.add(championId, jsonObjectData.get("Riven"));
+            jsonObjectData.remove("Riven");
+
+            RiotResponse riotResponse = gson.fromJson(jsonObjectResponse, RiotResponse.class);
+            return delegate.returningResponse(riotResponse).getChampion(championId);
         } catch (IOException e) {
             return Calls.failure(e);
         }

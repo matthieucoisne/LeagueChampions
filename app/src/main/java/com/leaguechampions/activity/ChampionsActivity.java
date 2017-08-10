@@ -2,6 +2,7 @@ package com.leaguechampions.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,7 +85,12 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
     }
 
     @Override
-    public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void showError(@StringRes int stringId) {
+        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(@StringRes int stringId, int errorCode) {
+        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
     }
 }

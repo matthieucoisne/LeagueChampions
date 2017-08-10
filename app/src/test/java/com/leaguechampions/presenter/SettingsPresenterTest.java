@@ -12,11 +12,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -28,13 +28,13 @@ public class SettingsPresenterTest {
 
     private SettingsPresenter presenter;
 
+    private final String fieldBuildType = "buildType";
+
     @Mock SettingsPresenter.SettingsViewable viewable;
     @Mock SharedPreferences sharedPreferences;
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        MockitoAnnotations.initMocks(this);
-
+    public void setUp() {
         presenter = new SettingsPresenter(sharedPreferences);
         presenter.setViewable(viewable);
     }
@@ -48,7 +48,7 @@ public class SettingsPresenterTest {
     public void testOnActivityCreated() {
         PowerMockito.mockStatic(PrefUtils.class);
         when(PrefUtils.isMockMode(sharedPreferences)).thenReturn(true);
-        ReflectionUtils.setField(presenter, "buildType", "debug");
+        ReflectionUtils.setField(presenter, fieldBuildType, "debug");
 
         presenter.onActivityCreated(null, null);
 
@@ -60,7 +60,7 @@ public class SettingsPresenterTest {
     @Test
     public void testOnActivityCreated_WhenBuildTypeRelease_OnlySetsVersion() {
         PowerMockito.mockStatic(PrefUtils.class);
-        ReflectionUtils.setField(presenter, "buildType", "release");
+        ReflectionUtils.setField(presenter, fieldBuildType, "release");
 
         presenter.onActivityCreated(null, null);
 
@@ -73,8 +73,9 @@ public class SettingsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(android.R.id.home);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(true);
         verify(viewable).doFinish();
         verifyNoMoreInteractions(viewable);
     }
@@ -84,15 +85,16 @@ public class SettingsPresenterTest {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(0);
 
-        presenter.onOptionsItemSelected(item);
+        boolean result = presenter.onOptionsItemSelected(item);
 
+        assertThat(result).isEqualTo(false);
         verifyNoMoreInteractions(viewable);
     }
 
     @Test
     public void testOnMockModeCheckedChanged() {
+        // TODO create tests for PrefUtils
         PowerMockito.mockStatic(PrefUtils.class);
-        when(PrefUtils.isMockMode(sharedPreferences)).thenReturn(true);
 
         presenter.onMockModeCheckedChanged(true);
 

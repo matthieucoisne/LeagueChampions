@@ -7,6 +7,10 @@
     <string name="send_your_feedback">Send your feedback</string>
     <string name="version">Version %1$s</string>
 
+    <string name="error_io">Oops! Please check your connectivity and try again</string>
+    <string name="error_code">Oops! Something went wrong (%1$d)</string>
+    <string name="error_something_went_wrong">Oops! Something went wrong :(</string>
+
     // DEV
     <string name="developer_options">Developer Options</string>
     <string name="mock_mode">Mock Mode</string>

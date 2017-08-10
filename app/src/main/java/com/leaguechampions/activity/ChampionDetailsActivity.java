@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -69,6 +70,12 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        presenter.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
@@ -85,8 +92,13 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
     }
 
     @Override
-    public void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void showError(@StringRes int stringId) {
+        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(@StringRes int stringId, int errorCode) {
+        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
     }
 
     @Override
