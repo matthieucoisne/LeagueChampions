@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/activity_champions_row_ivChampion"
         android:layout_width="80dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:layout_height="80dp"/>
 
     <TextView
         android:id="@+id/activity_champions_row_tvChampion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
         android:textColor="@android:color/white"
-        tools:text="ChampionName"/>
+        tools:text="Riven"/>
 </LinearLayout>

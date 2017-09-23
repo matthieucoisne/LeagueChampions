@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -81,7 +81,7 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
             }
         });
         rvChampions.setAdapter(adapter);
-        rvChampions.setLayoutManager(new LinearLayoutManager(this));
+        rvChampions.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
     @Override
