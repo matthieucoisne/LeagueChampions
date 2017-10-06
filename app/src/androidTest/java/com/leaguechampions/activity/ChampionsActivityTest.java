@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.leaguechampions.robots.ChampionDetailsRobot;
 import com.leaguechampions.robots.ChampionsRobot;
+import com.leaguechampions.robots.SettingsRobot;
 import com.leaguechampions.utils.PrefUtils;
 
 import org.junit.After;
@@ -49,5 +50,15 @@ public class ChampionsActivityTest {
 
         new ChampionDetailsRobot()
                 .verifyChampionIsDisplayed("Riven");
+    }
+
+    @Test
+    public void showSettings() {
+        new ChampionsRobot()
+                .openMenu()
+                .clickMenuSettings();
+
+        new SettingsRobot()
+                .checkVersionIsDisplayed();
     }
 }
