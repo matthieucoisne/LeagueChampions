@@ -11,7 +11,7 @@ public class Const {
 
 
     // DEBUG
-    public static final long BEHAVIOR_DELAY_MILLIS = 1000;
+    public static final long BEHAVIOR_DELAY_MILLIS = 0;
     public static final String PREF_KEY_MOCK_MODE = "mock_mode";
     public static final boolean isGlide = false;
 }
