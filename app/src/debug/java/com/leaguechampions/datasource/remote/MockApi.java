@@ -58,13 +58,15 @@ public class MockApi implements Api {
         String filePath = "json/getChampion.json";
 
         try {
-            // The file "getChampion.json" only contains data for championId "Riven"
-            // We need to change this key to the requested championId.
+            // The file "getChampion.json" is a map (championId -> data) containing data for "Riven" only.
+            // We need to replace the key "Riven" with the provided championId.
             String json = getStringFromFile(filePath);
             JsonObject jsonObjectResponse = gson.fromJson(json, JsonElement.class).getAsJsonObject();
-            JsonObject jsonObjectData = jsonObjectResponse.getAsJsonObject("data");
-            jsonObjectData.add(championId, jsonObjectData.get("Riven"));
-            jsonObjectData.remove("Riven");
+            if (!"Riven".equals(championId)) {
+                JsonObject jsonObjectData = jsonObjectResponse.getAsJsonObject("data");
+                jsonObjectData.add(championId, jsonObjectData.get("Riven"));
+                jsonObjectData.remove("Riven");
+            }
 
             RiotResponse riotResponse = gson.fromJson(jsonObjectResponse, RiotResponse.class);
             return delegate.returningResponse(riotResponse).getChampion(championId);
