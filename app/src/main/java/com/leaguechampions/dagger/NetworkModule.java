@@ -1,4 +1,4 @@
-package com.leaguechampions.dagger.module;
+package com.leaguechampions.dagger;
 
 import android.content.Context;
 

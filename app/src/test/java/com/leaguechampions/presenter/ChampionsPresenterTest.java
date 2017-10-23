@@ -43,7 +43,7 @@ public class ChampionsPresenterTest {
         put("Jinx", new Champion("Jinx"));
     }};
 
-    @Mock ChampionsPresenter.ChampionsViewable viewable;
+    @Mock ChampionsPresenter.ChampionsView view;
     @Mock Api api;
     @Mock Call<RiotResponse> call;
     @Mock RiotResponse riotResponse;
@@ -52,8 +52,7 @@ public class ChampionsPresenterTest {
 
     @Before
     public void setUp() {
-        presenter = new ChampionsPresenter(api);
-        presenter.setViewable(viewable);
+        presenter = new ChampionsPresenter(view, api);
 
         when(api.getChampions()).thenReturn(call);
         when(riotResponse.getData()).thenReturn(data);
@@ -74,8 +73,8 @@ public class ChampionsPresenterTest {
         argumentCaptor.getValue().onResponse(call,
                 Response.success(riotResponse)
         );
-        verify(viewable).setAdapter(riotResponse);
-        verifyNoMoreInteractions(viewable);
+        verify(view).setAdapter(riotResponse);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -88,8 +87,8 @@ public class ChampionsPresenterTest {
         argumentCaptor.getValue().onResponse(call,
                 Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
-        verify(viewable).showError(R.string.error_code, 400);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_code, 400);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -102,8 +101,8 @@ public class ChampionsPresenterTest {
         argumentCaptor.getValue().onFailure(call,
                 new IOException()
         );
-        verify(viewable).showError(R.string.error_io);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_io);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -116,8 +115,8 @@ public class ChampionsPresenterTest {
         argumentCaptor.getValue().onFailure(call,
                 new Throwable()
         );
-        verify(viewable).showError(R.string.error_something_went_wrong);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_something_went_wrong);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -128,8 +127,8 @@ public class ChampionsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(true);
-        verify(viewable).showSettings();
-        verifyNoMoreInteractions(viewable);
+        verify(view).showSettings();
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -140,6 +139,6 @@ public class ChampionsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(false);
-        verifyNoMoreInteractions(viewable);
+        verifyNoMoreInteractions(view);
     }
 }

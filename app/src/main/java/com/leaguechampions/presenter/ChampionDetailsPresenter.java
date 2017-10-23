@@ -22,11 +22,11 @@ import retrofit2.Response;
 public class ChampionDetailsPresenter {
 
     private final Api api;
+    private final ChampionDetailsView view;
     private String championId;
     private String version;
-    private ChampionDetailsViewable viewable;
 
-    public interface ChampionDetailsViewable {
+    public interface ChampionDetailsView {
         void showDetails(String version, Champion champion);
         void showError(@StringRes int stringId);
         void showError(@StringRes int stringId, int errorCode);
@@ -34,12 +34,9 @@ public class ChampionDetailsPresenter {
     }
 
     @Inject
-    ChampionDetailsPresenter(Api api) {
+    ChampionDetailsPresenter(ChampionDetailsView view, Api api) {
+        this.view = view;
         this.api = api;
-    }
-
-    public void setViewable(ChampionDetailsViewable viewable) {
-        this.viewable = viewable;
     }
 
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
@@ -62,7 +59,7 @@ public class ChampionDetailsPresenter {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                viewable.doFinish();
+                view.doFinish();
                 return true;
             default:
                 return false;
@@ -75,18 +72,18 @@ public class ChampionDetailsPresenter {
             public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
                 if (response.isSuccessful()) {
                     RiotResponse riotResponse = response.body();
-                    viewable.showDetails(version, riotResponse.getData().get(championId));
+                    view.showDetails(version, riotResponse.getData().get(championId));
                 } else {
-                    viewable.showError(R.string.error_code, response.code());
+                    view.showError(R.string.error_code, response.code());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
-                    viewable.showError(R.string.error_io);
+                    view.showError(R.string.error_io);
                 } else {
-                    viewable.showError(R.string.error_something_went_wrong);
+                    view.showError(R.string.error_something_went_wrong);
                 }
             }
         });

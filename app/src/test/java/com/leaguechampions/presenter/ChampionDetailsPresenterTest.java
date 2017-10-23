@@ -47,7 +47,7 @@ public class ChampionDetailsPresenterTest {
     private final String championId = "Riven";
     private final String version = "1.0";
 
-    @Mock ChampionDetailsPresenter.ChampionDetailsViewable viewable;
+    @Mock ChampionDetailsPresenter.ChampionDetailsView view;
     @Mock Api api;
     @Mock Call<RiotResponse> call;
     @Mock RiotResponse riotResponse;
@@ -58,8 +58,7 @@ public class ChampionDetailsPresenterTest {
 
     @Before
     public void setUp() {
-        presenter = new ChampionDetailsPresenter(api);
-        presenter.setViewable(viewable);
+        presenter = new ChampionDetailsPresenter(view, api);
 
         when(api.getChampion(anyString())).thenReturn(call);
         when(riotResponse.getData()).thenReturn(data);
@@ -85,8 +84,8 @@ public class ChampionDetailsPresenterTest {
         argumentCaptor.getValue().onResponse(call,
                 Response.success(riotResponse)
         );
-        verify(viewable).showDetails(anyString(), eq(champion));
-        verifyNoMoreInteractions(viewable);
+        verify(view).showDetails(anyString(), eq(champion));
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -104,8 +103,8 @@ public class ChampionDetailsPresenterTest {
         argumentCaptor.getValue().onResponse(call,
                 Response.success(riotResponse)
         );
-        verify(viewable).showDetails(anyString(), eq(champion));
-        verifyNoMoreInteractions(viewable);
+        verify(view).showDetails(anyString(), eq(champion));
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -122,8 +121,8 @@ public class ChampionDetailsPresenterTest {
         argumentCaptor.getValue().onResponse(call,
                 Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
-        verify(viewable).showError(R.string.error_code, 400);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_code, 400);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -140,8 +139,8 @@ public class ChampionDetailsPresenterTest {
         argumentCaptor.getValue().onFailure(call,
                 new IOException()
         );
-        verify(viewable).showError(R.string.error_io);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_io);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -158,8 +157,8 @@ public class ChampionDetailsPresenterTest {
         argumentCaptor.getValue().onFailure(call,
                 new Throwable()
         );
-        verify(viewable).showError(R.string.error_something_went_wrong);
-        verifyNoMoreInteractions(viewable);
+        verify(view).showError(R.string.error_something_went_wrong);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -172,7 +171,7 @@ public class ChampionDetailsPresenterTest {
 
         verify(bundle).putString(Const.KEY_CHAMPION_ID, championId);
         verify(bundle).putString(Const.KEY_VERSION, version);
-        verifyNoMoreInteractions(bundle, viewable);
+        verifyNoMoreInteractions(bundle, view);
     }
 
     @Test
@@ -183,8 +182,8 @@ public class ChampionDetailsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(true);
-        verify(viewable).doFinish();
-        verifyNoMoreInteractions(viewable);
+        verify(view).doFinish();
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -195,6 +194,6 @@ public class ChampionDetailsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(false);
-        verifyNoMoreInteractions(viewable);
+        verifyNoMoreInteractions(view);
     }
 }

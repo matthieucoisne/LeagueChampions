@@ -2,10 +2,10 @@ package com.leaguechampions.core;
 
 import android.app.Application;
 
-import com.leaguechampions.dagger.component.AppComponent;
-import com.leaguechampions.dagger.component.DaggerAppComponent;
-import com.leaguechampions.dagger.module.AppModule;
-import com.leaguechampions.dagger.module.NetworkModule;
+import com.leaguechampions.dagger.AppComponent;
+import com.leaguechampions.dagger.DaggerAppComponent;
+import com.leaguechampions.dagger.AppModule;
+import com.leaguechampions.dagger.NetworkModule;
 import com.leaguechampions.module.DataModule;
 
 public class LeagueChampions extends Application {

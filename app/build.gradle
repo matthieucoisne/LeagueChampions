@@ -166,8 +166,10 @@ dependencies {
 
     // DAGGER
     compile "com.google.dagger:dagger:$libraries.dagger"
+    compile "com.google.dagger:dagger-android:$libraries.dagger"
+    compile "com.google.dagger:dagger-android-support:$libraries.dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$libraries.dagger"
-    provided "javax.annotation:jsr250-api:$libraries.javax_annotation"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$libraries.dagger"
 
     // GSON
     compile "com.google.code.gson:gson:$libraries.gson"
@@ -231,6 +233,7 @@ dependencies {
         exclude group: "com.android.support", module: "support-v4"
         exclude module: "recyclerview-v7"
     }
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }
 
 apply plugin: "com.google.gms.google-services"

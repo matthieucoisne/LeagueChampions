@@ -12,37 +12,34 @@ import javax.inject.Inject;
 public class SettingsPresenter {
 
     private final SharedPreferences preferences;
-    private SettingsViewable viewable;
+    private final SettingsView view;
 
     // Workaround for BuildConfig.BUILD_TYPE in methods for Unit Tests
     private String buildType = BuildConfig.BUILD_TYPE;
 
-    public interface SettingsViewable {
+    public interface SettingsView {
         void setVersion(String version);
         void showMockMode(boolean mockMock);
         void doFinish();
     }
 
     @Inject
-    SettingsPresenter(SharedPreferences preferences) {
+    SettingsPresenter(SettingsView view, SharedPreferences preferences) {
+        this.view = view;
         this.preferences = preferences;
     }
 
-    public void setViewable(SettingsViewable viewable) {
-        this.viewable = viewable;
-    }
-
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
-        viewable.setVersion(BuildConfig.VERSION_NAME);
+        view.setVersion(BuildConfig.VERSION_NAME);
         if ("debug".equals(buildType)) {
-            viewable.showMockMode(PrefUtils.isMockMode(preferences));
+            view.showMockMode(PrefUtils.isMockMode(preferences));
         }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                viewable.doFinish();
+                view.doFinish();
                 return true;
             default:
                 return false;

@@ -20,9 +20,9 @@ import retrofit2.Response;
 public class ChampionsPresenter {
 
     private final Api api;
-    private ChampionsViewable viewable;
+    private final ChampionsView view;
 
-    public interface ChampionsViewable {
+    public interface ChampionsView {
         void showSettings();
         void setAdapter(RiotResponse riotResponse);
         void showError(@StringRes int stringId);
@@ -30,12 +30,9 @@ public class ChampionsPresenter {
     }
 
     @Inject
-    ChampionsPresenter(Api api) {
+    ChampionsPresenter(ChampionsView view, Api api) {
+        this.view = view;
         this.api = api;
-    }
-
-    public void setViewable(ChampionsViewable viewable) {
-        this.viewable = viewable;
     }
 
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
@@ -45,7 +42,7 @@ public class ChampionsPresenter {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                viewable.showSettings();
+                view.showSettings();
                 return true;
             default:
                 return false;
@@ -58,18 +55,18 @@ public class ChampionsPresenter {
             public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
                 if (response.isSuccessful()) {
                     RiotResponse riotResponse = response.body();
-                    viewable.setAdapter(riotResponse);
+                    view.setAdapter(riotResponse);
                 } else {
-                    viewable.showError(R.string.error_code, response.code());
+                    view.showError(R.string.error_code, response.code());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
                 if (t instanceof IOException) {
-                    viewable.showError(R.string.error_io);
+                    view.showError(R.string.error_io);
                 } else {
-                    viewable.showError(R.string.error_something_went_wrong);
+                    view.showError(R.string.error_something_went_wrong);
                 }
             }
         });

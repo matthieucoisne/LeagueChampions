@@ -30,13 +30,12 @@ public class SettingsPresenterTest {
 
     private final String fieldBuildType = "buildType";
 
-    @Mock SettingsPresenter.SettingsViewable viewable;
+    @Mock SettingsPresenter.SettingsView view;
     @Mock SharedPreferences sharedPreferences;
 
     @Before
     public void setUp() {
-        presenter = new SettingsPresenter(sharedPreferences);
-        presenter.setViewable(viewable);
+        presenter = new SettingsPresenter(view, sharedPreferences);
     }
 
     @After
@@ -52,9 +51,9 @@ public class SettingsPresenterTest {
 
         presenter.onActivityCreated(null, null);
 
-        verify(viewable).setVersion(BuildConfig.VERSION_NAME);
-        verify(viewable).showMockMode(true);
-        verifyNoMoreInteractions(viewable);
+        verify(view).setVersion(BuildConfig.VERSION_NAME);
+        verify(view).showMockMode(true);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -64,8 +63,8 @@ public class SettingsPresenterTest {
 
         presenter.onActivityCreated(null, null);
 
-        verify(viewable).setVersion(BuildConfig.VERSION_NAME);
-        verifyNoMoreInteractions(viewable);
+        verify(view).setVersion(BuildConfig.VERSION_NAME);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -76,8 +75,8 @@ public class SettingsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(true);
-        verify(viewable).doFinish();
-        verifyNoMoreInteractions(viewable);
+        verify(view).doFinish();
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -88,7 +87,7 @@ public class SettingsPresenterTest {
         boolean result = presenter.onOptionsItemSelected(item);
 
         assertThat(result).isEqualTo(false);
-        verifyNoMoreInteractions(viewable);
+        verifyNoMoreInteractions(view);
     }
 
     @Test
@@ -98,6 +97,6 @@ public class SettingsPresenterTest {
 
         presenter.onMockModeCheckedChanged(true);
 
-        verifyNoMoreInteractions(viewable);
+        verifyNoMoreInteractions(view);
     }
 }

@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
 import com.leaguechampions.core.Const;
 import com.leaguechampions.core.LeagueChampions;
+import com.leaguechampions.dagger.component.DaggerChampionDetailsComponent;
+import com.leaguechampions.dagger.module.ChampionDetailsPresenterModule;
 import com.leaguechampions.model.Champion;
 import com.leaguechampions.presenter.ChampionDetailsPresenter;
 import com.leaguechampions.utils.UrlUtils;
@@ -27,7 +29,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChampionDetailsActivity extends AppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsViewable {
+public class ChampionDetailsActivity extends AppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsView {
 
     @BindView(R.id.activity_champion_details_ivChampion)
     protected ImageView ivChampion;
@@ -56,7 +58,6 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_details);
         ButterKnife.bind(this);
-        ((LeagueChampions) getApplicationContext()).getAppComponent().inject(this);
 
         Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champion_details_toolbar);
         setSupportActionBar(toolbar);
@@ -65,7 +66,13 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
             getSupportActionBar().setTitle(R.string.app_name);
         }
 
-        presenter.setViewable(this);
+        DaggerChampionDetailsComponent
+                .builder()
+                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .championDetailsPresenterModule(new ChampionDetailsPresenterModule(this))
+                .build()
+                .inject(this);
+
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }
 

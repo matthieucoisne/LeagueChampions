@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.leaguechampions.R;
 import com.leaguechampions.adapter.ChampionsAdapter;
 import com.leaguechampions.core.LeagueChampions;
+import com.leaguechampions.dagger.component.DaggerChampionsComponent;
+import com.leaguechampions.dagger.module.ChampionsPresenterModule;
 import com.leaguechampions.model.Champion;
 import com.leaguechampions.model.RiotResponse;
 import com.leaguechampions.presenter.ChampionsPresenter;
@@ -25,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChampionsActivity extends AppCompatActivity implements ChampionsPresenter.ChampionsViewable {
+public class ChampionsActivity extends AppCompatActivity implements ChampionsPresenter.ChampionsView {
 
     @BindView(R.id.activity_champions_rvChampions)
     protected RecyclerView rvChampions;
@@ -43,7 +45,6 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champions);
         ButterKnife.bind(this);
-        ((LeagueChampions) getApplicationContext()).getAppComponent().inject(this);
 
         Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champions_toolbar);
         setSupportActionBar(toolbar);
@@ -51,7 +52,13 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
             getSupportActionBar().setTitle(R.string.app_name);
         }
 
-        presenter.setViewable(this);
+        DaggerChampionsComponent
+                .builder()
+                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .championsPresenterModule(new ChampionsPresenterModule(this))
+                .build()
+                .inject(this);
+
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }
 

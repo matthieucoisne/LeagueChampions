@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.leaguechampions.R;
 import com.leaguechampions.core.LeagueChampions;
+import com.leaguechampions.dagger.component.DaggerSettingsComponent;
+import com.leaguechampions.dagger.module.SettingsPresenterModule;
 import com.leaguechampions.presenter.SettingsPresenter;
 
 import javax.inject.Inject;
@@ -20,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 
-public class SettingsActivity extends AppCompatActivity implements SettingsPresenter.SettingsViewable {
+public class SettingsActivity extends AppCompatActivity implements SettingsPresenter.SettingsView {
 
     @BindView(R.id.activity_settings_tvVersion)
     protected TextView tvVersion;
@@ -39,7 +41,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-        ((LeagueChampions) getApplicationContext()).getAppComponent().inject(this);
 
         Toolbar toolbar = ButterKnife.findById(this, R.id.activity_settings_toolbar);
         setSupportActionBar(toolbar);
@@ -48,7 +49,13 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
             getSupportActionBar().setTitle(R.string.settings);
         }
 
-        presenter.setViewable(this);
+        DaggerSettingsComponent
+                .builder()
+                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .settingsPresenterModule(new SettingsPresenterModule(this))
+                .build()
+                .inject(this);
+
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }
 
