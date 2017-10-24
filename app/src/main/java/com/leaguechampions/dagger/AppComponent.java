@@ -3,7 +3,6 @@ package com.leaguechampions.dagger;
 import android.content.SharedPreferences;
 
 import com.leaguechampions.datasource.remote.Api;
-import com.leaguechampions.module.DataModule;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;

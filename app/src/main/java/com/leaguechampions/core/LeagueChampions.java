@@ -6,7 +6,7 @@ import com.leaguechampions.dagger.AppComponent;
 import com.leaguechampions.dagger.DaggerAppComponent;
 import com.leaguechampions.dagger.AppModule;
 import com.leaguechampions.dagger.NetworkModule;
-import com.leaguechampions.module.DataModule;
+import com.leaguechampions.dagger.DataModule;
 
 public class LeagueChampions extends Application {
 

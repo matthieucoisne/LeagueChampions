@@ -1,4 +1,4 @@
-package com.leaguechampions.module;
+package com.leaguechampions.dagger;
 
 import android.content.Context;
 import android.content.SharedPreferences;
