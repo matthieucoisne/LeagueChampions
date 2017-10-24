@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.jakewharton.picasso.OkHttp3Downloader;
-import com.leaguechampions.datasource.remote.Api;
+import com.leaguechampions.data.remote.Api;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;

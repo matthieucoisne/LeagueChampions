@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.leaguechampions.core.Const;
+import com.leaguechampions.data.local.Const;
 
 public class PrefUtils {
 
