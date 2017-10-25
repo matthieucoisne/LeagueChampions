@@ -1,4 +1,4 @@
-package com.leaguechampions.module;
+package com.leaguechampions.injection;
 
 import android.content.Context;
 
