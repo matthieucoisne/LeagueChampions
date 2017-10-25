@@ -1,28 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
     config = [
-            compileSdkVersion       : 25,
-            targetSdkVersion        : 25,
+            compileSdkVersion       : 26,
+            targetSdkVersion        : 26,
             minSdkVersion           : 16,
             buildToolsVersion       : "26.0.2"
     ]
 
     libraries = [
-            butterknife             : "8.7.0",
-            crashlytics             : "2.6.8",
-            dagger                  : "2.11",
-            firebase                : "11.0.4",
+            butterknife             : "8.8.1",
+            crashlytics             : "2.7.1",
+            dagger                  : "2.12",
+            firebase                : "11.4.2",
             glide                   : "3.7.0",
             glide_okhttp            : "1.5.0",
-            gson                    : "2.8.1",
+            gson                    : "2.8.2",
             javax_annotation        : "1.0",
             jodaTime                : "2.9.9",
             okio                    : "1.13.0",
-            okhttp                  : "3.8.1",
+            okhttp                  : "3.9.0",
             picasso                 : "2.5.2",
             picasso_okhttp          : "1.1.0",
             retrofit                : "2.3.0",
-            supportLib              : "25.4.0",
+            supportLib              : "26.1.0",
             timber                  : "4.5.1",
 
             // OTHER
@@ -45,10 +45,11 @@ ext {
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
         classpath 'com.google.gms:google-services:3.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -58,8 +59,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        maven { url "https://maven.google.com" }
     }
 }
 
