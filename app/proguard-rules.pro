@@ -80,6 +80,10 @@
 -dontwarn javax.annotation.**
 ##---------------End: proguard configuration for OkHttp3  ----------
 
+##---------------Begin: proguard configuration for Dagger 2.10  ----------
+-dontwarn com.google.errorprone.annotations.*
+##---------------End: proguard configuration for Dagger 2.10  ----------
+
 ##---------------Begin: proguard configuration for ButterKnife  ----------
 # Retain generated class which implement Unbinder.
 -keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
