@@ -22,7 +22,7 @@ ext {
             picasso                 : "2.5.2",
             picasso_okhttp          : "1.1.0",
             retrofit                : "2.3.0",
-            supportLib              : "26.1.0",
+            supportLib              : "27.0.0",
             timber                  : "4.5.1",
 
             // OTHER
