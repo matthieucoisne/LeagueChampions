@@ -52,7 +52,7 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
 
         DaggerChampionsComponent
                 .builder()
-                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
                 .championsPresenterModule(new ChampionsPresenterModule(this))
                 .build()
                 .inject(this);

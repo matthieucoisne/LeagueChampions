@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
 
         DaggerSettingsComponent
                 .builder()
-                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
                 .settingsPresenterModule(new SettingsPresenterModule(this))
                 .build()
                 .inject(this);
