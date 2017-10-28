@@ -68,7 +68,7 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
 
         DaggerChampionDetailsComponent
                 .builder()
-                .appComponent((((LeagueChampions) getApplicationContext()).getAppComponent()))
+                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
                 .championDetailsPresenterModule(new ChampionDetailsPresenterModule(this))
                 .build()
                 .inject(this);
