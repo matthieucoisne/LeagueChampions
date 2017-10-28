@@ -2,7 +2,7 @@ package com.leaguechampions.utils;
 
 import android.support.test.espresso.IdlingResource;
 
-import com.leaguechampions.core.Const;
+import com.leaguechampions.data.local.Const;
 
 public class ElapsedTimeIdlingResource implements IdlingResource {
 

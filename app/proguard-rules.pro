@@ -137,6 +137,6 @@
 -keep class * implements com.google.gson.JsonDeserializer
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.leaguechampions.model.** { *; }
+-keep class com.leaguechampions.data.model.** { *; }
 
 ##---------------End: proguard configuration for Gson  ----------

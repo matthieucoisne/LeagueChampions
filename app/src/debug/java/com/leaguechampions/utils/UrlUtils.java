@@ -2,7 +2,7 @@ package com.leaguechampions.utils;
 
 import android.content.Context;
 
-import com.leaguechampions.core.Const;
+import com.leaguechampions.data.local.Const;
 
 import java.util.ArrayList;
 import java.util.List;
