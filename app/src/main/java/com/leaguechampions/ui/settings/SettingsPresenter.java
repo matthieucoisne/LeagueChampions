@@ -19,6 +19,7 @@ public class SettingsPresenter {
 
     public interface SettingsView {
         void setVersion(String version);
+        void showDeveloperOptions();
         void showMockMode(boolean mockMock);
         void doFinish();
     }
@@ -32,6 +33,7 @@ public class SettingsPresenter {
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
         view.setVersion(BuildConfig.VERSION_NAME);
         if ("debug".equals(buildType)) {
+            view.showDeveloperOptions();
             view.showMockMode(PrefUtils.isMockMode(preferences));
         }
     }

@@ -24,8 +24,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
     @BindView(R.id.activity_settings_tvVersion)
     protected TextView tvVersion;
 
-    @BindView(R.id.activity_settings_llyMockMode)
-    protected LinearLayout llyMockMode;
+    @BindView(R.id.activity_settings_llyDeveloperOptions)
+    protected LinearLayout llyDeveloperOptions;
 
     @BindView(R.id.activity_settings_switchMockMode)
     protected SwitchCompat switchMockMode;
@@ -72,8 +72,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
     }
 
     @Override
+    public void showDeveloperOptions() {
+        llyDeveloperOptions.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showMockMode(boolean mockMock) {
-        llyMockMode.setVisibility(View.VISIBLE);
         switchMockMode.setChecked(mockMock);
     }
 
