@@ -52,6 +52,7 @@ public class SettingsPresenterTest {
         presenter.onActivityCreated(null, null);
 
         verify(view).setVersion(BuildConfig.VERSION_NAME);
+        verify(view).showDeveloperOptions();
         verify(view).showMockMode(true);
         verifyNoMoreInteractions(view);
     }
