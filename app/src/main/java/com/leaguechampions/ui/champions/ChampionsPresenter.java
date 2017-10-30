@@ -6,6 +6,7 @@ import android.support.annotation.StringRes;
 import android.view.MenuItem;
 
 import com.leaguechampions.R;
+import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.data.remote.Api;
 
@@ -17,16 +18,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChampionsPresenter {
+public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener {
 
     private final Api api;
     private final ChampionsView view;
 
     public interface ChampionsView {
-        void showSettings();
         void setAdapter(RiotResponse riotResponse);
         void showError(@StringRes int stringId);
         void showError(@StringRes int stringId, int errorCode);
+        void showDetails(String version, String championId);
+        void showSettings();
     }
 
     @Inject
@@ -47,6 +49,11 @@ public class ChampionsPresenter {
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onItemClick(String version, Champion champion) {
+        view.showDetails(version, champion.getId());
     }
 
     private void getChampions() {

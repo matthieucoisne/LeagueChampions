@@ -141,4 +141,17 @@ public class ChampionsPresenterTest {
         assertThat(result).isEqualTo(false);
         verifyNoMoreInteractions(view);
     }
+
+    @Test
+    public void testOnItemClick() {
+        String version = "7.15.1";
+        String championId = "Riven";
+        Champion champion = mock(Champion.class);
+        when(champion.getId()).thenReturn(championId);
+
+        presenter.onItemClick(version, champion);
+
+        verify(view).showDetails(version, championId);
+        verifyNoMoreInteractions(view);
+    }
 }

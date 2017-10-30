@@ -12,9 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.leaguechampions.R;
 import com.leaguechampions.LeagueChampions;
-import com.leaguechampions.data.model.Champion;
+import com.leaguechampions.R;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
 import com.leaguechampions.ui.settings.SettingsActivity;
@@ -73,18 +72,8 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
     }
 
     @Override
-    public void showSettings() {
-        startActivity(new Intent(this, SettingsActivity.class));
-    }
-
-    @Override
     public void setAdapter(RiotResponse riotResponse) {
-        adapter = new ChampionsAdapter(riotResponse, picasso, new ChampionsAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(String version, Champion champion) {
-                startActivity(ChampionDetailsActivity.getIntent(ChampionsActivity.this, version, champion.getId()));
-            }
-        });
+        adapter = new ChampionsAdapter(riotResponse, picasso, presenter);
         rvChampions.setAdapter(adapter);
         rvChampions.setLayoutManager(new GridLayoutManager(this, 3));
     }
@@ -97,5 +86,15 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
     @Override
     public void showError(@StringRes int stringId, int errorCode) {
         Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDetails(String version, String championId) {
+        startActivity(ChampionDetailsActivity.getIntent(this, version, championId));
+    }
+
+    @Override
+    public void showSettings() {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }
