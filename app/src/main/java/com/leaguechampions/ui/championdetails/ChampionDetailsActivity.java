@@ -86,6 +86,8 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
 
     @Override
     public void showDetails(String version, Champion champion) {
+        if (isFinishing() || isDestroyed()) return;
+        
         if (Const.isGlide) {
             Glide.with(this).load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
         } else {
