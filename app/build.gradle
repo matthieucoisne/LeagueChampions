@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "io.fabric"
 apply plugin: "com.github.ben-manes.versions"
@@ -155,8 +156,8 @@ dependencies {
     implementation "com.google.dagger:dagger:$libraries.dagger"
     implementation "com.google.dagger:dagger-android:$libraries.dagger"
     implementation "com.google.dagger:dagger-android-support:$libraries.dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$libraries.dagger"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$libraries.dagger"
+    kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
 
     // GSON
     implementation "com.google.code.gson:gson:$libraries.gson"
