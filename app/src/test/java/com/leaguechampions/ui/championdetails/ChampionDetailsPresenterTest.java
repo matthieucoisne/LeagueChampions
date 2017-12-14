@@ -119,7 +119,7 @@ public class ChampionDetailsPresenterTest {
         assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
         verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
+                Response.error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
         verify(view).showError(R.string.error_code, 400);
         verifyNoMoreInteractions(view);

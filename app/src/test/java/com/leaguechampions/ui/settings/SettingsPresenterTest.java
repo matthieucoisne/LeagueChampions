@@ -46,7 +46,7 @@ public class SettingsPresenterTest {
     @Test
     public void testOnActivityCreated() {
         PowerMockito.mockStatic(PrefUtils.class);
-        when(PrefUtils.isMockMode(sharedPreferences)).thenReturn(true);
+        when(PrefUtils.INSTANCE.isMockMode(sharedPreferences)).thenReturn(true);
         ReflectionUtils.setField(presenter, fieldBuildType, "debug");
 
         presenter.onActivityCreated(null, null);

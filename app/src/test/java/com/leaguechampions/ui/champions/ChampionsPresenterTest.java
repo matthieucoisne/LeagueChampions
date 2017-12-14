@@ -39,8 +39,8 @@ public class ChampionsPresenterTest {
     private ChampionsPresenter presenter;
 
     private Map<String, Champion> data = new HashMap<String, Champion>() {{
-        put("Riven", new Champion("Riven"));
-        put("Jinx", new Champion("Jinx"));
+        put("Riven", new Champion("","Riven", "", ""));
+        put("Jinx", new Champion("", "Jinx", "", ""));
     }};
 
     @Mock ChampionsPresenter.ChampionsView view;
@@ -85,7 +85,7 @@ public class ChampionsPresenterTest {
 
         verify(api.getChampions()).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onResponse(call,
-                Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
+                Response.error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
         );
         verify(view).showError(R.string.error_code, 400);
         verifyNoMoreInteractions(view);
