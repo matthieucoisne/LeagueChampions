@@ -8,7 +8,7 @@ buildscript {
                 targetSdk               : 27,
                 minSdk                  : 16,
                 buildTools              : "27.0.2",
-                kotlin                  : "1.2.0"
+                kotlin                  : "1.2.10"
         ]
 
         libraries = [
