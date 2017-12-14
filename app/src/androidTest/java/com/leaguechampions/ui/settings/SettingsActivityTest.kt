@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 class SettingsActivityTest {
 
     @Rule
+    @JvmField
     var activityTestRule: ActivityTestRule<SettingsActivity> = object : ActivityTestRule<SettingsActivity>(SettingsActivity::class.java) {
         override fun beforeActivityLaunched() {
             PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)

@@ -21,6 +21,7 @@ class ChampionDetailsActivityTest {
     }
 
     @Rule
+    @JvmField
     var activityTestRule: ActivityTestRule<ChampionDetailsActivity> = object : ActivityTestRule<ChampionDetailsActivity>(ChampionDetailsActivity::class.java) {
         override fun beforeActivityLaunched() {
             PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
