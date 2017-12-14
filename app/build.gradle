@@ -77,14 +77,14 @@ android {
             dimension "server"
             def versionBuild = gitBuildNumber()
             versionCode versionBuild
-            versionName "${productVersion}.${versionBuild}"
+            versionName "$productVersion.$versionBuild"
             resValue "string", "app_name", "League Champions"
         }
         dev {
             dimension "server"
             applicationIdSuffix ".dev"
             versionCode 0
-            versionName "${productVersion}-DEV"
+            versionName "$productVersion-DEV"
             resValue "string", "app_name", "DEV - League Champions"
             multiDexEnabled true
         }
@@ -180,10 +180,6 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$libraries.glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$libraries.glide_okhttp"
-
-    // BUTTER KNIFE
-    implementation "com.jakewharton:butterknife:$libraries.butterknife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$libraries.butterknife"
 
     // TIMBER
     implementation "com.jakewharton.timber:timber:$libraries.timber"
