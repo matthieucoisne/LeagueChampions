@@ -17,7 +17,7 @@ public class NetworkModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Cache cache, HttpLoggingInterceptor loggingInterceptor) {
         return new OkHttpClient.Builder()
-                .cache(cache)
+//                .cache(cache) // TODO uncomment this when done with testing. For now we want the data exclusively from the Internet.
                 .addInterceptor(loggingInterceptor)
                 .build();
     }
