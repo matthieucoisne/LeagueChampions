@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.leaguechampions.data.local.Const;
 import com.leaguechampions.data.remote.Api;
 import com.squareup.picasso.Picasso;
 
@@ -18,18 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class DataModule {
 
-    private final String baseUrl;
-
-    public DataModule(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(baseUrl)
+                .baseUrl(Const.URL)
                 .client(okHttpClient)
                 .build();
     }

@@ -6,14 +6,8 @@ import dagger.Provides;
 @Module
 public class ChampionsPresenterModule {
 
-    private final ChampionsPresenter.ChampionsView view;
-
-    public ChampionsPresenterModule(ChampionsPresenter.ChampionsView view) {
-        this.view = view;
-    }
-
     @Provides
-    public ChampionsPresenter.ChampionsView provideView() {
-        return view;
+    public ChampionsPresenter.ChampionsView provideView(ChampionsActivity activity) {
+        return activity;
     }
 }

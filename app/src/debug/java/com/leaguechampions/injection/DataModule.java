@@ -27,18 +27,12 @@ import retrofit2.mock.NetworkBehavior;
 @Module
 public class DataModule {
 
-    private final String baseUrl;
-
-    public DataModule(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(baseUrl)
+                .baseUrl(Const.URL)
                 .client(okHttpClient)
                 .build();
     }

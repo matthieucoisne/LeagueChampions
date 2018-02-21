@@ -3,7 +3,6 @@ package com.leaguechampions.ui.champions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.R;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
@@ -23,8 +21,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class ChampionsActivity extends AppCompatActivity implements ChampionsPresenter.ChampionsView {
+public class ChampionsActivity extends DaggerAppCompatActivity implements ChampionsPresenter.ChampionsView {
 
     @BindView(R.id.activity_champions_rvChampions)
     protected RecyclerView rvChampions;
@@ -43,18 +42,11 @@ public class ChampionsActivity extends AppCompatActivity implements ChampionsPre
         setContentView(R.layout.activity_champions);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champions_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_champions_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
         }
-
-        DaggerChampionsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .championsPresenterModule(new ChampionsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }

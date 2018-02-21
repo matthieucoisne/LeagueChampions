@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
 import com.leaguechampions.data.local.Const;
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
@@ -25,8 +23,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class ChampionDetailsActivity extends AppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsView {
+public class ChampionDetailsActivity extends DaggerAppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsView {
 
     @BindView(R.id.activity_champion_details_ivChampion)
     protected ImageView ivChampion;
@@ -56,19 +55,12 @@ public class ChampionDetailsActivity extends AppCompatActivity implements Champi
         setContentView(R.layout.activity_champion_details);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_champion_details_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_champion_details_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.app_name);
         }
-
-        DaggerChampionDetailsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .championDetailsPresenterModule(new ChampionDetailsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }

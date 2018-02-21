@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.leaguechampions.LeagueChampions;
 
 import javax.inject.Singleton;
 
@@ -16,16 +17,10 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private final Context context;
-
-    public AppModule(Context context) {
-        this.context = context;
-    }
-
     @Provides
     @Singleton
-    Context providesContext() {
-        return context;
+    Context providesContext(LeagueChampions application) {
+        return application;
     }
 
     @Provides

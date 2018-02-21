@@ -1,7 +1,6 @@
 package com.leaguechampions.ui.settings;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -10,7 +9,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.leaguechampions.LeagueChampions;
 import com.leaguechampions.R;
 
 import javax.inject.Inject;
@@ -18,8 +16,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class SettingsActivity extends AppCompatActivity implements SettingsPresenter.SettingsView {
+public class SettingsActivity extends DaggerAppCompatActivity implements SettingsPresenter.SettingsView {
 
     @BindView(R.id.activity_settings_tvVersion)
     protected TextView tvVersion;
@@ -39,19 +38,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsPrese
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = ButterKnife.findById(this, R.id.activity_settings_toolbar);
+        Toolbar toolbar = findViewById(R.id.activity_settings_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.settings);
         }
-
-        DaggerSettingsComponent
-                .builder()
-                .appComponent(((LeagueChampions) getApplicationContext()).getAppComponent())
-                .settingsPresenterModule(new SettingsPresenterModule(this))
-                .build()
-                .inject(this);
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
     }
