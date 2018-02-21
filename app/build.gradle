@@ -46,7 +46,7 @@ android {
 
     signingConfigs {
         release {
-            File projectProperties = file("../keystores/leaguechampions.properties")
+            File projectProperties = file("../../../keystores/LeagueChampions/leaguechampions.properties")
             if (projectProperties.exists()) {
                 Properties props = new Properties()
                 props.load(new FileInputStream(projectProperties))
