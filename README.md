@@ -1,3 +1,5 @@
+[![Bitrise](https://www.bitrise.io/app/2bc06ba7b2b2bd1b/status.svg?token=7pxuawKQ_pkZFmV57DseEA)](https://www.bitrise.io/app/2bc06ba7b2b2bd1b/status.svg?token=7pxuawKQ_pkZFmV57DseEA)
+
 League Champions
 ----
 
@@ -7,8 +9,12 @@ A demo Android app which showcases:
  - UI Testing with mock data
  - Unit Testing
 
-Languages
-----
+Currently in development:
+ - Model View ViewModel
+ - Architecture Components (Lifecycle, LiveData, ViewModel)
+ - DataBinding
+
+Languages:
  - Kotlin (master)
  - Java
 
