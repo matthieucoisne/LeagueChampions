@@ -1,5 +1,6 @@
 package com.leaguechampions.ui.championdetails;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
 import com.leaguechampions.data.local.Const;
 import com.leaguechampions.data.model.Champion;
+import com.leaguechampions.injection.viewmodel.ViewModelFactory;
 import com.leaguechampions.utils.UrlUtils;
 import com.squareup.picasso.Picasso;
 
@@ -37,10 +39,15 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
     protected TextView tvLore;
 
     @Inject
+    protected ViewModelFactory viewModelFactory;
+
+    @Inject
     protected ChampionDetailsPresenter presenter;
 
     @Inject
     protected Picasso picasso;
+
+    protected ChampionDetailsViewModel viewModel;
 
     public static Intent getIntent(Context context, String version, String championId) {
         Intent intent = new Intent(context, ChampionDetailsActivity.class);
@@ -63,6 +70,12 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
         }
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel.class);
+        viewModel.setChampionId("Riven");
+        viewModel.getRiotResponse().observe(this, riotResponseResource ->
+                showDetails("7.15.1", riotResponseResource.data.getData().get("Riven"))
+        );
     }
 
     @Override
