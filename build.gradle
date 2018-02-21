@@ -8,6 +8,7 @@ ext {
     ]
 
     libraries = [
+            arch                    : "1.1.0",
             butterknife             : "8.8.1",
             crashlytics             : "2.9.0",
             dagger                  : "2.14.1",

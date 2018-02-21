@@ -165,6 +165,10 @@ dependencies {
     implementation "com.android.support:support-fragment:$libraries.supportLib"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    // ARCH
+    implementation "android.arch.lifecycle:extensions:$libraries.arch"
+    annotationProcessor "android.arch.lifecycle:compiler:$libraries.arch"
+
     // DAGGER
     implementation "com.google.dagger:dagger:$libraries.dagger"
     implementation "com.google.dagger:dagger-android:$libraries.dagger"
