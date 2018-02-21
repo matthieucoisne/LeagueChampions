@@ -8,13 +8,15 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.leaguechampions.LeagueChampions;
+import com.leaguechampions.data.remote.Api;
+import com.leaguechampions.data.repository.ChampionRepository;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module //(includes = ViewModelModule.class)
 public class AppModule {
 
     @Provides
@@ -35,5 +37,12 @@ public class AppModule {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         return gsonBuilder.create();
+    }
+
+    // TODO put this somewhere else ? in DataModule ?
+    @Provides
+    @Singleton
+    ChampionRepository provideChampionRepository(Api api) {
+        return new ChampionRepository(api);
     }
 }

@@ -1,6 +1,7 @@
 package com.leaguechampions.injection;
 
 import com.leaguechampions.LeagueChampions;
+import com.leaguechampions.injection.viewmodel.ViewModelModule;
 
 import javax.inject.Singleton;
 
@@ -15,7 +16,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
         AppModule.class,
         NetworkModule.class,
-        DataModule.class
+        DataModule.class,
+        ViewModelModule.class,
 })
 public interface AppComponent extends AndroidInjector<LeagueChampions> {
 
