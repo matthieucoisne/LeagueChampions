@@ -1,5 +1,6 @@
 package com.leaguechampions.ui.champions;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.leaguechampions.R;
 import com.leaguechampions.data.model.RiotResponse;
+import com.leaguechampions.injection.viewmodel.ViewModelFactory;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
 import com.leaguechampions.ui.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;
@@ -29,10 +31,15 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
     protected RecyclerView rvChampions;
 
     @Inject
+    protected ViewModelFactory viewModelFactory;
+
+    @Inject
     protected ChampionsPresenter presenter;
 
     @Inject
     protected Picasso picasso;
+
+    protected ChampionsViewModel viewModel;
 
     private ChampionsAdapter adapter;
 
@@ -49,6 +56,11 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
         }
 
         presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel.class);
+        viewModel.getRiotResponse().observe(this, riotResponseResource ->
+                setAdapter(riotResponseResource.data)
+        );
     }
 
     @Override

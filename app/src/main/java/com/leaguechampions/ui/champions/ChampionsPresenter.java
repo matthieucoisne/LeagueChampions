@@ -1,7 +1,6 @@
 package com.leaguechampions.ui.champions;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.MenuItem;
 
@@ -10,17 +9,11 @@ import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.data.remote.Api;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener {
 
-    private final Api api;
+//    private final Api api;
     private final ChampionsView view;
 
     public interface ChampionsView {
@@ -34,11 +27,11 @@ public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener 
     @Inject
     public ChampionsPresenter(ChampionsView view, Api api) {
         this.view = view;
-        this.api = api;
+//        this.api = api;
     }
 
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
-        getChampions();
+//        getChampions();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,26 +49,26 @@ public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener 
         view.showDetails(version, champion.getId());
     }
 
-    private void getChampions() {
-        api.getChampions().enqueue(new Callback<RiotResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
-                if (response.isSuccessful()) {
-                    RiotResponse riotResponse = response.body();
-                    view.setAdapter(riotResponse);
-                } else {
-                    view.showError(R.string.error_code, response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
-                if (t instanceof IOException) {
-                    view.showError(R.string.error_io);
-                } else {
-                    view.showError(R.string.error_something_went_wrong);
-                }
-            }
-        });
-    }
+//    private void getChampions() {
+//        api.getChampions().enqueue(new Callback<RiotResponse>() {
+//            @Override
+//            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
+//                if (response.isSuccessful()) {
+//                    RiotResponse riotResponse = response.body();
+//                    view.setAdapter(riotResponse);
+//                } else {
+//                    view.showError(R.string.error_code, response.code());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
+//                if (t instanceof IOException) {
+//                    view.showError(R.string.error_io);
+//                } else {
+//                    view.showError(R.string.error_something_went_wrong);
+//                }
+//            }
+//        });
+//    }
 }
