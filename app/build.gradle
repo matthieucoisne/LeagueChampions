@@ -47,7 +47,7 @@ android {
             if (keystoreDebug.exists()) {
                 storeFile keystoreDebug
                 storePassword "android"
-                keyAlias "android"
+                keyAlias "androiddebugkey"
                 keyPassword "android"
             }
         }
