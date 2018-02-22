@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leaguechampions.R;
@@ -27,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class ChampionDetailsActivity extends DaggerAppCompatActivity implements ChampionDetailsPresenter.ChampionDetailsView {
+public class ChampionDetailsActivity extends DaggerAppCompatActivity {
 
     @BindView(R.id.activity_champion_details_ivChampion)
     protected ImageView ivChampion;
@@ -42,12 +40,9 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
     protected ViewModelFactory viewModelFactory;
 
     @Inject
-    protected ChampionDetailsPresenter presenter;
-
-    @Inject
     protected Picasso picasso;
 
-    protected ChampionDetailsViewModel viewModel;
+    private ChampionDetailsViewModel viewModel;
 
     public static Intent getIntent(Context context, String version, String championId) {
         Intent intent = new Intent(context, ChampionDetailsActivity.class);
@@ -69,28 +64,28 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
             getSupportActionBar().setTitle(R.string.app_name);
         }
 
-        presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
+        String championId = getIntent().getStringExtra(Const.KEY_CHAMPION_ID);
+        String version = getIntent().getStringExtra(Const.KEY_VERSION);
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel.class);
-        viewModel.setChampionId("Riven");
+        viewModel.setChampionId(championId);
         viewModel.getRiotResponse().observe(this, riotResponseResource ->
-                showDetails("7.15.1", riotResponseResource.data.getData().get("Riven"))
+                showDetails(version, riotResponseResource.data.getData().get(championId))
         );
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        presenter.onSaveInstanceState(outState);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-    @Override
-    public void showDetails(String version, Champion champion) {
+    private void showDetails(String version, Champion champion) {
         if (Const.isGlide) {
             Glide.with(this).load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
         } else {
@@ -100,18 +95,13 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
         tvLore.setText(Html.fromHtml(champion.getLore()));
     }
 
-    @Override
-    public void showError(@StringRes int stringId) {
-        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void showError(@StringRes int stringId) {
+//        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
+//    }
 
-    @Override
-    public void showError(@StringRes int stringId, int errorCode) {
-        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void doFinish() {
-        finish();
-    }
+//    @Override
+//    public void showError(@StringRes int stringId, int errorCode) {
+//        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
+//    }
 }
