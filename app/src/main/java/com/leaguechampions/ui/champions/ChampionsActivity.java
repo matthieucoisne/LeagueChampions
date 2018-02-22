@@ -3,14 +3,12 @@ package com.leaguechampions.ui.champions;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.leaguechampions.R;
 import com.leaguechampions.data.model.RiotResponse;
@@ -25,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class ChampionsActivity extends DaggerAppCompatActivity implements ChampionsPresenter.ChampionsView {
+public class ChampionsActivity extends DaggerAppCompatActivity {
 
     @BindView(R.id.activity_champions_rvChampions)
     protected RecyclerView rvChampions;
@@ -34,13 +32,9 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
     protected ViewModelFactory viewModelFactory;
 
     @Inject
-    protected ChampionsPresenter presenter;
-
-    @Inject
     protected Picasso picasso;
 
-    protected ChampionsViewModel viewModel;
-
+    private ChampionsViewModel viewModel;
     private ChampionsAdapter adapter;
 
     @Override
@@ -54,8 +48,6 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
         }
-
-        presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel.class);
         viewModel.getRiotResponse().observe(this, riotResponseResource ->
@@ -72,33 +64,38 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                showSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-    @Override
-    public void setAdapter(RiotResponse riotResponse) {
-        adapter = new ChampionsAdapter(riotResponse, picasso, presenter);
+    private void setAdapter(RiotResponse riotResponse) {
+        adapter = new ChampionsAdapter(riotResponse, picasso, (version, champion) ->
+                showDetails(version, champion.getId())
+        );
         rvChampions.setAdapter(adapter);
         rvChampions.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
-    @Override
-    public void showError(@StringRes int stringId) {
-        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void showError(@StringRes int stringId) {
+//        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
+//    }
 
-    @Override
-    public void showError(@StringRes int stringId, int errorCode) {
-        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void showError(@StringRes int stringId, int errorCode) {
+//        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
+//    }
 
-    @Override
-    public void showDetails(String version, String championId) {
+    private void showDetails(String version, String championId) {
         startActivity(ChampionDetailsActivity.getIntent(this, version, championId));
     }
 
-    @Override
-    public void showSettings() {
+    private void showSettings() {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 }
