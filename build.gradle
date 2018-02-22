@@ -7,7 +7,7 @@ buildscript {
                 compileSdk              : 27,
                 targetSdk               : 27,
                 minSdk                  : 16,
-                buildTools              : "27.0.2",
+                buildTools              : "27.0.3",
                 kotlin                  : "1.2.10"
         ]
 
