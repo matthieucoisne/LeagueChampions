@@ -43,7 +43,7 @@ android {
             }
         }
         debug {
-            File keystoreDebug = file("../keystores/debug.keystore")
+            File keystoreDebug = file("../debug.keystore")
             if (keystoreDebug.exists()) {
                 storeFile keystoreDebug
                 storePassword "android"
