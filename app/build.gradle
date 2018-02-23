@@ -168,6 +168,7 @@ dependencies {
     // ARCH
     implementation "android.arch.lifecycle:extensions:$libraries.arch"
     annotationProcessor "android.arch.lifecycle:compiler:$libraries.arch"
+    testImplementation "android.arch.core:core-testing:$libraries.arch"
 
     // DAGGER
     implementation "com.google.dagger:dagger:$libraries.dagger"
@@ -217,7 +218,7 @@ dependencies {
     testImplementation "junit:junit:$libraries.junit"
     testImplementation "org.powermock:powermock-module-junit4:$libraries.powermock"
     testImplementation "org.powermock:powermock-core:$libraries.powermock"
-    testImplementation "org.powermock:powermock-api-mockito:$libraries.powermock"
+    testImplementation "org.powermock:powermock-api-mockito2:$libraries.powermock"
     testImplementation "org.mockito:mockito-core:$libraries.mockito"
     testImplementation("org.robolectric:robolectric:$libraries.robolectric") {
         exclude group: "commons-logging", module: "commons-logging"
