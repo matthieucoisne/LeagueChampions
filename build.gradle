@@ -19,7 +19,7 @@ ext {
             javax_annotation        : "1.0",
             jodaTime                : "2.9.9",
             okio                    : "1.14.0",
-            okhttp                  : "3.9.1",
+            okhttp                  : "3.10.0",
             picasso                 : "2.5.2",
             picasso_okhttp          : "1.1.0",
             retrofit                : "2.3.0",
@@ -36,7 +36,7 @@ ext {
             junit                   : "4.12",
             mockito                 : "2.15.0",
             powermock               : "2.0.0-beta.5",
-            robolectric             : "3.2.2",
+            robolectric             : "3.7.1",
             supportTest             : "0.5",
 
             // Do not update this because this is the last version that supports android. (see assertj for android - square)
