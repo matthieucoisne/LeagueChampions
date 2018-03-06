@@ -15,9 +15,7 @@ public class ChampionsViewModel extends ViewModel {
 
     @Inject
     public ChampionsViewModel(ChampionRepository championRepository) {
-        if (riotResponse == null) {
-            riotResponse = championRepository.getChampions();
-        }
+        riotResponse = championRepository.getChampions();
     }
 
     public LiveData<Resource<RiotResponse>> getRiotResponse() {
