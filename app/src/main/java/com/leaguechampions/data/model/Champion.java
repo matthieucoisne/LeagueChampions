@@ -1,6 +1,8 @@
 package com.leaguechampions.data.model;
 
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 
 public class Champion implements Comparable<Champion> {
 
@@ -25,8 +27,8 @@ public class Champion implements Comparable<Champion> {
         return title;
     }
 
-    public String getLore() {
-        return lore;
+    public Spanned getLore() {
+        return Html.fromHtml(lore);
     }
 
     public void setName(String name) {

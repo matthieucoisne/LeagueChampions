@@ -29,7 +29,7 @@ public class ChampionDetailsViewModel extends ViewModel {
     }
 
     public void setChampionId(String championId) {
-        if (championId.equals(this.championId.getValue())) {
+        if (championId != null && championId.equals(this.championId.getValue())) {
             return;
         }
         this.championId.setValue(championId);
