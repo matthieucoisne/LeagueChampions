@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.view.MenuItem
@@ -12,15 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.leaguechampions.LeagueChampions
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.utils.UrlUtils
 import com.squareup.picasso.Picasso
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class ChampionDetailsActivity : AppCompatActivity(), ChampionDetailsPresenter.ChampionDetailsView {
+class ChampionDetailsActivity : DaggerAppCompatActivity(), ChampionDetailsPresenter.ChampionDetailsView {
 
     private lateinit var toolbar: Toolbar
     private lateinit var ivChampion: ImageView
@@ -51,13 +50,6 @@ class ChampionDetailsActivity : AppCompatActivity(), ChampionDetailsPresenter.Ch
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
-
-        DaggerChampionDetailsComponent
-                .builder()
-                .appComponent((applicationContext as LeagueChampions).appComponent)
-                .championDetailsPresenterModule(ChampionDetailsPresenterModule(this))
-                .build()
-                .inject(this)
 
         presenter.onActivityCreated(savedInstanceState, intent.extras)
     }

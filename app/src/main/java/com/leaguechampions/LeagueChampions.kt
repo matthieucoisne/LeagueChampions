@@ -1,23 +1,19 @@
 package com.leaguechampions
 
-import android.app.Application
-import com.leaguechampions.data.local.Const
-import com.leaguechampions.injection.*
+import com.leaguechampions.injection.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 
-class LeagueChampions : Application() {
 
-    lateinit var appComponent: AppComponent
-        private set
+class LeagueChampions : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(applicationContext))
-                .networkModule(NetworkModule())
-                .dataModule(DataModule(Const.URL))
-                .build()
+//        Picasso.setSingletonInstance(appComponent.getPicasso());
+    }
 
-        //        Picasso.setSingletonInstance(appComponent.getPicasso());
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.builder().create(this)
     }
 }

@@ -1,18 +1,17 @@
 package com.leaguechampions.ui.settings
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.leaguechampions.LeagueChampions
 import com.leaguechampions.R
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class SettingsActivity : AppCompatActivity(), SettingsPresenter.SettingsView {
+class SettingsActivity : DaggerAppCompatActivity(), SettingsPresenter.SettingsView {
 
     private lateinit var toolbar: Toolbar
     private lateinit var tvVersion: TextView
@@ -37,13 +36,6 @@ class SettingsActivity : AppCompatActivity(), SettingsPresenter.SettingsView {
         switchMockMode.setOnCheckedChangeListener {
             _, isChecked -> presenter.onMockModeCheckedChanged(isChecked)
         }
-
-        DaggerSettingsComponent
-                .builder()
-                .appComponent((applicationContext as LeagueChampions).appComponent)
-                .settingsPresenterModule(SettingsPresenterModule(this))
-                .build()
-                .inject(this)
 
         presenter.onActivityCreated(savedInstanceState, intent.extras)
     }

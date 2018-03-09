@@ -3,22 +3,21 @@ package com.leaguechampions.ui.champions
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.leaguechampions.LeagueChampions
 import com.leaguechampions.R
 import com.leaguechampions.data.model.RiotResponse
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
 import com.leaguechampions.ui.settings.SettingsActivity
 import com.squareup.picasso.Picasso
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class ChampionsActivity : AppCompatActivity(), ChampionsPresenter.ChampionsView {
+class ChampionsActivity : DaggerAppCompatActivity(), ChampionsPresenter.ChampionsView {
 
     private lateinit var toolbar: Toolbar
     private lateinit var rvChampions: RecyclerView
@@ -37,13 +36,6 @@ class ChampionsActivity : AppCompatActivity(), ChampionsPresenter.ChampionsView 
 
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
-
-        DaggerChampionsComponent
-                .builder()
-                .appComponent((applicationContext as LeagueChampions).appComponent)
-                .championsPresenterModule(ChampionsPresenterModule(this))
-                .build()
-                .inject(this)
 
         presenter.onActivityCreated(savedInstanceState, intent.extras)
     }

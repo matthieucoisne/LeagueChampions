@@ -21,14 +21,14 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class DataModule(private val baseUrl: String) {
+class DataModule {
 
     @Provides
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(baseUrl)
+                .baseUrl(Const.URL)
                 .client(okHttpClient)
                 .build()
     }
