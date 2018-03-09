@@ -1,7 +1,6 @@
 package com.leaguechampions.injection
 
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
-import com.leaguechampions.ui.championdetails.ChampionDetailsPresenterModule
 import com.leaguechampions.ui.champions.ChampionsActivity
 import com.leaguechampions.ui.champions.ChampionsPresenterModule
 import com.leaguechampions.ui.settings.SettingsActivity
@@ -15,7 +14,7 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [(ChampionsPresenterModule::class)])
     internal abstract fun contributeChampionsActivity(): ChampionsActivity
 
-    @ContributesAndroidInjector(modules = [(ChampionDetailsPresenterModule::class)])
+    @ContributesAndroidInjector
     internal abstract fun contributeChampionDetailsActivity(): ChampionDetailsActivity
 
     @ContributesAndroidInjector(modules = [(SettingsPresenterModule::class)])
