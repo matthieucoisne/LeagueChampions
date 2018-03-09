@@ -8,31 +8,31 @@ buildscript {
                 targetSdk               : 27,
                 minSdk                  : 16,
                 buildTools              : "27.0.3",
-                kotlin                  : "1.2.10"
+                kotlin                  : "1.2.30"
         ]
 
         libraries = [
                 butterknife             : "8.8.1",
-                crashlytics             : "2.8.0",
                 constraintLayout        : "1.0.2",
-                dagger                  : "2.13",
-                firebase                : "11.6.2",
+                crashlytics             : "2.9.1",
+                dagger                  : "2.15",
+                firebase                : "11.8.0",
                 glide                   : "3.7.0",
                 glide_okhttp            : "1.5.0",
                 gson                    : "2.8.2",
                 javax_annotation        : "1.0",
                 jodaTime                : "2.9.9",
-                okio                    : "1.13.0",
-                okhttp                  : "3.9.1",
+                okio                    : "1.14.0",
+                okhttp                  : "3.10.0",
                 picasso                 : "2.5.2",
                 picasso_okhttp          : "1.1.0",
                 retrofit                : "2.3.0",
-                supportLib              : "27.0.2",
-                timber                  : "4.6.0",
+                supportLib              : "27.1.0",
+                timber                  : "4.6.1",
 
                 // OTHER
-                leakcanary              : "1.5",
-                multidex                : "1.0.1",
+                leakcanary              : "1.5.4",
+                multidex                : "1.0.3",
 
                 // TESTING
                 espresso                : "2.2.2",
@@ -40,7 +40,7 @@ buildscript {
                 junit                   : "4.12",
                 mockito                 : "1.9.5",
                 powermock               : "1.6.4",
-                robolectric             : "3.2.2",
+                robolectric             : "3.7.1",
                 supportTest             : "0.5",
 
                 // Do not update this because this is the last version that supports android. (see assertj for android - square)
@@ -56,7 +56,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.0.1"
-        classpath "com.google.gms:google-services:3.1.2"
+        classpath "com.google.gms:google-services:3.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$config.kotlin"
         classpath "io.fabric.tools:gradle:1.25.1"
     }
