@@ -7,16 +7,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.text.Html
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
+import com.leaguechampions.utils.UrlUtils
+import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
-
-
 
 class ChampionDetailsActivity : DaggerAppCompatActivity() {
 
@@ -28,11 +30,11 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
     private lateinit var viewModel: ChampionDetailsViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
+    @Inject lateinit var picasso: Picasso
 
     companion object {
-        fun getIntent(context: Context, version: String, championId: String): Intent {
+        fun getIntent(context: Context, championId: String): Intent {
             val intent = Intent(context, ChampionDetailsActivity::class.java)
-            intent.putExtra(Const.KEY_VERSION, version)
             intent.putExtra(Const.KEY_CHAMPION_ID, championId)
             return intent
         }
@@ -51,36 +53,41 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
 
+        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
-        viewModel.setChampionId("Riven")
-        viewModel.getRiotResponse().observe(this, Observer { riotResponseResource ->
-            showDetails("7.15.1", riotResponseResource?.data?.data?.get("Riven"))
+        viewModel.setChampionId(championId)
+        viewModel.riotResponse.observe(this, Observer { riotResponseResource ->
+            showDetails(riotResponseResource?.data?.data?.get(championId))
         })
     }
 
-//    override fun onSaveInstanceState(outState: Bundle?) {
-//        super.onSaveInstanceState(outState)
-//        presenter.onSaveInstanceState(outState)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
-//    }
-//
-    fun showDetails(version: String, champion: Champion?) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showDetails(champion: Champion?) {
+        if (Const.isGlide) {
+            Glide.with(this).load(UrlUtils.getImageUrl(this, "7.15.1", champion?.id!!)).into(ivChampion)
+        } else {
+            picasso.load(UrlUtils.getImageUrl(this, "7.15.1", champion?.id!!)).into(ivChampion)
+        }
+
         tvName.text = champion?.name
         tvLore.text = Html.fromHtml(champion?.lore)
     }
-//
+
 //    override fun showError(@StringRes stringId: Int) {
 //        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show()
 //    }
 //
 //    override fun showError(@StringRes stringId: Int, errorCode: Int) {
 //        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun doFinish() {
-//        finish()
 //    }
 }

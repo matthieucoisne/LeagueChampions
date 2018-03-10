@@ -11,28 +11,25 @@ import javax.inject.Inject
 
 class ChampionDetailsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
 
-    private val riotResponse: LiveData<Resource<RiotResponse>>
     private val championId = MutableLiveData<String>()
 
+    val riotResponse: LiveData<Resource<RiotResponse>>
+
     init {
-        riotResponse = Transformations.switchMap(championId, { championId ->
+        riotResponse = Transformations.switchMap(championId) { championId ->
             if (championId == null) {
-                // TODO AbsentLiveData.create()
+                // TODO return AbsentLiveData.create();
                 null
             } else {
                 championRepository.getChampionDetails(championId)
             }
-        })
+        }
     }
 
-    fun setChampionId(championId: String) {
+    fun setChampionId(championId: String?) {
         if (championId == this.championId.value) {
             return
         }
         this.championId.value = championId
-    }
-
-    fun getRiotResponse(): LiveData<Resource<RiotResponse>> {
-        return riotResponse
     }
 }
