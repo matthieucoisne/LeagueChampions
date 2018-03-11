@@ -8,7 +8,7 @@ import com.leaguechampions.data.repository.Resource
 import javax.inject.Inject
 
 
-class ChampionsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
+class ChampionsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
 
     val riotResponse: LiveData<Resource<RiotResponse>> = championRepository.getChampions()
 }
