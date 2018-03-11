@@ -1,7 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+apply plugin: "kotlin-android-extensions"
 apply plugin: "io.fabric"
 apply plugin: "com.github.ben-manes.versions"
 
@@ -14,8 +14,13 @@ def versionPatch = 0
 
 def productVersion = "$versionMajor.$versionMinor.$versionPatch"
 
-def static gitBuildNumber() {
+def static getCommitCount() {
     return "git rev-list HEAD --count --no-merges".execute().text.trim().toInteger()
+}
+
+def static getBuildNumber() {
+    def buildNumber = System.getenv("BITRISE_BUILD_NUMBER")
+    return buildNumber != null ? buildNumber.toInteger() : 0
 }
 
 android {
@@ -75,7 +80,7 @@ android {
     productFlavors {
         prod {
             dimension "server"
-            def versionBuild = gitBuildNumber()
+            def versionBuild = getCommitCount()
             versionCode versionBuild
             versionName "$productVersion.$versionBuild"
             resValue "string", "app_name", "League Champions"
@@ -90,24 +95,30 @@ android {
         }
     }
 
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFileName = output.outputFileName
-                    .replace("app", "LeagueChampions")
-                    .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + gitBuildNumber() + ".apk" : "-${productVersion}.apk")
+    variantFilter { variant ->
+        def buildType = variant.buildType.name
+        def flavor = variant.flavors.get(0).name
+        if (buildType == "debug") {
+            if (flavor == "prod") {
+                variant.setIgnore(true)
+            }
+        } else if (buildType == "release") {
+            if (flavor == "dev") {
+                variant.setIgnore(true)
+            }
         }
     }
 
-    android.variantFilter { variant ->
-        if (variant.buildType.name == "debug") {
-            if (variant.getFlavors().get(0).name == "prod") {
-                variant.setIgnore(true)
-            }
-        } else if (variant.buildType.name == "release") {
-            if (variant.getFlavors().get(0).name == "dev") {
-                variant.setIgnore(true)
-            }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFileName = output.outputFileName
+                    .replace("app", "LeagueChampions")
+                    .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + getCommitCount() + ".apk" : "-${productVersion}.apk")
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     dexOptions {
@@ -140,7 +151,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // KOTLIN
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$config.kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$config.kotlin"
 
     // SUPPORT
     implementation "com.android.support:design:$libraries.supportLib"
@@ -154,14 +165,17 @@ dependencies {
 
     // ARCH
     implementation "android.arch.lifecycle:extensions:$libraries.arch"
-    annotationProcessor "android.arch.lifecycle:compiler:$libraries.arch"
+    kapt "android.arch.lifecycle:compiler:$libraries.arch"
 
     // DAGGER
     implementation "com.google.dagger:dagger:$libraries.dagger"
     implementation "com.google.dagger:dagger-android:$libraries.dagger"
     implementation "com.google.dagger:dagger-android-support:$libraries.dagger"
-    kapt "com.google.dagger:dagger-compiler:${libraries.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${libraries.dagger}"
+    kapt "com.google.dagger:dagger-compiler:$libraries.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$libraries.dagger"
+
+    // DATA BINDING
+    kapt 'com.android.databinding:compiler:3.0.1'
 
     // GSON
     implementation "com.google.code.gson:gson:$libraries.gson"
@@ -221,7 +235,7 @@ dependencies {
         exclude group: "com.android.support", module: "support-v4"
         exclude module: "recyclerview-v7"
     }
-    androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.1'
+    androidTestImplementation "com.google.code.findbugs:jsr305:3.0.1"
 }
 
 apply plugin: "com.google.gms.google-services"
