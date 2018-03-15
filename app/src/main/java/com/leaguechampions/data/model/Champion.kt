@@ -8,8 +8,10 @@ data class Champion(
         val id: String,
         val name: String,
         val title: String,
+        var version: String?,
         private val lore: String) : Comparable<Champion> {
 
+    @Suppress("DEPRECATION")
     fun getLore(): Spanned {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(lore, Html.FROM_HTML_MODE_LEGACY)
