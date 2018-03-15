@@ -2,11 +2,11 @@ package com.leaguechampions.utils
 
 import android.content.Context
 import com.leaguechampions.data.local.Const
+import com.leaguechampions.data.model.Champion
 import java.util.*
 
 object UrlUtils {
 
-    private val rand = Random()
     private val champions = arrayListOf(
             "Amumu",
             "Corki",
@@ -27,17 +27,17 @@ object UrlUtils {
             "Ziggs"
     )
 
-    fun getImageUrl(context: Context, version: String, championKey: String): String {
-        var key = championKey
+    fun getImageUrl(context: Context, champion: Champion): String {
+        var key = champion.id
         return if (PrefUtils.isMockMode(context)) {
             val scheme = if (Const.isGlide) "http" else "mock"
             if (!champions.contains(key)) {
-                key = champions[rand.nextInt(champions.size)]
+                key = champions[Random().nextInt(champions.size)]
             }
 
             "$scheme:///images/ic_poro_${key.toLowerCase()}.png"
         } else {
-            "http://ddragon.leagueoflegends.com/cdn/$version/img/champion/$key.png"
+            "${Const.URL_BASE}cdn/${champion.version}/img/champion/$key.png"
         }
     }
 }
