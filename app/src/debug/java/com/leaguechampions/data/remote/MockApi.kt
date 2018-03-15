@@ -3,12 +3,12 @@ package com.leaguechampions.data.remote
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
+import io.reactivex.Observable
 import okio.Okio
-import retrofit2.Call
-import retrofit2.http.Path
+import retrofit2.Response
 import retrofit2.mock.BehaviorDelegate
-import retrofit2.mock.Calls
 import java.io.IOException
 import java.lang.reflect.Type
 import java.nio.charset.Charset
@@ -28,18 +28,23 @@ class MockApi(private val context: Context,
         return gson.fromJson<T>(getStringFromFile(filePath), type)
     }
 
-    override fun getChampions(): Call<RiotResponse> {
+    override fun getVersion(): Observable<Response<RiotRealm>> {
+        // TODO
+        return delegate.returningResponse("8.5.2").getVersion()
+    }
+
+    override fun getChampions(version: String): Observable<RiotResponse> {
         val filePath = "json/getChampions.json"
 
         return try {
             val riotResponse = getDataFromFile<RiotResponse>(filePath, RiotResponse::class.java)
-            delegate.returningResponse(riotResponse!!).getChampions()
+            delegate.returningResponse(riotResponse!!).getChampions(version)
         } catch (e: IOException) {
-            Calls.failure(e)
+            Observable.error(e)
         }
     }
 
-    override fun getChampion(@Path("championId") championId: String): Call<RiotResponse> {
+    override fun getChampionDetails(version: String, championId: String): Observable<RiotResponse> {
         val filePath = "json/getChampion.json"
 
         return try {
@@ -54,9 +59,9 @@ class MockApi(private val context: Context,
             }
 
             val riotResponse = gson.fromJson(jsonObjectResponse, RiotResponse::class.java)
-            delegate.returningResponse(riotResponse).getChampion(championId)
+            delegate.returningResponse(riotResponse).getChampionDetails(version, championId)
         } catch (e: IOException) {
-            Calls.failure(e)
+            Observable.error(e)
         }
     }
 }
