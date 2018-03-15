@@ -3,6 +3,8 @@ package com.leaguechampions.injection
 import android.content.Context
 import com.google.gson.Gson
 import com.jakewharton.picasso.OkHttp3Downloader
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.remote.Api
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -13,14 +15,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class DataModule(private val baseUrl: String) {
+class DataModule {
 
     @Provides
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(baseUrl)
+                .baseUrl(Const.URL_BASE)
                 .client(okHttpClient)
                 .build()
     }

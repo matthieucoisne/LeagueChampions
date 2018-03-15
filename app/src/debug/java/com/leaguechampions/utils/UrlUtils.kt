@@ -28,16 +28,16 @@ object UrlUtils {
     )
 
     fun getImageUrl(context: Context, champion: Champion): String {
-        var key = champion.id
+        var championId = champion.id
         return if (PrefUtils.isMockMode(context)) {
             val scheme = if (Const.isGlide) "http" else "mock"
-            if (!champions.contains(key)) {
-                key = champions[Random().nextInt(champions.size)]
+            if (!champions.contains(championId)) {
+                championId = champions[Random().nextInt(champions.size)]
             }
 
-            "$scheme:///images/ic_poro_${key.toLowerCase()}.png"
+            "$scheme:///images/ic_poro_${championId.toLowerCase()}.png"
         } else {
-            "${Const.URL_BASE}cdn/${champion.version}/img/champion/$key.png"
+            "${Const.URL_BASE}cdn/${champion.version}/img/champion/$championId.png"
         }
     }
 }
