@@ -12,10 +12,10 @@ import com.squareup.picasso.Picasso
 fun loadChampionImage(ivChampion: ImageView, champion: Champion?) {
     if (champion != null) {
         if (Const.isGlide) {
-            Glide.with(ivChampion.context).load(UrlUtils.getImageUrl(ivChampion.context, "8.5.2", champion.id)).into(ivChampion)
+            Glide.with(ivChampion.context).load(UrlUtils.getImageUrl(ivChampion.context, champion)).into(ivChampion)
         } else {
 //            picasso.load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
-            Picasso.with(ivChampion.context).load(UrlUtils.getImageUrl(ivChampion.context, "8.5.2", champion.id)).into(ivChampion)
+            Picasso.with(ivChampion.context).load(UrlUtils.getImageUrl(ivChampion.context, champion)).into(ivChampion)
         }
     }
 }
