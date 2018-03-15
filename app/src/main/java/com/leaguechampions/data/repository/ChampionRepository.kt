@@ -2,65 +2,79 @@ package com.leaguechampions.data.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.leaguechampions.R
-import com.leaguechampions.data.model.RiotResponse
+import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.remote.Api
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import javax.inject.Inject
 
 class ChampionRepository @Inject constructor(private val api: Api) {
 
-    fun getChampions(): LiveData<Resource<RiotResponse>> {
-        val data = MutableLiveData<Resource<RiotResponse>>()
+    fun getChampions(): LiveData<Resource<Map<String, Champion>>> {
+        val data = MutableLiveData<Resource<Map<String, Champion>>>()
 
-        api.getChampions().enqueue(object : Callback<RiotResponse> {
-            override fun onResponse(call: Call<RiotResponse>, response: Response<RiotResponse>) {
-                if (response.isSuccessful) {
-                    val riotResponse = response.body()
-                    data.setValue(Resource.success(riotResponse!!))
-                } else {
-                    // TODO find a way to add `response.code()`
-                    data.setValue(Resource.error(R.string.error_code, null as RiotResponse))
+        api.getVersion()
+                .flatMap { response ->
+                    if (response.raw().cacheResponse() != null) {
+                        Log.d("OkHttp", "Response from cache.")
+                    }
+                    api.getChampions(response.body()?.getVersion()!!)
                 }
-            }
-
-            override fun onFailure(call: Call<RiotResponse>, t: Throwable) {
-                if (t is IOException) {
-                    data.setValue(Resource.error(R.string.error_io, null as RiotResponse))
-                } else {
-                    data.setValue(Resource.error(R.string.error_something_went_wrong, null as RiotResponse))
-                }
-            }
-        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        // onNext
+                        { response ->
+                            data.setValue(Resource.success(response.data))
+                        },
+                        // onError
+                        { t ->
+                            if (t is IOException) {
+                                data.value = Resource.error(R.string.error_io, null as Map<String, Champion>)
+                            } else {
+                                data.value = Resource.error(R.string.error_something_went_wrong, null as Map<String, Champion>)
+                            }
+                        },
+                        // onComplete
+                        {}
+                )
 
         return data
     }
 
-    fun getChampionDetails(championId: String): LiveData<Resource<RiotResponse>> {
-        val data = MutableLiveData<Resource<RiotResponse>>()
+    fun getChampionDetails(championId: String): LiveData<Resource<Champion>> {
+        val data = MutableLiveData<Resource<Champion>>()
 
-        api.getChampion(championId).enqueue(object : Callback<RiotResponse> {
-            override fun onResponse(call: Call<RiotResponse>, response: Response<RiotResponse>) {
-                if (response.isSuccessful) {
-                    val riotResponse = response.body()
-                    data.setValue(Resource.success(riotResponse!!))
-                } else {
-                    // TODO find a way to add `response.code()`
-                    data.setValue(Resource.error(R.string.error_code, null as RiotResponse))
+        api.getVersion()
+                .flatMap { response ->
+                    if (response.raw().cacheResponse() != null) {
+                        Log.d("OkHttp", "Response from cache.")
+                    }
+                    api.getChampionDetails(response.body()?.getVersion()!!, championId)
                 }
-            }
-
-            override fun onFailure(call: Call<RiotResponse>, t: Throwable) {
-                if (t is IOException) {
-                    data.setValue(Resource.error(R.string.error_io, null as RiotResponse))
-                } else {
-                    data.setValue(Resource.error(R.string.error_something_went_wrong, null as RiotResponse))
-                }
-            }
-        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        // onNext
+                        { response ->
+                            val champion = response.data[championId]!!
+                            champion.version = response.version
+                            data.setValue(Resource.success(champion))
+                        },
+                        // onError
+                        { t ->
+                            if (t is IOException) {
+                                data.value = Resource.error(R.string.error_io, null as Champion)
+                            } else {
+                                data.value = Resource.error(R.string.error_something_went_wrong, null as Champion)
+                            }
+                        },
+                        // onComplete
+                        {}
+                )
 
         return data
     }
