@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
-import com.leaguechampions.data.model.RiotResponse
 import com.leaguechampions.databinding.ActivityChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
@@ -30,7 +29,7 @@ class ChampionsActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_champions);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_champions)
 
         setSupportActionBar(binding.activityChampionsToolbar)
         supportActionBar?.setTitle(R.string.app_name)
@@ -56,15 +55,15 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setAdapter(riotResponse: RiotResponse) {
-        val data: List<Champion> = ArrayList(riotResponse.data.values)
-        Collections.sort(data)
-//        adapter = ChampionsAdapter(data, object: ChampionsAdapter.OnItemClickListener {
+    private fun setAdapter(data: Map<String, Champion>) {
+        val champions: List<Champion> = ArrayList(data.values)
+        Collections.sort(champions)
+//        adapter = ChampionsAdapter(champions, object: ChampionsAdapter.OnItemClickListener {
 //            override fun onItemClick(champion: Champion) {
 //                showDetails(champion.id)
 //            }
 //        })
-        adapter = ChampionsAdapter(data, { champion -> showDetails(champion.id) })
+        adapter = ChampionsAdapter(champions, { champion -> showDetails(champion.id) })
         binding.activityChampionsRvChampions.adapter = adapter
     }
 

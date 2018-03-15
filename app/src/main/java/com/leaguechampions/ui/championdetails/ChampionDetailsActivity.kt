@@ -41,7 +41,7 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
         viewModel.riotResponse.observe(this, Observer { riotResponseResource ->
-            binding.champion = riotResponseResource?.data?.data?.get(championId)
+            binding.champion = riotResponseResource?.data
         })
         viewModel.setChampionId(championId)
     }
