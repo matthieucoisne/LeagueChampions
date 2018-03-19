@@ -1,15 +1,29 @@
+[![Build Status](https://www.bitrise.io/app/2bc06ba7b2b2bd1b/status.svg?token=7pxuawKQ_pkZFmV57DseEA)](https://www.bitrise.io/app/2bc06ba7b2b2bd1b)
+
 League Champions
 ----
 
-A sample Android app which showcases:
+A demo Android app which showcases:
+ - Model View Presenter
+ - Dependency Injection
  - UI Testing with mock data
  - Unit Testing
+
+\
+Currently in development:
+ - Model View ViewModel
+ - Architecture Components (Lifecycle, LiveData, ViewModel)
+ - DataBinding
+
+\
+Languages:
+ - Kotlin (master)
+ - Java
 
 Libraries
 ----
 
  - Dagger - https://github.com/google/dagger
- - ButterKnife - http://jakewharton.github.io/butterknife
  - Retrofit - http://square.github.io/retrofit
  - Gson - https://github.com/google/gson
  - Picasso - http://square.github.io/picasso
@@ -17,7 +31,6 @@ Libraries
  - OkHttp - http://square.github.io/okhttp
  - Okio - https://github.com/square/okio
  - Timber - http://github.com/JakeWharton/timber
- - ProcessPhoenix - https://github.com/JakeWharton/ProcessPhoenix
 
 License
 ----
