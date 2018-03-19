@@ -46,9 +46,9 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel.class);
         viewModel.setChampionId(championId);
-        viewModel.getRiotResponse().observe(this, riotResponseResource ->
+        viewModel.getRiotResponse().observe(this, championResource ->
                 // TODO: Error handling
-                binding.setChampion(riotResponseResource.data.getData().get(championId))
+                binding.setChampion(championResource.data)
         );
     }
 

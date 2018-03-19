@@ -3,7 +3,7 @@ package com.leaguechampions.ui.championdetails;
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 
-import com.leaguechampions.data.model.Resource;
+import com.leaguechampions.data.repository.Resource;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.data.repository.ChampionRepository;
 

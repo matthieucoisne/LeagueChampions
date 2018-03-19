@@ -9,11 +9,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.leaguechampions.R;
-import com.leaguechampions.data.model.RiotResponse;
+import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.databinding.ActivityChampionsBinding;
 import com.leaguechampions.injection.viewmodel.ViewModelFactory;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
 import com.leaguechampions.ui.settings.SettingsActivity;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -39,8 +44,8 @@ public class ChampionsActivity extends DaggerAppCompatActivity {
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel.class);
-        viewModel.getRiotResponse().observe(this, riotResponseResource ->
-                setAdapter(riotResponseResource.data)
+        viewModel.getRiotResponse().observe(this, resource ->
+                setAdapter(resource.data)
         );
     }
 
@@ -62,8 +67,10 @@ public class ChampionsActivity extends DaggerAppCompatActivity {
         }
     }
 
-    private void setAdapter(RiotResponse riotResponse) {
-        adapter = new ChampionsAdapter(riotResponse, champion ->
+    private void setAdapter(Map<String, Champion> data) {
+        List<Champion> champions = new ArrayList<>(data.values());
+        Collections.sort(champions);
+        adapter = new ChampionsAdapter(champions, champion ->
                 showDetails(champion.getId())
         );
         binding.activityChampionsRvChampions.setAdapter(adapter);
