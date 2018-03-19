@@ -1,4 +1,4 @@
-package com.leaguechampions.data.model;
+package com.leaguechampions.data.repository;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

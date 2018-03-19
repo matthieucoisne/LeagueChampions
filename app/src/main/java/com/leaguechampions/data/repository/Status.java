@@ -1,4 +1,4 @@
-package com.leaguechampions.data.model;
+package com.leaguechampions.data.repository;
 
 /**
  * Status of a resource that is provided to the UI.
