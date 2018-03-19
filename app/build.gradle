@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 apply plugin: "io.fabric"
 apply plugin: "com.github.ben-manes.versions"
 
@@ -29,18 +29,23 @@ def versionPatch = 0
 
 def productVersion = "$versionMajor.$versionMinor.$versionPatch"
 
-def static gitBuildNumber() {
+def static getCommitCount() {
     return "git rev-list HEAD --count --no-merges".execute().text.trim().toInteger()
 }
 
+def static getBuildNumber() {
+    def buildNumber = System.getenv("BITRISE_BUILD_NUMBER")
+    return buildNumber != null ? buildNumber.toInteger() : 0
+}
+
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdkVersion config.compileSdk
+    buildToolsVersion config.buildTools
 
     defaultConfig {
         applicationId "com.leaguechampions"
-        minSdkVersion config.minSdkVersion
-        targetSdkVersion config.targetSdkVersion
+        minSdkVersion config.minSdk
+        targetSdkVersion config.targetSdk
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -87,43 +92,48 @@ android {
     }
 
     flavorDimensions "server"
-
     productFlavors {
         prod {
             dimension "server"
-            def versionBuild = gitBuildNumber()
+            def versionBuild = getCommitCount()
             versionCode versionBuild
-            versionName "${productVersion}.${versionBuild}"
+            versionName "$productVersion.$versionBuild"
             resValue "string", "app_name", "League Champions"
         }
         dev {
             dimension "server"
             applicationIdSuffix ".dev"
             versionCode 0
-            versionName "${productVersion}-DEV"
+            versionName "$productVersion-DEV"
             resValue "string", "app_name", "DEV - League Champions"
             multiDexEnabled true
         }
     }
 
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFileName = output.outputFileName
-                    .replace("app", "LeagueChampions")
-                    .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + gitBuildNumber() + ".apk" : "-${productVersion}.apk")
+    variantFilter { variant ->
+        def buildType = variant.buildType.name
+        def flavor = variant.flavors.get(0).name
+        if (buildType == "debug") {
+            if (flavor == "prod") {
+                variant.setIgnore(true)
+            }
+        } else if (buildType == "release") {
+            if (flavor == "dev") {
+                variant.setIgnore(true)
+            }
         }
     }
 
-    android.variantFilter { variant ->
-        if (variant.buildType.name == "debug") {
-            if (variant.getFlavors().get(0).name == "prod") {
-                variant.setIgnore(true)
-            }
-        } else if (variant.buildType.name == "release") {
-            if (variant.getFlavors().get(0).name == "dev") {
-                variant.setIgnore(true)
-            }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFileName = output.outputFileName
+                    .replace("app", "LeagueChampions")
+                    .replace(".apk", variant.buildType.name == "release" ? "-${productVersion}." + getCommitCount() + ".apk" : "-${productVersion}.apk")
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     dexOptions {
@@ -150,16 +160,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
@@ -173,7 +173,7 @@ dependencies {
     implementation "com.android.support:support-core-utils:$libraries.supportLib"
     implementation "com.android.support:support-core-ui:$libraries.supportLib"
     implementation "com.android.support:support-fragment:$libraries.supportLib"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
     // ARCH
     implementation "android.arch.lifecycle:extensions:$libraries.arch"
@@ -186,6 +186,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$libraries.dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$libraries.dagger"
     annotationProcessor "com.google.dagger:dagger-android-processor:$libraries.dagger"
+
+    // RXJAVA
+    implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
 
     // GSON
     implementation "com.google.code.gson:gson:$libraries.gson"
@@ -228,7 +233,7 @@ dependencies {
     testImplementation "junit:junit:$libraries.junit"
     testImplementation "org.powermock:powermock-module-junit4:$libraries.powermock"
     testImplementation "org.powermock:powermock-core:$libraries.powermock"
-    testImplementation "org.powermock:powermock-api-mockito2:$libraries.powermock"
+    testImplementation "org.powermock:powermock-api-mockito:$libraries.powermock"
     testImplementation "org.mockito:mockito-core:$libraries.mockito"
     testImplementation("org.robolectric:robolectric:$libraries.robolectric") {
         exclude group: "commons-logging", module: "commons-logging"
@@ -249,7 +254,7 @@ dependencies {
         exclude group: "com.android.support", module: "support-v4"
         exclude module: "recyclerview-v7"
     }
-    androidTestImplementation 'com.google.code.findbugs:jsr305:3.0.1'
+    androidTestImplementation "com.google.code.findbugs:jsr305:3.0.1"
 }
 
 apply plugin: "com.google.gms.google-services"
