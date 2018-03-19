@@ -1,5 +1,6 @@
 package com.leaguechampions.ui.settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +10,9 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.leaguechampions.BuildConfig;
 import com.leaguechampions.R;
+import com.leaguechampions.utils.PrefUtils;
 
 import javax.inject.Inject;
 
@@ -18,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class SettingsActivity extends DaggerAppCompatActivity implements SettingsPresenter.SettingsView {
+public class SettingsActivity extends DaggerAppCompatActivity {
 
     @BindView(R.id.activity_settings_tvVersion)
     protected TextView tvVersion;
@@ -30,7 +33,10 @@ public class SettingsActivity extends DaggerAppCompatActivity implements Setting
     protected SwitchCompat switchMockMode;
 
     @Inject
-    protected SettingsPresenter presenter;
+    protected SharedPreferences preferences;
+
+    // Workaround for BuildConfig.BUILD_TYPE in methods for Unit Tests
+    private String buildType = BuildConfig.BUILD_TYPE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,36 +51,27 @@ public class SettingsActivity extends DaggerAppCompatActivity implements Setting
             getSupportActionBar().setTitle(R.string.settings);
         }
 
-        presenter.onActivityCreated(savedInstanceState, getIntent().getExtras());
+        tvVersion.setText(String.format(getString(R.string.version), BuildConfig.VERSION_NAME));
+
+        if ("debug".equals(buildType)) {
+            llyDeveloperOptions.setVisibility(View.VISIBLE);
+            switchMockMode.setChecked(PrefUtils.isMockMode(preferences));
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnCheckedChanged(R.id.activity_settings_switchMockMode)
     public void onMockModeCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        presenter.onMockModeCheckedChanged(isChecked);
-    }
-
-    @Override
-    public void setVersion(String version) {
-        tvVersion.setText(String.format(getString(R.string.version), version));
-    }
-
-    @Override
-    public void showDeveloperOptions() {
-        llyDeveloperOptions.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void showMockMode(boolean mockMock) {
-        switchMockMode.setChecked(mockMock);
-    }
-
-    @Override
-    public void doFinish() {
-        finish();
+        PrefUtils.setMockMode(preferences, isChecked);
     }
 }
