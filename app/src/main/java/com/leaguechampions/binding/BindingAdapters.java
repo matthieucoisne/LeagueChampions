@@ -15,10 +15,10 @@ public class BindingAdapters {
     public static void loadChampionImage(ImageView ivChampion, Champion champion) {
         if (champion != null) {
             if (Const.isGlide) {
-                Glide.with(ivChampion.getContext()).load(UrlUtils.getImageUrl(ivChampion.getContext(), "7.15.1", champion.getId())).into(ivChampion);
+                Glide.with(ivChampion.getContext()).load(UrlUtils.getImageUrl(ivChampion.getContext(), champion)).into(ivChampion);
             } else {
-//                picasso.load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
-                Picasso.with(ivChampion.getContext()).load(UrlUtils.getImageUrl(ivChampion.getContext(), "7.15.1", champion.getId())).into(ivChampion);
+//                picasso.load(UrlUtils.getImageUrl(ivChampion.getContext(), champion)).into(ivChampion);
+                Picasso.with(ivChampion.getContext()).load(UrlUtils.getImageUrl(ivChampion.getContext(), champion)).into(ivChampion);
             }
         }
     }
