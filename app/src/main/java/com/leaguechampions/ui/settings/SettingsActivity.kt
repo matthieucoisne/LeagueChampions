@@ -1,5 +1,6 @@
 package com.leaguechampions.ui.settings
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
@@ -7,18 +8,23 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.leaguechampions.BuildConfig
 import com.leaguechampions.R
+import com.leaguechampions.utils.PrefUtils
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class SettingsActivity : DaggerAppCompatActivity(), SettingsPresenter.SettingsView {
+class SettingsActivity : DaggerAppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var tvVersion: TextView
     private lateinit var llyDeveloperOptions: LinearLayout
     private lateinit var switchMockMode: SwitchCompat
 
-    @Inject lateinit var presenter: SettingsPresenter
+    @Inject lateinit var preferences: SharedPreferences
+
+    // Workaround for BuildConfig.BUILD_TYPE in methods for Unit Tests
+    private val buildType = BuildConfig.BUILD_TYPE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,30 +39,24 @@ class SettingsActivity : DaggerAppCompatActivity(), SettingsPresenter.SettingsVi
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.settings)
 
-        switchMockMode.setOnCheckedChangeListener {
-            _, isChecked -> presenter.onMockModeCheckedChanged(isChecked)
-        }
+        tvVersion.text = String.format(getString(R.string.version), BuildConfig.VERSION_NAME)
 
-        presenter.onActivityCreated(savedInstanceState, intent.extras)
+        if (buildType == "debug") {
+            llyDeveloperOptions.visibility = View.VISIBLE
+            switchMockMode.isChecked = PrefUtils.isMockMode(preferences)
+            switchMockMode.setOnCheckedChangeListener {
+                _, isChecked -> PrefUtils.setMockMode(preferences, isChecked)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return presenter.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
-    }
-
-    override fun setVersion(version: String) {
-        tvVersion.text = String.format(getString(R.string.version), version)
-    }
-
-    override fun showDeveloperOptions() {
-        llyDeveloperOptions.visibility = View.VISIBLE
-    }
-
-    override fun showMockMode(mockMock: Boolean) {
-        switchMockMode.isChecked = mockMock
-    }
-
-    override fun doFinish() {
-        finish()
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

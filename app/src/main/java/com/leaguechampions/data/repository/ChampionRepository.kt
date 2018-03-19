@@ -7,6 +7,7 @@ import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.remote.Api
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -32,10 +33,11 @@ class ChampionRepository @Inject constructor(private val api: Api) {
                         },
                         // onError
                         { t ->
+                            Timber.e(t)
                             if (t is IOException) {
-                                data.value = Resource.error(R.string.error_io, null as Map<String, Champion>)
+                                data.value = Resource.error(R.string.error_io, HashMap(0))
                             } else {
-                                data.value = Resource.error(R.string.error_something_went_wrong, null as Map<String, Champion>)
+                                data.value = Resource.error(R.string.error_something_went_wrong, HashMap(0))
                             }
                         },
                         // onComplete
@@ -67,6 +69,7 @@ class ChampionRepository @Inject constructor(private val api: Api) {
                         },
                         // onError
                         { t ->
+                            Timber.e(t)
                             if (t is IOException) {
                                 data.value = Resource.error(R.string.error_io, null as Champion)
                             } else {
