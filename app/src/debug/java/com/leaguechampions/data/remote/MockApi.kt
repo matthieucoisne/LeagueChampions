@@ -28,8 +28,14 @@ class MockApi(private val context: Context,
     }
 
     override fun getVersion(): Observable<RiotRealm> {
-        // TODO
-        return delegate.returningResponse("8.5.2").getVersion()
+        val filePath = "json/getVersion.json"
+
+        return try {
+            val riotRealm = getDataFromFile<RiotRealm>(filePath, RiotRealm::class.java)
+            delegate.returningResponse(riotRealm!!).getVersion()
+        } catch (e: IOException) {
+            Observable.error(e)
+        }
     }
 
     override fun getChampions(version: String): Observable<RiotResponse> {

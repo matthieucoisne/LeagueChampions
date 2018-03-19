@@ -12,5 +12,5 @@ object Const {
     // DEBUG
     const val BEHAVIOR_DELAY_MILLIS: Long = 0
     const val PREF_KEY_MOCK_MODE = "mock_mode"
-    const val isGlide = false
+    const val isGlide = true
 }
