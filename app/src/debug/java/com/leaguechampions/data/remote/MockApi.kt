@@ -7,7 +7,6 @@ import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
 import io.reactivex.Observable
 import okio.Okio
-import retrofit2.Response
 import retrofit2.mock.BehaviorDelegate
 import java.io.IOException
 import java.lang.reflect.Type
@@ -28,7 +27,7 @@ class MockApi(private val context: Context,
         return gson.fromJson<T>(getStringFromFile(filePath), type)
     }
 
-    override fun getVersion(): Observable<Response<RiotRealm>> {
+    override fun getVersion(): Observable<RiotRealm> {
         // TODO
         return delegate.returningResponse("8.5.2").getVersion()
     }

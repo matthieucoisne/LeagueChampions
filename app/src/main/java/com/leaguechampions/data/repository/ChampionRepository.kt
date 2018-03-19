@@ -2,7 +2,6 @@ package com.leaguechampions.data.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.util.Log
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.remote.Api
@@ -18,10 +17,11 @@ class ChampionRepository @Inject constructor(private val api: Api) {
 
         api.getVersion()
                 .flatMap { response ->
-                    if (response.raw().cacheResponse() != null) {
-                        Log.d("OkHttp", "Response from cache.")
-                    }
-                    api.getChampions(response.body()?.getVersion()!!)
+//                    if (response.raw().cacheResponse() != null) {
+//                        Log.d("OkHttp", "Response from cache.")
+//                    }
+//                    api.getChampions(response.body()?.getVersion()!!)
+                    api.getChampions(response.getVersion())
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,10 +50,11 @@ class ChampionRepository @Inject constructor(private val api: Api) {
 
         api.getVersion()
                 .flatMap { response ->
-                    if (response.raw().cacheResponse() != null) {
-                        Log.d("OkHttp", "Response from cache.")
-                    }
-                    api.getChampionDetails(response.body()?.getVersion()!!, championId)
+//                    if (response.raw().cacheResponse() != null) {
+//                        Log.d("OkHttp", "Response from cache.")
+//                    }
+//                    api.getChampionDetails(response.body()?.getVersion()!!, championId)
+                    api.getChampionDetails(response.getVersion(), championId)
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

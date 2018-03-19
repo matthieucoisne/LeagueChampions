@@ -3,7 +3,6 @@ package com.leaguechampions.data.remote
 import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
 import io.reactivex.Observable
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -15,7 +14,7 @@ import retrofit2.http.Path
 interface Api {
 
     @GET("realms/na.json")
-    fun getVersion(): Observable<Response<RiotRealm>>
+    fun getVersion(): Observable<RiotRealm>
 
     @GET("cdn/{version}/data/en_US/champion.json")
     fun getChampions(@Path("version") version: String): Observable<RiotResponse>
