@@ -8,7 +8,7 @@ import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.ActivityChampionsItemBinding
 
-class ChampionsAdapter(private val champions: List<Champion>,
+class ChampionsAdapter(private val data: List<Champion>,
 //                       private val onItemClickListener: OnItemClickListener
                        private val listener: (Champion) -> Unit
 ) : RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
@@ -25,14 +25,14 @@ class ChampionsAdapter(private val champions: List<Champion>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val champion = champions[position]
+        val champion = data[position]
         holder.binding.champion = champion
         holder.binding.root.setOnClickListener({ listener(champion) })
         holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
-        return champions.size
+        return data.size
     }
 
     class ViewHolder(val binding: ActivityChampionsItemBinding) : RecyclerView.ViewHolder(binding.root)
