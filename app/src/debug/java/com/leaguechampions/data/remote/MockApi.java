@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.leaguechampions.data.model.RiotRealm;
 import com.leaguechampions.data.model.RiotResponse;
 
 import java.io.IOException;
@@ -12,12 +13,10 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
+import io.reactivex.Observable;
 import okio.BufferedSource;
 import okio.Okio;
-import retrofit2.Call;
-import retrofit2.http.Path;
 import retrofit2.mock.BehaviorDelegate;
-import retrofit2.mock.Calls;
 
 public class MockApi implements Api {
 
@@ -42,19 +41,31 @@ public class MockApi implements Api {
     }
 
     @Override
-    public Call<RiotResponse> getChampions() {
-        String filePath = "json/getChampions.json";
+    public Observable<RiotRealm> getVersion() {
+        String filePath = "json/getVersion.json";
 
         try {
-            RiotResponse riotResponse = getDataFromFile(filePath, RiotResponse.class);
-            return delegate.returningResponse(riotResponse).getChampions();
+            RiotRealm riotRealm = getDataFromFile(filePath, RiotRealm.class);
+            return delegate.returningResponse(riotRealm).getVersion();
         } catch (IOException e) {
-            return Calls.failure(e);
+            return Observable.error(e);
         }
     }
 
     @Override
-    public Call<RiotResponse> getChampion(@Path("championId") String championId) {
+    public Observable<RiotResponse> getChampions(String version) {
+        String filePath = "json/getChampions.json";
+
+        try {
+            RiotResponse riotResponse = getDataFromFile(filePath, RiotResponse.class);
+            return delegate.returningResponse(riotResponse).getChampions(version);
+        } catch (IOException e) {
+            return Observable.error(e);
+        }
+    }
+
+    @Override
+    public Observable<RiotResponse> getChampion(String version, String championId) {
         String filePath = "json/getChampion.json";
 
         try {
@@ -69,9 +80,9 @@ public class MockApi implements Api {
             }
 
             RiotResponse riotResponse = gson.fromJson(jsonObjectResponse, RiotResponse.class);
-            return delegate.returningResponse(riotResponse).getChampion(championId);
+            return delegate.returningResponse(riotResponse).getChampion(version, championId);
         } catch (IOException e) {
-            return Calls.failure(e);
+            return Observable.error(e);
         }
     }
 }
