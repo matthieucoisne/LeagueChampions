@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.leaguechampions.utils.picasso.PicassoMockRequestHandler;
 import com.leaguechampions.data.local.Const;
 import com.leaguechampions.data.remote.Api;
@@ -31,8 +32,9 @@ public class DataModule {
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(Const.URL)
+                .baseUrl(Const.URL_BASE)
                 .client(okHttpClient)
                 .build();
     }
