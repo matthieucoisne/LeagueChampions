@@ -1,35 +1,34 @@
 package com.leaguechampions.ui.championdetails;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.MenuItem;
 
 import com.leaguechampions.R;
 import com.leaguechampions.data.local.Const;
-import com.leaguechampions.data.remote.Api;
 import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.data.model.RiotResponse;
+import com.leaguechampions.data.remote.Api;
 
 import java.io.IOException;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class ChampionDetailsPresenter {
 
     private final Api api;
     private final ChampionDetailsView view;
     private String championId;
-    private String version;
 
     public interface ChampionDetailsView {
-        void showDetails(String version, Champion champion);
+        void showDetails(Champion champion);
         void showError(@StringRes int stringId);
-        void showError(@StringRes int stringId, int errorCode);
         void doFinish();
     }
 
@@ -42,18 +41,16 @@ public class ChampionDetailsPresenter {
     public void onActivityCreated(Bundle savedInstanceState, Bundle arguments) {
         if (savedInstanceState != null) {
             championId = savedInstanceState.getString(Const.KEY_CHAMPION_ID);
-            version = savedInstanceState.getString(Const.KEY_VERSION);
         } else {
             championId = arguments.getString(Const.KEY_CHAMPION_ID);
-            version = arguments.getString(Const.KEY_VERSION);
         }
 
-        getChampionDetails();
+        getChampionDetails(championId);
     }
 
     public void onSaveInstanceState(Bundle outState) {
+        // This could be removed, championId is already provided in the starting intent.
         outState.putString(Const.KEY_CHAMPION_ID, championId);
-        outState.putString(Const.KEY_VERSION, version);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -66,26 +63,40 @@ public class ChampionDetailsPresenter {
         }
     }
 
-    private void getChampionDetails() {
-        api.getChampion(championId).enqueue(new Callback<RiotResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
-                if (response.isSuccessful()) {
-                    RiotResponse riotResponse = response.body();
-                    view.showDetails(version, riotResponse.getData().get(championId));
-                } else {
-                    view.showError(R.string.error_code, response.code());
-                }
-            }
+    public void getChampionDetails(final String championId) {
+        api.getVersion()
+                .flatMap(response ->
+                        api.getChampion(response.getVersion(), championId)
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RiotResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
-                if (t instanceof IOException) {
-                    view.showError(R.string.error_io);
-                } else {
-                    view.showError(R.string.error_something_went_wrong);
-                }
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(RiotResponse response) {
+                        Champion champion = response.getData().get(championId);
+                        champion.setVersion(response.getVersion());
+                        view.showDetails(champion);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Timber.e(t);
+                        if (t instanceof IOException) {
+                            view.showError(R.string.error_io);
+                        } else {
+                            view.showError(R.string.error_something_went_wrong);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

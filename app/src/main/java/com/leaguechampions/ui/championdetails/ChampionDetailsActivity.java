@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,9 +41,8 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
     @Inject
     protected Picasso picasso;
 
-    public static Intent getIntent(Context context, String version, String championId) {
+    public static Intent getIntent(Context context, String championId) {
         Intent intent = new Intent(context, ChampionDetailsActivity.class);
-        intent.putExtra(Const.KEY_VERSION, version);
         intent.putExtra(Const.KEY_CHAMPION_ID, championId);
         return intent;
     }
@@ -77,24 +75,19 @@ public class ChampionDetailsActivity extends DaggerAppCompatActivity implements 
     }
 
     @Override
-    public void showDetails(String version, Champion champion) {
+    public void showDetails(Champion champion) {
         if (Const.isGlide) {
-            Glide.with(this).load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
+            Glide.with(this).load(UrlUtils.getImageUrl(this, champion)).into(ivChampion);
         } else {
-            picasso.load(UrlUtils.getImageUrl(this, version, champion.getId())).into(ivChampion);
+            picasso.load(UrlUtils.getImageUrl(this, champion)).into(ivChampion);
         }
         tvName.setText(champion.getName());
-        tvLore.setText(Html.fromHtml(champion.getLore()));
+        tvLore.setText(champion.getLore());
     }
 
     @Override
     public void showError(@StringRes int stringId) {
         Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showError(@StringRes int stringId, int errorCode) {
-        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
     }
 
     @Override
