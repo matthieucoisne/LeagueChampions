@@ -14,16 +14,17 @@ import java.util.List;
 
 public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.ViewHolder> {
 
-    private final List<Champion> champions;
+    private final List<Champion> data;
     private final onItemClickListener listener;
 
-    public ChampionsAdapter(List<Champion> champions, onItemClickListener listener) {
-        this.champions = champions;
+    ChampionsAdapter(List<Champion> champions, onItemClickListener listener) {
+        this.data = champions;
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ActivityChampionsItemBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.activity_champions_item,
@@ -36,13 +37,13 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.binding.setChampion(champions.get(position));
+        holder.binding.setChampion(data.get(position));
         holder.binding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return champions == null ? 0 : champions.size();
+        return data == null ? 0 : data.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
