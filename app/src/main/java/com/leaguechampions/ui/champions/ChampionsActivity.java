@@ -3,7 +3,6 @@ package com.leaguechampions.ui.champions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,10 +11,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.leaguechampions.R;
-import com.leaguechampions.data.model.RiotResponse;
+import com.leaguechampions.data.model.Champion;
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity;
 import com.leaguechampions.ui.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -64,10 +65,9 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
     }
 
     @Override
-    public void setAdapter(RiotResponse riotResponse) {
-        adapter = new ChampionsAdapter(riotResponse, picasso, presenter);
+    public void setAdapter(List<Champion> champions) {
+        adapter = new ChampionsAdapter(champions, picasso, presenter);
         rvChampions.setAdapter(adapter);
-        rvChampions.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
     @Override
@@ -76,13 +76,8 @@ public class ChampionsActivity extends DaggerAppCompatActivity implements Champi
     }
 
     @Override
-    public void showError(@StringRes int stringId, int errorCode) {
-        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showDetails(String version, String championId) {
-        startActivity(ChampionDetailsActivity.getIntent(this, version, championId));
+    public void showDetails(String championId) {
+        startActivity(ChampionDetailsActivity.getIntent(this, championId));
     }
 
     @Override

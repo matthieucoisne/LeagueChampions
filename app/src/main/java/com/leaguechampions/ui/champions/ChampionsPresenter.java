@@ -1,7 +1,6 @@
 package com.leaguechampions.ui.champions;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.MenuItem;
 
@@ -11,12 +10,17 @@ import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.data.remote.Api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener {
 
@@ -24,10 +28,9 @@ public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener 
     private final ChampionsView view;
 
     public interface ChampionsView {
-        void setAdapter(RiotResponse riotResponse);
+        void setAdapter(List<Champion> champions);
         void showError(@StringRes int stringId);
-        void showError(@StringRes int stringId, int errorCode);
-        void showDetails(String version, String championId);
+        void showDetails(String championId);
         void showSettings();
     }
 
@@ -52,30 +55,44 @@ public class ChampionsPresenter implements ChampionsAdapter.onItemClickListener 
     }
 
     @Override
-    public void onItemClick(String version, Champion champion) {
-        view.showDetails(version, champion.getId());
+    public void onItemClick(Champion champion) {
+        view.showDetails(champion.getId());
     }
 
     private void getChampions() {
-        api.getChampions().enqueue(new Callback<RiotResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<RiotResponse> call, @NonNull Response<RiotResponse> response) {
-                if (response.isSuccessful()) {
-                    RiotResponse riotResponse = response.body();
-                    view.setAdapter(riotResponse);
-                } else {
-                    view.showError(R.string.error_code, response.code());
-                }
-            }
+        api.getVersion()
+                .flatMap(response ->
+                        api.getChampions(response.getVersion())
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RiotResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(@NonNull Call<RiotResponse> call, @NonNull Throwable t) {
-                if (t instanceof IOException) {
-                    view.showError(R.string.error_io);
-                } else {
-                    view.showError(R.string.error_something_went_wrong);
-                }
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(RiotResponse response) {
+                        List<Champion> champions = new ArrayList<>(response.getData().values());
+                        Collections.sort(champions);
+                        view.setAdapter(champions);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        Timber.e(t);
+                        if (t instanceof IOException) {
+                            view.showError(R.string.error_io);
+                        } else {
+                            view.showError(R.string.error_something_went_wrong);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
