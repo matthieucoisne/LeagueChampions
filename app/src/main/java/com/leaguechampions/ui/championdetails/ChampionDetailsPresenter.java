@@ -63,7 +63,7 @@ public class ChampionDetailsPresenter {
         }
     }
 
-    public void getChampionDetails(final String championId) {
+    private void getChampionDetails(final String championId) {
         api.getVersion()
                 .flatMap(response ->
                         api.getChampion(response.getVersion(), championId)
