@@ -6,26 +6,27 @@ import android.view.MenuItem;
 import com.leaguechampions.R;
 import com.leaguechampions.data.local.Const;
 import com.leaguechampions.data.model.Champion;
+import com.leaguechampions.data.model.RiotRealm;
 import com.leaguechampions.data.model.RiotResponse;
 import com.leaguechampions.data.remote.Api;
+import com.leaguechampions.utils.ImmediateSchedulersRule;
 import com.leaguechampions.utils.ReflectionUtils;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,25 +43,26 @@ public class ChampionDetailsPresenterTest {
     private ChampionDetailsPresenter presenter;
 
     private final String fieldChampionId = "championId";
-    private final String fieldVersion = "version";
-
     private final String championId = "Riven";
-    private final String version = "1.0";
+
+    private final HttpException httpException = new HttpException(Response.error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}")));
+    private final IOException ioException = new IOException();
 
     @Mock ChampionDetailsPresenter.ChampionDetailsView view;
     @Mock Api api;
-    @Mock Call<RiotResponse> call;
+
     @Mock RiotResponse riotResponse;
+    @Mock RiotRealm riotRealm;
     @Mock Champion champion;
     @Mock Map<String, Champion> data;
 
-    @Captor ArgumentCaptor<Callback<RiotResponse>> argumentCaptor;
+    @Rule ImmediateSchedulersRule rule = new ImmediateSchedulersRule();
 
     @Before
     public void setUp() {
         presenter = new ChampionDetailsPresenter(view, api);
 
-        when(api.getChampion(anyString())).thenReturn(call);
+        when(riotRealm.getVersion()).thenReturn("1.0.0");
         when(riotResponse.getData()).thenReturn(data);
         when(riotResponse.getData().get(championId)).thenReturn(champion);
     }
@@ -74,17 +76,13 @@ public class ChampionDetailsPresenterTest {
     public void testOnActivityCreated() {
         Bundle arguments = mock(Bundle.class);
         when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
-        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
+        when(api.getVersion()).thenReturn(Observable.just(riotRealm));
+        when(api.getChampion(anyString(), eq(championId))).thenReturn(Observable.just(riotResponse));
 
         presenter.onActivityCreated(null, arguments);
 
         assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
-        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
-        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onResponse(call,
-                Response.success(riotResponse)
-        );
-        verify(view).showDetails(anyString(), eq(champion));
+        verify(view).showDetails(champion);
         verifyNoMoreInteractions(view);
     }
 
@@ -93,84 +91,78 @@ public class ChampionDetailsPresenterTest {
         Bundle arguments = mock(Bundle.class);
         Bundle savedInstanceState = mock(Bundle.class);
         when(savedInstanceState.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
-        when(savedInstanceState.getString(Const.KEY_VERSION)).thenReturn(version);
+        when(api.getVersion()).thenReturn(Observable.just(riotRealm));
+        when(api.getChampion(anyString(), eq(championId))).thenReturn(Observable.just(riotResponse));
 
         presenter.onActivityCreated(savedInstanceState, arguments);
 
         assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
-        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
-        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onResponse(call,
-                Response.success(riotResponse)
-        );
-        verify(view).showDetails(anyString(), eq(champion));
+        verify(view).showDetails(champion);
         verifyNoMoreInteractions(view);
     }
 
     @Test
-    public void testOnActivityCreated_WhenResponseError400_ShowsError() throws Exception {
+    public void testOnActivityCreated_WhenGetVersionThrowsError400_ShowsError() throws Exception {
         Bundle arguments = mock(Bundle.class);
         when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
-        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
+        when(api.getVersion()).thenReturn(Observable.error(httpException));
 
         presenter.onActivityCreated(null, arguments);
 
         assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
-        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
-        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onResponse(call,
-                Response.<RiotResponse>error(400, ResponseBody.create(MediaType.parse("application/json"), "{\"error\":\"failure\"}"))
-        );
-        verify(view).showError(R.string.error_code, 400);
+        verify(view).showError(R.string.error_something_went_wrong);
         verifyNoMoreInteractions(view);
     }
 
     @Test
-    public void testOnActivityCreated_WhenIOFailure_ShowsError() throws Exception {
+    public void testOnActivityCreated_WhenGetChampionDetailsThrowsError400_ShowsError() throws Exception {
         Bundle arguments = mock(Bundle.class);
         when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
-        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
+        when(api.getVersion()).thenReturn(Observable.just(riotRealm));
+        when(api.getChampion(anyString(), eq(championId))).thenReturn(Observable.error(httpException));
 
         presenter.onActivityCreated(null, arguments);
 
         assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
-        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
-        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onFailure(call,
-                new IOException()
-        );
+        verify(view).showError(R.string.error_something_went_wrong);
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void testOnActivityCreated_WhenGetVersionThrowsIOError_ShowsError() throws Exception {
+        Bundle arguments = mock(Bundle.class);
+        when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
+        when(api.getVersion()).thenReturn(Observable.error(ioException));
+
+        presenter.onActivityCreated(null, arguments);
+
+        assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
         verify(view).showError(R.string.error_io);
         verifyNoMoreInteractions(view);
     }
 
     @Test
-    public void testOnActivityCreated_WhenFailure_ShowsError() throws Exception {
+    public void testOnActivityCreated_WhenGetChampionDetailsThrowsIOError_ShowsError() throws Exception {
         Bundle arguments = mock(Bundle.class);
         when(arguments.getString(Const.KEY_CHAMPION_ID)).thenReturn(championId);
-        when(arguments.getString(Const.KEY_VERSION)).thenReturn(version);
+        when(api.getVersion()).thenReturn(Observable.just(riotRealm));
+        when(api.getChampion(anyString(), eq(championId))).thenReturn(Observable.error(ioException));
 
         presenter.onActivityCreated(null, arguments);
 
         assertThat(ReflectionUtils.getField(presenter, fieldChampionId)).isEqualTo(championId);
-        assertThat(ReflectionUtils.getField(presenter, fieldVersion)).isEqualTo(version);
-        verify(api.getChampion(anyString())).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onFailure(call,
-                new Throwable()
-        );
-        verify(view).showError(R.string.error_something_went_wrong);
+        verify(view).showError(R.string.error_io);
         verifyNoMoreInteractions(view);
     }
 
     @Test
     public void testOnSaveInstanceState() {
         ReflectionUtils.setField(presenter, fieldChampionId, championId);
-        ReflectionUtils.setField(presenter, fieldVersion, version);
         Bundle bundle = mock(Bundle.class);
 
         presenter.onSaveInstanceState(bundle);
 
         verify(bundle).putString(Const.KEY_CHAMPION_ID, championId);
-        verify(bundle).putString(Const.KEY_VERSION, version);
         verifyNoMoreInteractions(bundle, view);
     }
 
