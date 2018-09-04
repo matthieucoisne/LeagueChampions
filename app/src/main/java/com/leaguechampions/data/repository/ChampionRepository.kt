@@ -1,5 +1,6 @@
 package com.leaguechampions.data.repository
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.leaguechampions.R
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 class ChampionRepository @Inject constructor(private val api: Api) {
 
+    @SuppressLint("CheckResult")
     fun getChampions(): LiveData<Resource<Map<String, Champion>>> {
         val data = MutableLiveData<Resource<Map<String, Champion>>>()
 
@@ -47,6 +49,7 @@ class ChampionRepository @Inject constructor(private val api: Api) {
         return data
     }
 
+    @SuppressLint("CheckResult")
     fun getChampionDetails(championId: String): LiveData<Resource<Champion>> {
         val data = MutableLiveData<Resource<Champion>>()
 

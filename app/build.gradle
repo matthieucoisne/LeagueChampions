@@ -145,13 +145,26 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dependencyUpdates.resolutionStrategy {
+        componentSelection { rules ->
+            rules.all { ComponentSelection selection ->
+                boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                    selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+                }
+                if (rejected) {
+                    selection.reject('Release candidate')
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // KOTLIN
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$config.kotlin"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"
 
     // SUPPORT
     implementation "com.android.support:design:$libraries.supportLib"
@@ -175,7 +188,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$libraries.dagger"
 
     // DATA BINDING
-    kapt 'com.android.databinding:compiler:3.0.1'
+//    kapt 'com.android.databinding:compiler:3.0.1'
 
     // RXJAVA
     implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"

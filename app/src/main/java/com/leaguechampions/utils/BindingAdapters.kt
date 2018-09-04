@@ -1,4 +1,4 @@
-package com.leaguechampions.binding
+package com.leaguechampions.utils
 
 import android.databinding.BindingAdapter
 import android.widget.ImageView

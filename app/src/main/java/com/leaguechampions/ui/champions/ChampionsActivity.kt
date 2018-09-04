@@ -5,8 +5,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.ActivityChampionsBinding
@@ -35,9 +37,37 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         supportActionBar?.setTitle(R.string.app_name)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel::class.java)
-        viewModel.riotResponse.observe(this, Observer { riotResponseResource ->
-            setAdapter(riotResponseResource?.data!!)
+//        viewModel.champions.observe(this, Observer { champions ->
+//            champions?.let {
+//                setAdapter(it)
+//            } ?: showError(R.string.error_something_went_wrong)
+//        })
+//
+//        viewModel.error.observe(this, Observer {
+//            showError(it?.getContentIfNotHandled() ?: R.string.error_something_went_wrong)
+//        })
+
+
+        viewModel.viewAction.observe(this, Observer {
+            when(it) {
+                is ChampionsViewModel.ViewAction.ShowDetails -> showDetails(it.championId)
+                is ChampionsViewModel.ViewAction.ShowSettings -> showSettings()
+            }
         })
+
+        viewModel.viewState.observe(this, Observer {
+            it?.let {
+                render(it)
+            }
+        })
+    }
+
+    private fun render(viewState: ChampionsViewModel.ViewState) {
+        if (viewState.champions.isNotEmpty()) {
+            setAdapter(viewState.champions)
+        } else {
+            showError(viewState.error)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,7 +78,7 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_settings -> {
-                showSettings()
+                viewModel.onSettingsClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -56,14 +86,16 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     }
 
     private fun setAdapter(data: Map<String, Champion>) {
-        val champions: List<Champion> = ArrayList(data.values)
-        Collections.sort(champions)
+        val champions = ArrayList(data.values)
+        champions.sort()
 //        adapter = ChampionsAdapter(champions, object: ChampionsAdapter.OnItemClickListener {
 //            override fun onItemClick(champion: Champion) {
 //                showDetails(champion.id)
 //            }
 //        })
-        adapter = ChampionsAdapter(champions, { champion -> showDetails(champion.id) })
+        adapter = ChampionsAdapter(champions) { champion ->
+            viewModel.onChampionClicked(champion.id)
+        }
         binding.activityChampionsRvChampions.adapter = adapter
     }
 
@@ -75,11 +107,11 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
-//    override fun showError(@StringRes stringId: Int) {
-//        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun showError(@StringRes stringId: Int, errorCode: Int) {
-//        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show()
-//    }
+    private fun showError(@StringRes stringId: Int) {
+        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(@StringRes stringId: Int, errorCode: Int) {
+        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show()
+    }
 }

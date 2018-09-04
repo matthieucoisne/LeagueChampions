@@ -29,7 +29,7 @@ class ChampionDetailsActivityTest {
         }
 
         override fun getActivityIntent(): Intent {
-            return ChampionDetailsActivity.getIntent(InstrumentationRegistry.getTargetContext(), "", championId)
+            return ChampionDetailsActivity.getIntent(InstrumentationRegistry.getTargetContext(), championId)
         }
     }
 
