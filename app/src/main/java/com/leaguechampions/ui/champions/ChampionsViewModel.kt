@@ -1,11 +1,13 @@
 package com.leaguechampions.ui.champions
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
+import com.leaguechampions.data.repository.Resource
 import javax.inject.Inject
 
 
@@ -25,15 +27,11 @@ class ChampionsViewModel @Inject constructor(
 
     val viewAction: MutableLiveData<ViewAction> = MutableLiveData() // TODO change MutableLiveData for SingleLiveData as this should be 1 time only
 
-    private val _viewState: MutableLiveData<ViewState> //= MutableLiveData()
-    val viewState: MutableLiveData<ViewState>
+    private val _viewState: MutableLiveData<ViewState> //= MutableLiveData() -- initialized in the init block
+    val viewState: LiveData<ViewState>
         get() = _viewState
 
-//    init {
-//        viewState.value = ViewState()
-//    }
-
-    private fun currentViewState(): ViewState = viewState.value!!
+    private fun currentViewState(): ViewState = viewState.value ?: ViewState()
 
 //    private val _champions: MutableLiveData<Map<String, Champion>>
 //    val champions: LiveData<Map<String, Champion>>
@@ -43,47 +41,27 @@ class ChampionsViewModel @Inject constructor(
 //    val error: LiveData<Event<Int>>
 //        get() = _error
 
+    private var riotResponse: LiveData<Resource<Map<String, Champion>>>
 
     init {
-        val riotResponse = championRepository.getChampions()
+        riotResponse = championRepository.getChampions()
 
-//        viewState.value = Transformations.map(riotResponse) {
-//            if (it != null) {
-//                currentViewState().copy(champions = it.data)
-//            } else {
-//                currentViewState().copy(error = R.string.error_something_went_wrong)
-//            }
-//        }.value
-
-//        _viewState = Transformations.switchMap(riotResponse) {
-//            val lol = MutableLiveData<ViewState>()
-//            lol.value = currentViewState().copy(champions = it.data)
-//            lol
-//        } as MutableLiveData<ViewState>
-//        _viewState.value = ViewState()
-
-
-        _viewState = Transformations.switchMap(riotResponse) {
-            MutableLiveData<ViewState>().apply {
-                this.setValue(currentViewState().copy(champions = it.data))
-            }
+        _viewState = Transformations.map(riotResponse) {
+            ViewState(champions = it.data) // we dont need to call currentViewState() as this is the initialization
         } as MutableLiveData<ViewState>
 
+//        _viewState = Transformations.switchMap(riotResponse) {
+//            getLiveDataViewState(it)
+//        } as MutableLiveData<ViewState>
 
 
 
-//        _champions = Transformations.switchMap(riotResponse) {
-//            val lol = MutableLiveData<Map<String, Champion>>()
-//            lol.value = it.data
-//            lol
-//        } as MutableLiveData<Map<String, Champion>>
 
 //        if (riotResponse.value != null) {
 //            _champions.value = riotResponse.value?.data
 //        } else {
 //            _error.value = Event(R.string.error_something_went_wrong)
 //        }
-
 
 //        val state = if (riotResponse.value != null) {
 //            currentViewState().copy(champions = riotResponse.value?.data!!)
@@ -93,7 +71,15 @@ class ChampionsViewModel @Inject constructor(
 //        viewState.value = state
     }
 
+    fun getLiveDataViewState(champions: Resource<Map<String, Champion>>): MutableLiveData<ViewState> {
+        val viewState = MutableLiveData<ViewState>()
 
+        val updatedViewState = currentViewState().copy(champions = champions.data)
+        val newViewState = ViewState(champions = champions.data)
+
+        viewState.value = newViewState
+        return viewState
+    }
 
 
     fun loadingFinished() {
@@ -105,6 +91,7 @@ class ChampionsViewModel @Inject constructor(
     }
 
     fun onSettingsClicked() {
-        viewAction.value = ViewAction.ShowSettings
+//        viewAction.value = ViewAction.ShowSettings
+        _viewState.value = currentViewState().copy(champions = emptyMap(), error = R.string.error_io)
     }
 }
