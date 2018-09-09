@@ -27,7 +27,7 @@ class ChampionsAdapter(private val data: List<Champion>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val champion = data[position]
         holder.binding.champion = champion
-        holder.binding.root.setOnClickListener({ listener(champion) })
+        holder.binding.root.setOnClickListener { listener(champion) }
         holder.binding.executePendingBindings()
     }
 

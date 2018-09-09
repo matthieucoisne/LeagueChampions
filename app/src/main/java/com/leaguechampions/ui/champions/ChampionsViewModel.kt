@@ -4,16 +4,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
+import android.view.MenuItem
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
-import com.leaguechampions.data.repository.Resource
+import com.leaguechampions.data.repository.Status
 import javax.inject.Inject
 
-
-class ChampionsViewModel @Inject constructor(
-        championRepository: ChampionRepository
-) : ViewModel() {
+class ChampionsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
 
     sealed class ViewAction {
         class ShowDetails(val championId: String) : ViewAction()
@@ -21,77 +19,46 @@ class ChampionsViewModel @Inject constructor(
     }
 
     data class ViewState(
-            val champions: Map<String, Champion> = emptyMap(),
-            val error: Int = R.string.error_something_went_wrong
+            val status: Status,
+            val champions: List<Champion> = emptyList(),
+            val error: String = ""
     )
 
     val viewAction: MutableLiveData<ViewAction> = MutableLiveData() // TODO change MutableLiveData for SingleLiveData as this should be 1 time only
 
-    private val _viewState: MutableLiveData<ViewState> //= MutableLiveData() -- initialized in the init block
+    private val _viewState: MutableLiveData<ViewState>
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    private fun currentViewState(): ViewState = viewState.value ?: ViewState()
-
-//    private val _champions: MutableLiveData<Map<String, Champion>>
-//    val champions: LiveData<Map<String, Champion>>
-//        get() = _champions
-//
-//    private val _error: MutableLiveData<Event<Int>>
-//    val error: LiveData<Event<Int>>
-//        get() = _error
-
-    private var riotResponse: LiveData<Resource<Map<String, Champion>>>
+//    private fun currentViewState(): ViewState = viewState.value ?: ViewState()
 
     init {
-        riotResponse = championRepository.getChampions()
+        val riotResponse = championRepository.getChampions()
 
-        _viewState = Transformations.map(riotResponse) {
-            ViewState(champions = it.data) // we dont need to call currentViewState() as this is the initialization
+        _viewState = Transformations.map(riotResponse) { resource ->
+            when(resource.status) {
+                Status.LOADING -> ViewState(status = Status.LOADING)
+                Status.SUCCESS -> {
+                    val champions = resource.data!!.toMutableList()
+                    champions.sort()
+                    ViewState(status = Status.SUCCESS, champions = champions)
+                }
+                Status.ERROR -> ViewState(status = Status.ERROR, error = resource.message!!)
+            }
         } as MutableLiveData<ViewState>
-
-//        _viewState = Transformations.switchMap(riotResponse) {
-//            getLiveDataViewState(it)
-//        } as MutableLiveData<ViewState>
-
-
-
-
-//        if (riotResponse.value != null) {
-//            _champions.value = riotResponse.value?.data
-//        } else {
-//            _error.value = Event(R.string.error_something_went_wrong)
-//        }
-
-//        val state = if (riotResponse.value != null) {
-//            currentViewState().copy(champions = riotResponse.value?.data!!)
-//        } else {
-//            currentViewState().copy(error = R.string.error_something_went_wrong)
-//        }
-//        viewState.value = state
     }
 
-    fun getLiveDataViewState(champions: Resource<Map<String, Champion>>): MutableLiveData<ViewState> {
-        val viewState = MutableLiveData<ViewState>()
-
-        val updatedViewState = currentViewState().copy(champions = champions.data)
-        val newViewState = ViewState(champions = champions.data)
-
-        viewState.value = newViewState
-        return viewState
-    }
-
-
-    fun loadingFinished() {
-//        viewState.value = currentViewState().copy(isLoading = false)
+    fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_settings -> {
+                viewAction.value = ViewAction.ShowSettings
+                true
+            }
+            else -> false
+        }
     }
 
     fun onChampionClicked(championId: String) {
         viewAction.value = ViewAction.ShowDetails(championId)
-    }
-
-    fun onSettingsClicked() {
-//        viewAction.value = ViewAction.ShowSettings
-        _viewState.value = currentViewState().copy(champions = emptyMap(), error = R.string.error_io)
     }
 }

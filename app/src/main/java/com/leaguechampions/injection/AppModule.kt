@@ -41,7 +41,7 @@ class AppModule {
     // TODO put this somewhere else ? in DataModule ?
     @Provides
     @Singleton
-    fun provideChampionRepository(api: Api): ChampionRepository {
-        return ChampionRepository(api)
+    fun provideChampionRepository(api: Api, context: Context): ChampionRepository {
+        return ChampionRepository(api, context)
     }
 }
