@@ -4,12 +4,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import android.view.MenuItem
-import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
-import com.leaguechampions.data.repository.Status
 import com.leaguechampions.utils.Event
+import com.leaguechampions.utils.Status
 import javax.inject.Inject
 
 class ChampionsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
@@ -26,7 +24,7 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
     )
 
     private val _viewAction = MutableLiveData<Event<ViewAction>>()
-    val viewAction : LiveData<Event<ViewAction>>
+    val viewAction: LiveData<Event<ViewAction>>
         get() = _viewAction
 
     private val _viewState: MutableLiveData<ViewState>
@@ -36,10 +34,8 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
 //    private fun currentViewState(): ViewState = viewState.value ?: ViewState()
 
     init {
-        val riotResponse = championRepository.getChampions()
-
-        _viewState = Transformations.map(riotResponse) { resource ->
-            when(resource.status) {
+        _viewState = Transformations.map(championRepository.getChampions()) { resource ->
+            when (resource.status) {
                 Status.LOADING -> ViewState(status = Status.LOADING)
                 Status.SUCCESS -> {
                     val champions = resource.data!!.toMutableList()
@@ -49,16 +45,6 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
                 Status.ERROR -> ViewState(status = Status.ERROR, error = resource.message!!)
             }
         } as MutableLiveData<ViewState>
-    }
-
-    fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_settings -> {
-                _viewAction.value = Event(ViewAction.ShowSettings)
-                true
-            }
-            else -> false
-        }
     }
 
     fun onChampionClicked(championId: String) {

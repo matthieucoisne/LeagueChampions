@@ -10,12 +10,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
-import com.leaguechampions.data.repository.Status
 import com.leaguechampions.databinding.ActivityChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
 import com.leaguechampions.ui.settings.SettingsActivity
 import com.leaguechampions.utils.EventObserver
+import com.leaguechampions.utils.Status
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -52,7 +52,7 @@ class ChampionsActivity : DaggerAppCompatActivity() {
 
     private fun render(viewState: ChampionsViewModel.ViewState) {
         when (viewState.status) {
-            Status.LOADING -> Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
+            Status.LOADING -> showToast("Loading")
             Status.SUCCESS -> setAdapter(viewState.champions)
             Status.ERROR -> showError(viewState.error)
         }
@@ -64,14 +64,13 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.menu_settings -> {
-//                viewModel.onSettingsClicked()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-        return viewModel.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.menu_settings -> {
+                showSettings()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setAdapter(champions: List<Champion>) {
@@ -94,15 +93,11 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
-
-//    private fun showError(@StringRes stringId: Int) {
-//        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show()
-//    }
-//
-//    private fun showError(@StringRes stringId: Int, errorCode: Int) {
-//        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show()
-//    }
 }

@@ -7,10 +7,14 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
+import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.ActivityChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
+import com.leaguechampions.utils.EventObserver
+import com.leaguechampions.utils.Status
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -37,12 +41,21 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
 
-        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
-        viewModel.riotResponse.observe(this, Observer { riotResponseResource ->
-            binding.champion = riotResponseResource?.data
+
+        viewModel.viewAction.observe(this, EventObserver {
+            when (it) {
+                is ChampionDetailsViewModel.ViewAction.Finish -> finish()
+            }
         })
+
+        viewModel.viewState.observe(this, Observer { state ->
+            state?.let {
+                render(it)
+            }
+        })
+
+        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
         viewModel.setChampionId(championId)
     }
 
@@ -56,11 +69,23 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
         }
     }
 
-//    override fun showError(@StringRes stringId: Int) {
-//        Toast.makeText(this, getString(stringId), Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun showError(@StringRes stringId: Int, errorCode: Int) {
-//        Toast.makeText(this, String.format(getString(stringId), errorCode), Toast.LENGTH_SHORT).show()
-//    }
+    private fun render(viewState: ChampionDetailsViewModel.ViewState) {
+        when (viewState.status) {
+            Status.LOADING -> showToast("Loading")
+            Status.SUCCESS -> setChampion(viewState.champion!!)
+            Status.ERROR -> showError(viewState.error)
+        }
+    }
+
+    private fun setChampion(champion: Champion) {
+        binding.champion = champion
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
 }

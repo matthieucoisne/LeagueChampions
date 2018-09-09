@@ -7,6 +7,7 @@ import android.content.Context
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.remote.Api
+import com.leaguechampions.utils.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -28,8 +29,8 @@ class ChampionRepository @Inject constructor(private val api: Api, private val c
 //                    api.getChampions(response.body()?.getVersion()!!)
 
 
-                    // TOD) remove this, only for testing
-                    Thread.sleep(3000)
+                    // TOD0 remove this, only for testing
+                    Thread.sleep(2500)
 
 
                     api.getChampions(response.getVersion())
@@ -68,6 +69,12 @@ class ChampionRepository @Inject constructor(private val api: Api, private val c
 //                        Log.d("OkHttp", "Response from cache.")
 //                    }
 //                    api.getChampionDetails(response.body()?.getVersion()!!, championId)
+
+
+                    // TOD) remove this, only for testing
+                    Thread.sleep(2500)
+
+
                     api.getChampionDetails(response.getVersion(), championId)
                 }
                 .subscribeOn(Schedulers.io())
