@@ -9,6 +9,7 @@ import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
 import com.leaguechampions.data.repository.Status
+import com.leaguechampions.utils.Event
 import javax.inject.Inject
 
 class ChampionsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
@@ -24,7 +25,9 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
             val error: String = ""
     )
 
-    val viewAction: MutableLiveData<ViewAction> = MutableLiveData() // TODO change MutableLiveData for SingleLiveData as this should be 1 time only
+    private val _viewAction = MutableLiveData<Event<ViewAction>>()
+    val viewAction : LiveData<Event<ViewAction>>
+        get() = _viewAction
 
     private val _viewState: MutableLiveData<ViewState>
     val viewState: LiveData<ViewState>
@@ -51,7 +54,7 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
     fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_settings -> {
-                viewAction.value = ViewAction.ShowSettings
+                _viewAction.value = Event(ViewAction.ShowSettings)
                 true
             }
             else -> false
@@ -59,6 +62,6 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
     }
 
     fun onChampionClicked(championId: String) {
-        viewAction.value = ViewAction.ShowDetails(championId)
+        _viewAction.value = Event(ViewAction.ShowDetails(championId))
     }
 }

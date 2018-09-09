@@ -26,6 +26,12 @@ class ChampionRepository @Inject constructor(private val api: Api, private val c
 //                        Log.d("OkHttp", "Response from cache.")
 //                    }
 //                    api.getChampions(response.body()?.getVersion()!!)
+
+
+                    // TOD) remove this, only for testing
+                    Thread.sleep(3000)
+
+
                     api.getChampions(response.getVersion())
                 }
                 .subscribeOn(Schedulers.io())

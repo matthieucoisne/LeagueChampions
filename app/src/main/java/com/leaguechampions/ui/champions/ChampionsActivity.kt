@@ -15,6 +15,7 @@ import com.leaguechampions.databinding.ActivityChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
 import com.leaguechampions.ui.settings.SettingsActivity
+import com.leaguechampions.utils.EventObserver
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -35,8 +36,8 @@ class ChampionsActivity : DaggerAppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel::class.java)
 
-        viewModel.viewAction.observe(this, Observer {
-            when(it) {
+        viewModel.viewAction.observe(this, EventObserver {
+            when (it) {
                 is ChampionsViewModel.ViewAction.ShowDetails -> showDetails(it.championId)
                 is ChampionsViewModel.ViewAction.ShowSettings -> showSettings()
             }
@@ -50,7 +51,7 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     }
 
     private fun render(viewState: ChampionsViewModel.ViewState) {
-        when(viewState.status) {
+        when (viewState.status) {
             Status.LOADING -> Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show()
             Status.SUCCESS -> setAdapter(viewState.champions)
             Status.ERROR -> showError(viewState.error)
