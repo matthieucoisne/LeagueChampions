@@ -31,8 +31,6 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-//    private fun currentViewState(): ViewState = viewState.value ?: ViewState()
-
     init {
         _viewState = Transformations.map(championRepository.getChampions()) { resource ->
             when (resource.status) {

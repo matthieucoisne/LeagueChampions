@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="champion"
-            type="com.leaguechampions.data.model.Champion" />
-
-        <!--<variable-->
-            <!--name="onItemClickListener"-->
-            <!--type="com.leaguechampions.ui.champions.ChampionsAdapter.OnItemClickListener" />-->
+            type="com.leaguechampions.data.model.Champion"/>
     </data>
-
-    <!--<android.support.constraint.ConstraintLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="?attr/selectableItemBackground"-->
-        <!--android:onClick="@{() -> onItemClickListener.onItemClick(champion)}"-->
-        <!--android:padding="16dp">-->
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -34,7 +23,7 @@
             app:champion="@{champion}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/activity_champions_item_tvChampion"
@@ -46,6 +35,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_champions_item_ivChampion"
-            tools:text="Riven" />
+            tools:text="Riven"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

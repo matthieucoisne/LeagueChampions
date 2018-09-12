@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 class SettingsActivity : DaggerAppCompatActivity() {
 
-    private lateinit var toolbar: Toolbar
-    private lateinit var tvVersion: TextView
-    private lateinit var llyDeveloperOptions: LinearLayout
-    private lateinit var switchMockMode: SwitchCompat
+    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_settings_toolbar) }
+    private val tvVersion by lazy { findViewById<TextView>(R.id.activity_settings_tvVersion) }
+    private val llyDeveloperOptions by lazy { findViewById<LinearLayout>(R.id.activity_settings_llyDeveloperOptions) }
+    private val switchMockMode by lazy { findViewById<SwitchCompat>(R.id.activity_settings_switchMockMode) }
 
     @Inject lateinit var preferences: SharedPreferences
 
@@ -29,11 +29,6 @@ class SettingsActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        toolbar = findViewById(R.id.activity_settings_toolbar)
-        tvVersion = findViewById(R.id.activity_settings_tvVersion)
-        llyDeveloperOptions = findViewById(R.id.activity_settings_llyDeveloperOptions)
-        switchMockMode = findViewById(R.id.activity_settings_switchMockMode)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

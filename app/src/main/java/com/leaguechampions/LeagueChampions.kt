@@ -6,9 +6,6 @@ import dagger.android.support.DaggerApplication
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-
-
-
 class LeagueChampions : DaggerApplication() {
 
     override fun onCreate() {

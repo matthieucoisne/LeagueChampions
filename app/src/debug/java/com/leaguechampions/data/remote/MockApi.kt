@@ -6,20 +6,23 @@ import com.google.gson.JsonElement
 import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
 import io.reactivex.Observable
-import okio.Okio
+import okio.buffer
+import okio.source
 import retrofit2.mock.BehaviorDelegate
 import java.io.IOException
 import java.lang.reflect.Type
 import java.nio.charset.Charset
 
-class MockApi(private val context: Context,
-              private val delegate: BehaviorDelegate<Api>) : Api {
+class MockApi(
+        private val context: Context,
+        private val delegate: BehaviorDelegate<Api>
+) : Api {
 
     private val gson: Gson = Gson()
 
     private fun getStringFromFile(filePath: String): String {
         val stream = context.assets.open(filePath)
-        val source = Okio.buffer(Okio.source(stream))
+        val source = stream.source().buffer()
         return source.readString(Charset.defaultCharset())
     }
 

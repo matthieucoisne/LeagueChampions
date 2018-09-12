@@ -37,7 +37,7 @@ class ChampionDetailsViewModel @Inject constructor(private val championRepositor
             Transformations.map(championRepository.getChampionDetails(championId)) { resource ->
                 when (resource.status) {
                     Status.LOADING -> ViewState(status = Status.LOADING)
-                    Status.SUCCESS -> ViewState(status = Status.SUCCESS, champion = resource.data)
+                    Status.SUCCESS -> ViewState(status = Status.SUCCESS, champion = resource.data!!)
                     Status.ERROR -> ViewState(status = Status.ERROR, error = resource.message!!)
                 }
             }

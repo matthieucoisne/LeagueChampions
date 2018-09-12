@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
 import com.leaguechampions.R
@@ -19,6 +20,8 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class ChampionDetailsActivity : DaggerAppCompatActivity() {
+
+    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_champion_details_toolbar) }
 
     private lateinit var binding: ActivityChampionDetailsBinding
     private lateinit var viewModel: ChampionDetailsViewModel
@@ -36,12 +39,13 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_champion_details)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
-        setSupportActionBar(binding.activityChampionDetailsToolbar)
+        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
+
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
         viewModel.viewAction.observe(this, EventObserver {
             when (it) {
@@ -55,7 +59,6 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
             }
         })
 
-        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
         viewModel.setChampionId(championId)
     }
 

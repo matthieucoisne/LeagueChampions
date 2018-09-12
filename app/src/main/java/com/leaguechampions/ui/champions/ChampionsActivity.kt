@@ -3,14 +3,14 @@ package com.leaguechampions.ui.champions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
-import com.leaguechampions.databinding.ActivityChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
 import com.leaguechampions.ui.settings.SettingsActivity
@@ -21,7 +21,9 @@ import javax.inject.Inject
 
 class ChampionsActivity : DaggerAppCompatActivity() {
 
-    private lateinit var binding: ActivityChampionsBinding
+    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_champions_toolbar) }
+    private val rvChampions by lazy { findViewById<RecyclerView>(R.id.activity_champions_rvChampions) }
+
     private lateinit var adapter: ChampionsAdapter
     private lateinit var viewModel: ChampionsViewModel
 
@@ -29,9 +31,9 @@ class ChampionsActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_champions)
+        setContentView(R.layout.activity_champions)
 
-        setSupportActionBar(binding.activityChampionsToolbar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel::class.java)
@@ -74,15 +76,8 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     }
 
     private fun setAdapter(champions: List<Champion>) {
-//        adapter = ChampionsAdapter(champions, object: ChampionsAdapter.OnItemClickListener {
-//            override fun onItemClick(champion: Champion) {
-//                viewModel.onChampionClicked(champion.id)
-//            }
-//        })
-        adapter = ChampionsAdapter(champions) { champion ->
-            viewModel.onChampionClicked(champion.id)
-        }
-        binding.activityChampionsRvChampions.adapter = adapter
+        adapter = ChampionsAdapter(champions) { viewModel.onChampionClicked(it.id) }
+        rvChampions.adapter = adapter
     }
 
     private fun showDetails(championId: String) {
