@@ -39,8 +39,8 @@ class SettingsActivity : DaggerAppCompatActivity() {
         if (buildType == "debug") {
             llyDeveloperOptions.visibility = View.VISIBLE
             switchMockMode.isChecked = PrefUtils.isMockMode(preferences)
-            switchMockMode.setOnCheckedChangeListener {
-                _, isChecked -> PrefUtils.setMockMode(preferences, isChecked)
+            switchMockMode.setOnCheckedChangeListener { _, isChecked ->
+                PrefUtils.setMockMode(preferences, isChecked)
             }
         }
     }
