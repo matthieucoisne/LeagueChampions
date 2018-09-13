@@ -149,11 +149,11 @@ android {
     dependencyUpdates.resolutionStrategy {
         componentSelection { rules ->
             rules.all { ComponentSelection selection ->
-                boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                boolean rejected = ["alpha", "beta", "rc", "cr", "m"].any { qualifier ->
                     selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
                 }
                 if (rejected) {
-                    selection.reject('Release candidate')
+                    selection.reject("Release candidate")
                 }
             }
         }
@@ -186,9 +186,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$libraries.dagger"
     kapt "com.google.dagger:dagger-compiler:$libraries.dagger"
     kapt "com.google.dagger:dagger-android-processor:$libraries.dagger"
-
-    // DATA BINDING
-//    kapt 'com.android.databinding:compiler:3.0.1'
 
     // RXJAVA
     implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"

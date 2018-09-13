@@ -1,4 +1,4 @@
-[![Build Status](https://www.bitrise.io/app/2bc06ba7b2b2bd1b/status.svg?token=7pxuawKQ_pkZFmV57DseEA)](https://www.bitrise.io/app/2bc06ba7b2b2bd1b)
+[![Build Status](https://app.bitrise.io/app/2bc06ba7b2b2bd1b/status.svg?token=7pxuawKQ_pkZFmV57DseEA)](https://app.bitrise.io/app/2bc06ba7b2b2bd1b)
 
 League Champions
 ----
