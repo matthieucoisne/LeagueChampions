@@ -6,15 +6,10 @@ import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
-import com.leaguechampions.utils.Event
 import com.leaguechampions.utils.Status
 import javax.inject.Inject
 
 class ChampionDetailsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
-
-    sealed class ViewAction {
-        object Finish : ViewAction()
-    }
 
     data class ViewState(
             val status: Status,
@@ -22,15 +17,13 @@ class ChampionDetailsViewModel @Inject constructor(private val championRepositor
             val error: String = ""
     )
 
-    private val _viewAction = MutableLiveData<Event<ViewAction>>()
-    val viewAction: LiveData<Event<ViewAction>>
-        get() = _viewAction
-
     private val _viewState: MutableLiveData<ViewState>
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    private val championId = MutableLiveData<String>()
+    private val _championId = MutableLiveData<String>()
+    val championId: LiveData<String>
+        get() = _championId
 
     init {
         _viewState = Transformations.switchMap(championId) { championId ->
@@ -45,9 +38,9 @@ class ChampionDetailsViewModel @Inject constructor(private val championRepositor
     }
 
     fun setChampionId(championId: String?) {
-        if (championId == this.championId.value) {
+        if (_championId.value == championId) {
             return
         }
-        this.championId.value = championId
+        _championId.value = championId
     }
 }

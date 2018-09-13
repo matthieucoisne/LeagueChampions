@@ -228,20 +228,30 @@ dependencies {
     // LEAK CANARY
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$libraries.leakcanary"
 
-    // TESTS
+
+    // UNIT TESTS
+    testImplementation "android.arch.core:core-testing:$libraries.arch"
+
     testImplementation "junit:junit:$libraries.junit"
+
     testImplementation "org.powermock:powermock-module-junit4:$libraries.powermock"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$libraries.powermock"
     testImplementation "org.powermock:powermock-core:$libraries.powermock"
-    testImplementation "org.powermock:powermock-api-mockito:$libraries.powermock"
+    testImplementation "org.powermock:powermock-api-mockito2:$libraries.powermock"
+
     testImplementation "org.mockito:mockito-core:$libraries.mockito"
+
     testImplementation("org.robolectric:robolectric:$libraries.robolectric") {
         exclude group: "commons-logging", module: "commons-logging"
         exclude group: "org.apache.httpcomponents", module: "httpclient"
     }
 
     testImplementation "org.assertj:assertj-core:$libraries.assertj"
+
     testImplementation "org.hamcrest:hamcrest-library:$libraries.hamcrest"
 
+
+    // INSTRUMENTATION TESTS
     androidTestImplementation "com.android.support.test:runner:$libraries.supportTest"
     androidTestImplementation "com.android.support.test:rules:$libraries.supportTest"
     androidTestImplementation "com.android.support:support-annotations:$libraries.supportLib"

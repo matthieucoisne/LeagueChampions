@@ -14,7 +14,6 @@ import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.ActivityChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
-import com.leaguechampions.utils.EventObserver
 import com.leaguechampions.utils.Status
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -46,12 +45,6 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
-
-        viewModel.viewAction.observe(this, EventObserver {
-            when (it) {
-                is ChampionDetailsViewModel.ViewAction.Finish -> finish()
-            }
-        })
 
         viewModel.viewState.observe(this, Observer { state ->
             state?.let {
