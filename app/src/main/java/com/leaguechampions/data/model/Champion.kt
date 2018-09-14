@@ -9,7 +9,8 @@ data class Champion(
         val name: String,
         val title: String,
         var version: String?,
-        private val lore: String) : Comparable<Champion> {
+        private val lore: String
+) : Comparable<Champion> {
 
     @Suppress("DEPRECATION")
     fun getLore(): Spanned {

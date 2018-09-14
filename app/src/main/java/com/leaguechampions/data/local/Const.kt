@@ -1,6 +1,5 @@
 package com.leaguechampions.data.local
 
-// https://blog.egorand.me/where-do-i-put-my-constants-in-kotlin/
 object Const {
 
     const val URL_BASE = "http://ddragon.leagueoflegends.com/"

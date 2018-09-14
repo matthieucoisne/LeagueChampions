@@ -3,6 +3,7 @@ package com.leaguechampions.ui.champions
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
+import com.leaguechampions.databinding.ActivityChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.championdetails.ChampionDetailsActivity
 import com.leaguechampions.ui.settings.SettingsActivity
@@ -21,17 +23,20 @@ import javax.inject.Inject
 
 class ChampionsActivity : DaggerAppCompatActivity() {
 
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_champions_toolbar) }
-    private val rvChampions by lazy { findViewById<RecyclerView>(R.id.activity_champions_rvChampions) }
+    private lateinit var toolbar: Toolbar
+    private lateinit var rvChampions: RecyclerView
 
     private lateinit var adapter: ChampionsAdapter
+    private lateinit var binding: ActivityChampionsBinding
     private lateinit var viewModel: ChampionsViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_champions)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_champions)
+        toolbar = binding.activityChampionsToolbar
+        rvChampions = binding.activityChampionsRvChampions
 
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
@@ -46,9 +51,7 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         })
 
         viewModel.viewState.observe(this, Observer { state ->
-            state?.let {
-                render(it)
-            }
+            state?.let { render(it) }
         })
     }
 
@@ -88,11 +91,11 @@ class ChampionsActivity : DaggerAppCompatActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        showToast(message, Toast.LENGTH_LONG)
     }
 
-    private fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    private fun showToast(message: String, length: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, length).show()
     }
 }

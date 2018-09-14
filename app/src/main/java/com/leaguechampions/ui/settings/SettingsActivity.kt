@@ -1,6 +1,7 @@
 package com.leaguechampions.ui.settings
 
 import android.content.SharedPreferences
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
@@ -10,16 +11,19 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.leaguechampions.BuildConfig
 import com.leaguechampions.R
+import com.leaguechampions.databinding.ActivitySettingsBinding
 import com.leaguechampions.utils.PrefUtils
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class SettingsActivity : DaggerAppCompatActivity() {
 
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_settings_toolbar) }
-    private val tvVersion by lazy { findViewById<TextView>(R.id.activity_settings_tvVersion) }
-    private val llyDeveloperOptions by lazy { findViewById<LinearLayout>(R.id.activity_settings_llyDeveloperOptions) }
-    private val switchMockMode by lazy { findViewById<SwitchCompat>(R.id.activity_settings_switchMockMode) }
+    private lateinit var toolbar: Toolbar
+    private lateinit var tvVersion: TextView
+    private lateinit var llyDeveloperOptions: LinearLayout
+    private lateinit var switchMockMode: SwitchCompat
+
+    private lateinit var binding: ActivitySettingsBinding
 
     @Inject lateinit var preferences: SharedPreferences
 
@@ -28,7 +32,11 @@ class SettingsActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
+        toolbar = binding.activitySettingsToolbar
+        tvVersion = binding.activitySettingsTvVersion
+        llyDeveloperOptions = binding.activitySettingsLlyDeveloperOptions
+        switchMockMode = binding.activitySettingsSwitchMockMode
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

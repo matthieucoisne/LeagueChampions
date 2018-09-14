@@ -11,7 +11,6 @@ class LeagueChampions : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        // TODO Timber
         Timber.plant(DebugTree())
 //        Picasso.setSingletonInstance(appComponent.getPicasso());
     }

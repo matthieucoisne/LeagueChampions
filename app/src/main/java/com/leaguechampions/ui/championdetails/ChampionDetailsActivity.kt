@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class ChampionDetailsActivity : DaggerAppCompatActivity() {
 
-    private val toolbar by lazy { findViewById<Toolbar>(R.id.activity_champion_details_toolbar) }
+    private lateinit var toolbar: Toolbar
 
     private lateinit var binding: ActivityChampionDetailsBinding
     private lateinit var viewModel: ChampionDetailsViewModel
@@ -38,18 +38,18 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_champion_details)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
-
-        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
+        toolbar = binding.activityChampionDetailsToolbar
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.app_name)
 
+        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
+
         viewModel.viewState.observe(this, Observer { state ->
-            state?.let {
-                render(it)
-            }
+            state?.let { render(it) }
         })
 
         viewModel.setChampionId(championId)
@@ -77,11 +77,11 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
         binding.champion = champion
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        showToast(message, Toast.LENGTH_LONG)
     }
 
-    private fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    private fun showToast(message: String, length: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, length).show()
     }
 }
