@@ -7,7 +7,7 @@ buildscript {
                 targetSdk               : 28,
                 minSdk                  : 16,
                 buildTools              : "28.0.2",
-                kotlin                  : "1.2.61"
+                kotlin                  : "1.2.70"
         ]
 
         libraries = [
@@ -29,7 +29,7 @@ buildscript {
                 retrofit                : "2.4.0",
                 rxandroid               : "2.1.0",
                 rxjava                  : "2.2.2",
-                supportLib              : "27.1.1",
+                supportLib              : "28.0.0",
                 timber                  : "4.7.1",
 
                 // OTHER
@@ -57,7 +57,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.3.0-alpha10"
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha11'
         classpath "com.google.gms:google-services:4.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$config.kotlin"
         classpath "io.fabric.tools:gradle:1.25.4"
