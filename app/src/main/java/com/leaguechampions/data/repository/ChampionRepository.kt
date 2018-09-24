@@ -1,8 +1,8 @@
 package com.leaguechampions.data.repository
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion

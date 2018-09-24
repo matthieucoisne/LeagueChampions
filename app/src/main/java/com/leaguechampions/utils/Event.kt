@@ -1,6 +1,6 @@
 package com.leaguechampions.utils
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.

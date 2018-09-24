@@ -31,7 +31,7 @@ android {
         applicationId "com.leaguechampions"
         minSdkVersion config.minSdk
         targetSdkVersion config.targetSdk
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -166,19 +166,17 @@ dependencies {
     // KOTLIN
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"
 
-    // SUPPORT
-    implementation "com.android.support:design:$libraries.supportLib"
-    implementation "com.android.support:appcompat-v7:$libraries.supportLib"
-    implementation "com.android.support:recyclerview-v7:$libraries.supportLib"
-    implementation "com.android.support:support-compat:$libraries.supportLib"
-    implementation "com.android.support:support-core-utils:$libraries.supportLib"
-    implementation "com.android.support:support-core-ui:$libraries.supportLib"
-    implementation "com.android.support:support-fragment:$libraries.supportLib"
-    implementation "com.android.support.constraint:constraint-layout:$libraries.constraintLayout"
-
-    // ARCH
-    implementation "android.arch.lifecycle:extensions:$libraries.arch"
-    kapt "android.arch.lifecycle:compiler:$libraries.arch"
+    // ANDROIDX
+    implementation "com.google.android.material:material:$libraries.androidx"
+    implementation "androidx.core:core:$libraries.androidx"
+    implementation "androidx.appcompat:appcompat:$libraries.androidx"
+    implementation "androidx.fragment:fragment:$libraries.androidx"
+    implementation "androidx.recyclerview:recyclerview:$libraries.androidx"
+    implementation "androidx.legacy:legacy-support-core-utils:$libraries.androidx"
+    implementation "androidx.legacy:legacy-support-core-ui:$libraries.androidx"
+    implementation "androidx.constraintlayout:constraintlayout:$libraries.constraintLayout"
+    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.arch"
+    kapt "androidx.lifecycle:lifecycle-compiler:$libraries.arch"
 
     // DAGGER
     implementation "com.google.dagger:dagger:$libraries.dagger"
@@ -190,7 +188,7 @@ dependencies {
     // RXJAVA
     implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
     implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
-    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$libraries.rxjava_adapter"
 
     // GSON
     implementation "com.google.code.gson:gson:$libraries.gson"
@@ -227,7 +225,7 @@ dependencies {
 
 
     // UNIT TESTS
-    testImplementation "android.arch.core:core-testing:$libraries.arch"
+    testImplementation "androidx.arch.core:core-testing:$libraries.arch"
 
     testImplementation "junit:junit:$libraries.junit"
 
@@ -249,18 +247,17 @@ dependencies {
 
 
     // INSTRUMENTATION TESTS
-    androidTestImplementation "com.android.support.test:runner:$libraries.supportTest"
-    androidTestImplementation "com.android.support.test:rules:$libraries.supportTest"
-    androidTestImplementation "com.android.support:support-annotations:$libraries.supportLib"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$libraries.espresso"
-    androidTestImplementation "com.android.support.test.espresso:espresso-idling-resource:$libraries.espresso"
-    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:$libraries.espresso") {
+    androidTestImplementation "androidx.test:runner:$libraries.androidxTest"
+    androidTestImplementation "androidx.test:rules:$libraries.androidxTest"
+    androidTestImplementation "androidx.annotation:annotation:$libraries.androidx"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$libraries.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$libraries.espresso"
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$libraries.espresso") {
         exclude group: "com.android.support", module: "appcompat-v7"
         exclude group: "com.android.support", module: "design"
         exclude group: "com.android.support", module: "support-v4"
         exclude module: "recyclerview-v7"
     }
-    androidTestImplementation "com.google.code.findbugs:jsr305:3.0.1"
 }
 
 apply plugin: "com.google.gms.google-services"

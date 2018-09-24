@@ -11,12 +11,12 @@ buildscript {
         ]
 
         libraries = [
-                arch                    : "1.1.1",
-                butterknife             : "8.8.1",
+                androidx                : "1.0.0",
+                arch                    : "2.0.0",
                 constraintLayout        : "1.1.3",
                 crashlytics             : "2.9.5",
-                dagger                  : "2.17",
-                firebase                : "15.0.0",
+                dagger                  : "2.16",
+                firebase                : "16.0.3",
                 glide                   : "3.7.0",
                 glide_okhttp            : "1.5.0",
                 gson                    : "2.8.5",
@@ -29,7 +29,7 @@ buildscript {
                 retrofit                : "2.4.0",
                 rxandroid               : "2.1.0",
                 rxjava                  : "2.2.2",
-                supportLib              : "28.0.0",
+                rxjava_adapter          : "1.0.0",
                 timber                  : "4.7.1",
 
                 // OTHER
@@ -37,13 +37,13 @@ buildscript {
                 multidex                : "1.0.3",
 
                 // TESTING
-                espresso                : "3.0.2",
+                androidxTest            : "1.1.0-alpha4",
+                espresso                : "3.1.0-alpha4",
                 hamcrest                : "1.3",
                 junit                   : "4.12",
                 mockito                 : "1.9.5",
                 powermock               : "1.7.4",
                 robolectric             : "3.8",
-                supportTest             : "1.0.2",
 
                 // Do not update this because this is the last version that supports android. (see assertj for android - square)
                 assertj                 : "1.7.1",
@@ -57,10 +57,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha11'
+        classpath "com.android.tools.build:gradle:3.3.0-alpha11"
         classpath "com.google.gms:google-services:4.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$config.kotlin"
-        classpath "io.fabric.tools:gradle:1.25.4"
+        classpath "io.fabric.tools:gradle:1.26.0"
     }
 }
 

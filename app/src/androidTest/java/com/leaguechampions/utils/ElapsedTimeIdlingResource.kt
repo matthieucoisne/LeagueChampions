@@ -1,6 +1,6 @@
 package com.leaguechampions.utils
 
-import android.support.test.espresso.IdlingResource
+import androidx.test.espresso.IdlingResource
 
 import com.leaguechampions.data.local.Const
 

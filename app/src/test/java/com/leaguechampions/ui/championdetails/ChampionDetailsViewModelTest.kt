@@ -1,8 +1,8 @@
 package com.leaguechampions.ui.championdetails
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
 import com.leaguechampions.utils.Resource
