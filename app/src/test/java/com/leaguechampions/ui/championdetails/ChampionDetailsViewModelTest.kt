@@ -16,11 +16,9 @@ import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
+import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(ChampionRepository::class, Champion::class)
+@RunWith(MockitoJUnitRunner::class)
 class ChampionDetailsViewModelTest {
 
     private val championId = "Riven"
@@ -35,7 +33,7 @@ class ChampionDetailsViewModelTest {
     @Mock private lateinit var repository: ChampionRepository
     @Mock private lateinit var observerViewState: Observer<ChampionDetailsViewModel.ViewState>
 
-    @Rule var rule: TestRule = InstantTaskExecutorRule()
+    @get:Rule var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {

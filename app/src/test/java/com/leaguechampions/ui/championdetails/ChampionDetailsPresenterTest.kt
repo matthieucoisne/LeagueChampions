@@ -1,16 +1,11 @@
 package com.leaguechampions.ui.championdetails
 
-import com.leaguechampions.data.model.Champion
-import com.leaguechampions.data.model.RiotResponse
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(RiotResponse::class, Champion::class)
+//@RunWith(PowerMockRunner::class)
+//@PrepareForTest(RiotResponse::class, Champion::class)
 class ChampionDetailsPresenterTest {
 
 //    private val fieldChampionId = "championId"

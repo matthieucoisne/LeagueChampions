@@ -229,11 +229,6 @@ dependencies {
 
     testImplementation "junit:junit:$libraries.junit"
 
-    testImplementation "org.powermock:powermock-module-junit4:$libraries.powermock"
-    testImplementation "org.powermock:powermock-module-junit4-rule:$libraries.powermock"
-    testImplementation "org.powermock:powermock-core:$libraries.powermock"
-    testImplementation "org.powermock:powermock-api-mockito2:$libraries.powermock"
-
     testImplementation "org.mockito:mockito-core:$libraries.mockito"
 
     testImplementation("org.robolectric:robolectric:$libraries.robolectric") {

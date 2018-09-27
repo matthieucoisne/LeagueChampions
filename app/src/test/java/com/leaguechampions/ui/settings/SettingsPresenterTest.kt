@@ -1,16 +1,11 @@
 package com.leaguechampions.ui.settings
 
-import com.leaguechampions.BuildConfig
-import com.leaguechampions.utils.PrefUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
 
-@RunWith(PowerMockRunner::class)
-@PrepareForTest(BuildConfig::class, PrefUtils::class)
+//@RunWith(PowerMockRunner::class)
+//@PrepareForTest(BuildConfig::class, PrefUtils::class)
 class SettingsPresenterTest {
 
 //    private val fieldBuildType = "buildType"
