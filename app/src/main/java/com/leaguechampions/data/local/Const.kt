@@ -2,7 +2,7 @@ package com.leaguechampions.data.local
 
 object Const {
 
-    const val URL_BASE = "http://ddragon.leagueoflegends.com/"
+    const val URL_BASE = "https://ddragon.leagueoflegends.com/"
 
     const val KEY_CHAMPION_ID = "com.leaguechampions.championId"
     const val KEY_VERSION = "com.leaguechampions.version"

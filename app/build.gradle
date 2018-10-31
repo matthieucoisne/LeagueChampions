@@ -228,6 +228,7 @@ dependencies {
     testImplementation "junit:junit:$libraries.junit"
 
     testImplementation "org.mockito:mockito-core:$libraries.mockito"
+    //http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html#0.2
     testImplementation "org.mockito:mockito-inline:$libraries.mockito"
 
     testImplementation("org.robolectric:robolectric:$libraries.robolectric") {

@@ -1,13 +1,15 @@
 package com.leaguechampions.ui.champions
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.leaguechampions.R
 
 class ChampionsRobot {
@@ -20,7 +22,7 @@ class ChampionsRobot {
 
     fun clickChampionAtPosition(position: Int): ChampionsRobot {
         onView(withId(R.id.activity_champions_rvChampions))
-                .perform(actionOnItemAtPosition<androidx.recyclerview.widget.RecyclerView.ViewHolder>(position, click()))
+                .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
         return this
     }
 
