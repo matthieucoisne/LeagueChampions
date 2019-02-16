@@ -168,8 +168,8 @@ dependencies {
 
     // ANDROIDX
     implementation "com.google.android.material:material:$libraries.androidx"
-    implementation "androidx.core:core:$libraries.androidx"
-    implementation "androidx.appcompat:appcompat:$libraries.androidx"
+    implementation "androidx.core:core:$libraries.androidx_core"
+    implementation "androidx.appcompat:appcompat:$libraries.appCompat"
     implementation "androidx.fragment:fragment:$libraries.androidx"
     implementation "androidx.recyclerview:recyclerview:$libraries.androidx"
     implementation "androidx.legacy:legacy-support-core-utils:$libraries.androidx"
@@ -244,7 +244,7 @@ dependencies {
     // INSTRUMENTATION TESTS
     androidTestImplementation "androidx.test:runner:$libraries.androidxTest"
     androidTestImplementation "androidx.test:rules:$libraries.androidxTest"
-    androidTestImplementation "androidx.annotation:annotation:$libraries.androidx"
+    androidTestImplementation "androidx.annotation:annotation:$libraries.annotation"
     androidTestImplementation "androidx.test.espresso:espresso-core:$libraries.espresso"
     androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$libraries.espresso"
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$libraries.espresso") {
