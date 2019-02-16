@@ -29,8 +29,5 @@
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="API_KEY"/>
-        <meta-data
-            android:name="com.leaguechampions.utils.glide.GlideConfiguration"
-            android:value="GlideModule"/>
     </application>
 </manifest>

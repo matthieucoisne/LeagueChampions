@@ -3,7 +3,7 @@ package com.leaguechampions.utils
 import android.content.Context
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
-import java.util.*
+import java.util.Random
 
 object UrlUtils {
 
@@ -30,12 +30,12 @@ object UrlUtils {
     fun getImageUrl(context: Context, champion: Champion): String {
         var championId = champion.id
         return if (PrefUtils.isMockMode(context)) {
-            val scheme = if (Const.isGlide) "http" else "mock"
+            val scheme = if (Const.isGlide) "file:///android_asset/" else "mock:///"
             if (!champions.contains(championId)) {
                 championId = champions[Random().nextInt(champions.size)]
             }
 
-            "$scheme:///images/ic_poro_${championId.toLowerCase()}.png"
+            "${scheme}images/ic_poro_${championId.toLowerCase()}.png"
         } else {
             "${Const.URL_BASE}cdn/${champion.version}/img/champion/$championId.png"
         }

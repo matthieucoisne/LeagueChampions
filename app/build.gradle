@@ -210,7 +210,7 @@ dependencies {
     implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:$libraries.picasso_okhttp"
 
     implementation "com.github.bumptech.glide:glide:$libraries.glide"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$libraries.glide_okhttp"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$libraries.glide"
 
     // TIMBER
     implementation "com.jakewharton.timber:timber:$libraries.timber"

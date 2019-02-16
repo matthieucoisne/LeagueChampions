@@ -19,11 +19,13 @@ import java.util.concurrent.TimeUnit
  *
  * Images *must* be in the form `mock:///path/to/asset.png`.
  */
-class PicassoMockRequestHandler(private val behavior: NetworkBehavior,
-                                private val assetManager: AssetManager) : RequestHandler() {
+class PicassoMockRequestHandler(
+        private val behavior: NetworkBehavior,
+        private val assetManager: AssetManager
+) : RequestHandler() {
 
     companion object {
-        private val DISK_CACHE_SIZE = 50 * 1024 * 1024
+        private const val DISK_CACHE_SIZE = 50 * 1024 * 1024
     }
 
     /** Emulate the disk cache by storing the URLs in an LRU using its size as the value.  */
@@ -39,7 +41,7 @@ class PicassoMockRequestHandler(private val behavior: NetworkBehavior,
 
     override fun load(request: Request, networkPolicy: Int): RequestHandler.Result? {
         // Grab only the path sans leading slash.
-        val imagePath = request.uri.path.substring(1)
+        val imagePath = request.uri.path?.substring(1).orEmpty()
 
         // Check the disk cache for the image. A non-null return value indicates a hit.
         val cacheHit = emulatedDiskCache.get(imagePath) != null
