@@ -2,7 +2,7 @@ package com.leaguechampions.data.remote
 
 import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,11 +14,11 @@ import retrofit2.http.Path
 interface Api {
 
     @GET("realms/na.json")
-    fun getVersion(): Observable<RiotRealm>
+    fun getRealm(): Deferred<RiotRealm>
 
     @GET("cdn/{version}/data/en_US/champion.json")
-    fun getChampions(@Path("version") version: String): Observable<RiotResponse>
+    fun getChampions(@Path("version") version: String): Deferred<RiotResponse>
 
     @GET("cdn/{version}/data/en_US/champion/{championId}.json")
-    fun getChampionDetails(@Path("version") version: String, @Path("championId") championId: String): Observable<RiotResponse>
+    fun getChampionDetails(@Path("version") version: String, @Path("championId") championId: String): Deferred<RiotResponse>
 }

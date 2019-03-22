@@ -165,6 +165,8 @@ dependencies {
 
     // KOTLIN
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
 
     // ANDROIDX
     implementation "com.google.android.material:material:$libraries.androidx"
@@ -185,11 +187,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$libraries.dagger"
     kapt "com.google.dagger:dagger-android-processor:$libraries.dagger"
 
-    // RXJAVA
-    implementation "io.reactivex.rxjava2:rxjava:$libraries.rxjava"
-    implementation "io.reactivex.rxjava2:rxandroid:$libraries.rxandroid"
-    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$libraries.rxjava_adapter"
-
     // GSON
     implementation "com.google.code.gson:gson:$libraries.gson"
 
@@ -203,6 +200,7 @@ dependencies {
     // RETROFIT
     implementation "com.squareup.retrofit2:retrofit:$libraries.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$libraries.retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
     debugImplementation "com.squareup.retrofit2:retrofit-mock:$libraries.retrofit"
 
     // PICASSO

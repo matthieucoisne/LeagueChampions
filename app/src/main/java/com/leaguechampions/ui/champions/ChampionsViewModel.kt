@@ -7,10 +7,15 @@ import androidx.lifecycle.ViewModel
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
 import com.leaguechampions.utils.Event
+import com.leaguechampions.utils.Resource
 import com.leaguechampions.utils.Status
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ChampionsViewModel @Inject constructor(championRepository: ChampionRepository) : ViewModel() {
+class ChampionsViewModel @Inject constructor(val championRepository: ChampionRepository) : ViewModel(), CoroutineScope {
 
     sealed class ViewAction {
         class ShowDetails(val championId: String) : ViewAction()
@@ -31,8 +36,11 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
     val viewState: LiveData<ViewState>
         get() = _viewState
 
+    private val job = Job()
+    override val coroutineContext = job + Dispatchers.Main
+
     init {
-        _viewState = Transformations.map(championRepository.getChampions()) { resource ->
+        _viewState = Transformations.map(getData()) { resource ->
             when (resource.status) {
                 Status.LOADING -> ViewState(status = Status.LOADING)
                 Status.SUCCESS -> {
@@ -47,5 +55,11 @@ class ChampionsViewModel @Inject constructor(championRepository: ChampionReposit
 
     fun onChampionClicked(championId: String) {
         _viewAction.value = Event(ViewAction.ShowDetails(championId))
+    }
+
+    fun getData(): LiveData<Resource<List<Champion>>> {
+        launch {
+            championRepository.getChampions()
+        }
     }
 }
