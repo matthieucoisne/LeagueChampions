@@ -17,17 +17,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_champions_rvChampions"
-            android:layout_width="0dp"
+        <fragment
+            android:id="@+id/activity_champions_navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scrollbars="none"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_champions_toolbar"
-            app:spanCount="3"
-            tools:listitem="@layout/activity_champions_item"/>
+            app:layout_constraintTop_toBottomOf="@id/activity_champions_toolbar"
+            app:navGraph="@navigation/nav_graph"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,14 +1,14 @@
 package com.leaguechampions.ui.championdetails
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
@@ -32,6 +32,7 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
             val intent = Intent(context, ChampionDetailsActivity::class.java)
             intent.putExtra(Const.KEY_CHAMPION_ID, championId)
             return intent
+            // bundleOf("championId" to championId)
         }
     }
 
