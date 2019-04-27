@@ -12,7 +12,7 @@
         android:id="@+id/championsActivity"
         android:name="com.leaguechampions.ui.champions.ChampionsActivity" />
 
-    <activity
-        android:id="@+id/championDetailsActivity"
-        android:name="com.leaguechampions.ui.championdetails.ChampionDetailsActivity" />
+    <fragment
+        android:id="@+id/championDetailsFragment"
+        android:name="com.leaguechampions.ui.championdetails.ChampionDetailsFragment" />
 </navigation>

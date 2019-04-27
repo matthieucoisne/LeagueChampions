@@ -3,6 +3,9 @@ package com.leaguechampions.ui.champions
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -56,6 +59,20 @@ class ChampionsFragment : DaggerFragment() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_settings -> {
+                showSettings()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun render(viewState: ChampionsViewModel.ViewState) {
         when (viewState.status) {
             Status.LOADING -> showToast("Loading")
@@ -70,7 +87,7 @@ class ChampionsFragment : DaggerFragment() {
     }
 
     private fun showDetails(championId: String) {
-        findNavController().navigate(R.id.championDetailsActivity, bundleOf(Const.KEY_CHAMPION_ID to championId))
+        findNavController().navigate(R.id.championDetailsFragment, bundleOf(Const.KEY_CHAMPION_ID to championId))
     }
 
     private fun showSettings() {

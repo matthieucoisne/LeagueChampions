@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -7,7 +8,7 @@
 
         <variable
             name="champion"
-            type="com.leaguechampions.data.model.Champion" />
+            type="com.leaguechampions.data.model.Champion"/>
 
     </data>
 
@@ -16,7 +17,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_champion_details_toolbar"
+            android:id="@+id/fragment_champion_details_toolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -31,14 +32,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_champion_details_toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/fragment_champion_details_toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/activity_champion_details_ivChampion"
+                    android:id="@+id/fragment_champion_details_ivChampion"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="8dp"
@@ -46,10 +47,10 @@
                     app:champion="@{champion}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/activity_champion_details_tvName"
+                    android:id="@+id/fragment_champion_details_tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -57,19 +58,19 @@
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_champion_details_ivChampion"
-                    tools:text="Riven" />
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_champion_details_ivChampion"
+                    tools:text="Riven"/>
 
                 <TextView
-                    android:id="@+id/activity_champion_details_tvLore"
+                    android:id="@+id/fragment_champion_details_tvLore"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@{champion.lore}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_champion_details_tvName"
-                    tools:text="It was with committed faith in this ideal that Riven strove to greatness. She showed early potential as a soldier, forcing herself to master the weight of a long sword when she was barely its height." />
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_champion_details_tvName"
+                    tools:text="It was with committed faith in this ideal that Riven strove to greatness. She showed early potential as a soldier, forcing herself to master the weight of a long sword when she was barely its height."/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

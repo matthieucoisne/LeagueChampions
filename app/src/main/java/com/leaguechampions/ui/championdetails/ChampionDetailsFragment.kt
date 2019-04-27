@@ -1,9 +1,10 @@
 package com.leaguechampions.ui.championdetails
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -12,40 +13,35 @@ import androidx.lifecycle.ViewModelProviders
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
-import com.leaguechampions.databinding.ActivityChampionDetailsBinding
+import com.leaguechampions.databinding.FragmentChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.utils.Status
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class ChampionDetailsActivity : DaggerAppCompatActivity() {
+class ChampionDetailsFragment : DaggerFragment() {
 
     private lateinit var toolbar: Toolbar
 
-    private lateinit var binding: ActivityChampionDetailsBinding
+    private lateinit var binding: FragmentChampionDetailsBinding
     private lateinit var viewModel: ChampionDetailsViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
-    companion object {
-        fun getIntent(context: Context, championId: String): Intent {
-            val intent = Intent(context, ChampionDetailsActivity::class.java)
-            intent.putExtra(Const.KEY_CHAMPION_ID, championId)
-            return intent
-            // bundleOf("championId" to championId)
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champion_details, container, false)
+        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_champion_details)
-        toolbar = binding.activityChampionDetailsToolbar
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        toolbar = binding.fragmentChampionDetailsToolbar
 
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.app_name)
+//        setSupportActionBar(toolbar)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setTitle(R.string.app_name)
 
-        val championId = intent.getStringExtra(Const.KEY_CHAMPION_ID)
+        val championId = arguments!!.getString(Const.KEY_CHAMPION_ID)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
@@ -59,7 +55,7 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                finish()
+//                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -83,6 +79,6 @@ class ChampionDetailsActivity : DaggerAppCompatActivity() {
     }
 
     private fun showToast(message: String, length: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(this, message, length).show()
+        Toast.makeText(requireActivity(), message, length).show()
     }
 }
