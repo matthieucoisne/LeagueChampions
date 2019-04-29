@@ -2,11 +2,9 @@ package com.leaguechampions.ui.championdetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,8 +19,6 @@ import javax.inject.Inject
 
 class ChampionDetailsFragment : DaggerFragment() {
 
-    private lateinit var toolbar: Toolbar
-
     private lateinit var binding: FragmentChampionDetailsBinding
     private lateinit var viewModel: ChampionDetailsViewModel
 
@@ -30,16 +26,6 @@ class ChampionDetailsFragment : DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champion_details, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        toolbar = binding.fragmentChampionDetailsToolbar
-
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setTitle(R.string.app_name)
 
         val championId = arguments!!.getString(Const.KEY_CHAMPION_ID)
 
@@ -50,16 +36,8 @@ class ChampionDetailsFragment : DaggerFragment() {
         })
 
         viewModel.setChampionId(championId)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-//                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        return binding.root
     }
 
     private fun render(viewState: ChampionDetailsViewModel.ViewState) {

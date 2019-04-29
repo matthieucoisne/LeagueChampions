@@ -38,12 +38,9 @@ class ChampionsFragment : DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champions, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         rvChampions = binding.fragmentChampionsRvChampions
+
+        setHasOptionsMenu(true)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel::class.java)
 
@@ -57,10 +54,13 @@ class ChampionsFragment : DaggerFragment() {
         viewModel.viewState.observe(this, Observer { state ->
             state?.let { render(it) }
         })
+
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -87,7 +87,7 @@ class ChampionsFragment : DaggerFragment() {
     }
 
     private fun showDetails(championId: String) {
-        findNavController().navigate(R.id.championDetailsFragment, bundleOf(Const.KEY_CHAMPION_ID to championId))
+        findNavController().navigate(R.id.action_championsFragment_to_championDetailsFragment, bundleOf(Const.KEY_CHAMPION_ID to championId))
     }
 
     private fun showSettings() {
