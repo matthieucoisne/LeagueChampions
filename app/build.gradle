@@ -166,23 +166,38 @@ dependencies {
 
     // KOTLIN
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1"
 
     // ANDROIDX
     implementation "com.google.android.material:material:$libraries.androidx"
+
     implementation "androidx.core:core:$libraries.androidx_core"
     implementation "androidx.core:core-ktx:$libraries.androidx_core"
+
     implementation "androidx.appcompat:appcompat:$libraries.appCompat"
+
     implementation "androidx.fragment:fragment:$libraries.androidx"
+
     implementation "androidx.recyclerview:recyclerview:$libraries.androidx"
+
     implementation "androidx.legacy:legacy-support-core-utils:$libraries.androidx"
     implementation "androidx.legacy:legacy-support-core-ui:$libraries.androidx"
+
     implementation "androidx.constraintlayout:constraintlayout:$libraries.constraintLayout"
-    implementation "androidx.navigation:navigation-fragment-ktx:$libraries.navigation" // For Kotlin use navigation-fragment-ktx
-    implementation "androidx.navigation:navigation-ui-ktx:$libraries.navigation" // For Kotlin use navigation-ui-ktx
-    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.arch"
-    kapt "androidx.lifecycle:lifecycle-compiler:$libraries.arch"
+
+    implementation "androidx.navigation:navigation-runtime-ktx:$libraries.navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$libraries.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$libraries.navigation"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$libraries.androidx_lifecycle"
+
+    implementation "androidx.lifecycle:lifecycle-common-java8:$libraries.androidx_lifecycle"
+
 
     // DAGGER
     implementation "com.google.dagger:dagger:$libraries.dagger"
@@ -225,7 +240,7 @@ dependencies {
 
 
     // UNIT TESTS
-    testImplementation "androidx.arch.core:core-testing:$libraries.arch"
+    testImplementation "androidx.arch.core:core-testing:$libraries.androidx_core_testing"
 
     testImplementation "junit:junit:$libraries.junit"
 
