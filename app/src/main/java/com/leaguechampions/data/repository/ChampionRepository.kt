@@ -16,53 +16,12 @@ import javax.inject.Inject
 
 class ChampionRepository @Inject constructor(private val api: Api, private val context: Context) {
 
-    suspend fun getChampions(): LiveData<Resource<List<Champion>>> {
-        val data = MutableLiveData<Resource<List<Champion>>>()
-
-        data.value = Resource.loading()
-
-
-            val realm = api.getRealm().await()
-            delay(2_000)
-            val result = api.getChampions(realm.getVersion()).await()
-            data.postValue(Resource.success(result.data.values.toList()))
-
-
-//        api.getVersion()
-//                .flatMap { response ->
-////                    if (response.raw().cacheResponse() != null) {
-////                        Log.d("OkHttp", "Response from cache.")
-////                    }
-////                    api.getChampions(response.body()?.getVersion()!!)
-//
-//
-//                    // TOD0 remove this, only for testing
-//                    Thread.sleep(2500)
-//
-//
-//                    api.getChampions(response.getVersion())
-//                }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        // onNext
-//                        {
-//                            data.setValue(Resource.success(it.data.values.toList()))
-//                        },
-//                        // onError
-//                        { t ->
-//                            Timber.e(t)
-//                            if (t is IOException) {
-//                                data.value = Resource.error(context.getString(R.string.error_io))
-//                            } else {
-//                                data.value = Resource.error(context.getString(R.string.error_something_went_wrong))
-//                            }
-//                        },
-//                        // onComplete
-//                        {}
-//                )
-
-        return data
+    suspend fun getChampions(): List<Champion> {
+        val realm = api.getRealm().await()
+        val result = api.getChampions(realm.getVersion()).await()
+        val champions = result.data.values.toMutableList()
+        champions.sort()
+        return champions
     }
 
     @SuppressLint("CheckResult")

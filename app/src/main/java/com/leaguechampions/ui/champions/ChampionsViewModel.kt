@@ -1,65 +1,52 @@
 package com.leaguechampions.ui.champions
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
 import com.leaguechampions.utils.Event
-import com.leaguechampions.utils.Resource
-import com.leaguechampions.utils.Status
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
-class ChampionsViewModel @Inject constructor(val championRepository: ChampionRepository) : ViewModel(), CoroutineScope {
+class ChampionsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
 
     sealed class ViewAction {
-        class ShowDetails(val championId: String) : ViewAction()
+        data class ShowDetails(val championId: String) : ViewAction()
         object ShowSettings : ViewAction()
     }
 
-    data class ViewState(
-            val status: Status,
-            val champions: List<Champion> = emptyList(),
-            val error: String = ""
-    )
+    sealed class ViewState {
+        object ShowLoading : ViewState()
+        data class ShowChampions(val champions: List<Champion>) : ViewState()
+        data class ShowError(@StringRes val errorStringId: Int) : ViewState()
+    }
 
     private val _viewAction = MutableLiveData<Event<ViewAction>>()
     val viewAction: LiveData<Event<ViewAction>>
         get() = _viewAction
 
-    private val _viewState: MutableLiveData<ViewState>
-    val viewState: LiveData<ViewState>
-        get() = _viewState
-
-    private val job = Job()
-    override val coroutineContext = job + Dispatchers.Main
-
-    init {
-        _viewState = Transformations.map(getData()) { resource ->
-            when (resource.status) {
-                Status.LOADING -> ViewState(status = Status.LOADING)
-                Status.SUCCESS -> {
-                    val champions = resource.data!!.toMutableList()
-                    champions.sort()
-                    ViewState(status = Status.SUCCESS, champions = champions)
-                }
-                Status.ERROR -> ViewState(status = Status.ERROR, error = resource.message!!)
+    val viewState = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(ViewState.ShowLoading)
+        try {
+            emit(ViewState.ShowChampions(championRepository.getChampions()))
+        } catch (e: Exception) {
+            Timber.e(e)
+            val errorStringId = when (e) {
+                is IOException -> R.string.error_io
+                else -> R.string.error_something_went_wrong
             }
-        } as MutableLiveData<ViewState>
+            emit(ViewState.ShowError(errorStringId))
+        }
     }
 
     fun onChampionClicked(championId: String) {
         _viewAction.value = Event(ViewAction.ShowDetails(championId))
-    }
-
-    fun getData(): LiveData<Resource<List<Champion>>> {
-        launch {
-            championRepository.getChampions()
-        }
     }
 }

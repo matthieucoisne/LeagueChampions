@@ -36,10 +36,4 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-//    class LoginFragment : Fragment() {
-//        class LoginViewModel : ViewModel()
-//
-//        private val viewModel: LoginViewModel by activityViewModels()
-//    }
 }

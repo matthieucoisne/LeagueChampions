@@ -22,7 +22,6 @@ import com.leaguechampions.databinding.FragmentChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.settings.SettingsActivity
 import com.leaguechampions.utils.EventObserver
-import com.leaguechampions.utils.Status
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -51,8 +50,12 @@ class ChampionsFragment : DaggerFragment() {
             }
         })
 
-        viewModel.viewState.observe(this, Observer { state ->
-            state?.let { render(it) }
+        viewModel.viewState.observe(this, Observer {
+            when (it) {
+                is ChampionsViewModel.ViewState.ShowLoading -> showToast("Loading")
+                is ChampionsViewModel.ViewState.ShowChampions -> setAdapter(it.champions)
+                is ChampionsViewModel.ViewState.ShowError -> showError(getString(it.errorStringId))
+            }
         })
 
         return binding.root
@@ -70,14 +73,6 @@ class ChampionsFragment : DaggerFragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun render(viewState: ChampionsViewModel.ViewState) {
-        when (viewState.status) {
-            Status.LOADING -> showToast("Loading")
-            Status.SUCCESS -> setAdapter(viewState.champions)
-            Status.ERROR -> showError(viewState.error)
         }
     }
 
