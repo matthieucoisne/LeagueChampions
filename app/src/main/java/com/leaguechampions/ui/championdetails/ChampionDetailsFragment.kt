@@ -13,7 +13,6 @@ import com.leaguechampions.data.local.Const
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.FragmentChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
-import com.leaguechampions.utils.Status
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -27,25 +26,20 @@ class ChampionDetailsFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champion_details, container, false)
 
-        val championId = arguments!!.getString(Const.KEY_CHAMPION_ID)
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
-        viewModel.viewState.observe(this, Observer { state ->
-            state?.let { render(it) }
+        viewModel.viewState.observe(this, Observer {
+            when (it) {
+                is ChampionDetailsViewModel.ViewState.ShowLoading -> showToast("Loading")
+                is ChampionDetailsViewModel.ViewState.ShowChampion -> setChampion(it.champion)
+                is ChampionDetailsViewModel.ViewState.ShowError -> showError(getString(it.errorStringId))
+            }
         })
 
+        val championId = arguments!!.getString(Const.KEY_CHAMPION_ID)
         viewModel.setChampionId(championId)
 
         return binding.root
-    }
-
-    private fun render(viewState: ChampionDetailsViewModel.ViewState) {
-        when (viewState.status) {
-            Status.LOADING -> showToast("Loading")
-            Status.SUCCESS -> setChampion(viewState.champion!!)
-            Status.ERROR -> showError(viewState.error)
-        }
     }
 
     private fun setChampion(champion: Champion) {
