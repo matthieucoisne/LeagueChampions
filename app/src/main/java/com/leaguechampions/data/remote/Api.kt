@@ -14,11 +14,11 @@ import retrofit2.http.Path
 interface Api {
 
     @GET("realms/na.json")
-    fun getRealm(): Deferred<RiotRealm>
+    fun getRealmAsync(): Deferred<RiotRealm>
 
     @GET("cdn/{version}/data/en_US/champion.json")
-    fun getChampions(@Path("version") version: String): Deferred<RiotResponse>
+    fun getChampionsAsync(@Path("version") version: String): Deferred<RiotResponse>
 
     @GET("cdn/{version}/data/en_US/champion/{championId}.json")
-    fun getChampionDetails(@Path("version") version: String, @Path("championId") championId: String): Deferred<RiotResponse>
+    fun getChampionDetailsAsync(@Path("version") version: String, @Path("championId") championId: String): Deferred<RiotResponse>
 }

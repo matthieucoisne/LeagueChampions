@@ -7,18 +7,14 @@ import javax.inject.Inject
 class ChampionRepository @Inject constructor(private val api: Api) {
 
     suspend fun getChampions(): List<Champion> {
-        val realm = api.getRealm().await()
-        val result = api.getChampions(realm.getVersion()).await()
-        val champions = result.data.values.toMutableList()
-        champions.sort()
-        return champions
+        val realm = api.getRealmAsync().await()
+        val result = api.getChampionsAsync(realm.getVersion()).await()
+        return result.data.values.toMutableList().also { it.sort() }
     }
 
     suspend fun getChampionDetails(championId: String): Champion {
-        val realm = api.getRealm().await()
-        val result = api.getChampionDetails(realm.getVersion(), championId).await()
-        val champion = result.data.getValue(championId)
-        champion.version = result.version
-        return champion
+        val realm = api.getRealmAsync().await()
+        val result = api.getChampionDetailsAsync(realm.getVersion(), championId).await()
+        return result.data.getValue(championId).also { it.version = result.version }
     }
 }

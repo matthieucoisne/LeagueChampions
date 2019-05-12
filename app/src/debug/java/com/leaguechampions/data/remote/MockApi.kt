@@ -71,15 +71,15 @@ class MockApi(
 //        }
 //    }
 
-    override fun getRealm(): Deferred<RiotRealm> {
+    override fun getRealmAsync(): Deferred<RiotRealm> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getChampions(version: String): Deferred<RiotResponse> {
+    override fun getChampionsAsync(version: String): Deferred<RiotResponse> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getChampionDetails(version: String, championId: String): Deferred<RiotResponse> {
+    override fun getChampionDetailsAsync(version: String, championId: String): Deferred<RiotResponse> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
