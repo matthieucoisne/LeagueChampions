@@ -122,6 +122,12 @@ android {
         enabled = true
     }
 
+//    kotlin {
+//        experimental {
+//            coroutines "enable"
+//        }
+//    }
+
     dexOptions {
         maxProcessCount 8
         javaMaxHeapSize "2g"
@@ -197,6 +203,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$libraries.androidx_lifecycle"
 
     implementation "androidx.lifecycle:lifecycle-common-java8:$libraries.androidx_lifecycle"
+//    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+
+
+    // ROOM
+    implementation "androidx.room:room-runtime:$libraries.androidx_room"
+    implementation "androidx.room:room-ktx:$libraries.androidx_room"
+    kapt "androidx.room:room-compiler:$libraries.androidx_room"
+    androidTestImplementation "androidx.room:room-testing:$libraries.androidx_room"
 
 
     // DAGGER

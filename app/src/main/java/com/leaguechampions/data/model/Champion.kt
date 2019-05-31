@@ -3,9 +3,12 @@ package com.leaguechampions.data.model
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "champions")
 data class Champion(
-        val id: String,
+        @PrimaryKey val id: String,
         val name: String,
         val title: String,
         var version: String?,

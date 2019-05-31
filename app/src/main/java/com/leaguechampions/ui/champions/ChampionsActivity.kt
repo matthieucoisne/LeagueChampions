@@ -36,4 +36,32 @@ class ChampionsActivity : DaggerAppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+//    class LoginFragment : Fragment() {
+//        class LoginViewModel : ViewModel()
+//
+//        private val viewModel: LoginViewModel by activityViewModels()
+//    }
+
+
+    // TODO:
+    // NAV SETTINGS
+    // NAV SAFEARGS
+    // NAV LOGIN CONDITIONAL
+    // NAV COLLAPSING TOOLBAR ?
+    // NAV NESTED GRAPH ?
+    // NAV BOTTOM CHAMPS / ITEMS ?
+
+    // TRANSITION SHARED ELEMENTS
+
+    // DAGGER INJECT VIEWMODEL ARGS
+
+    // COROUTINES
+    // SAVED INSTANCE STATE WITH VIEWMODELS
+    // MULTI MODULES
+    // DEBUG DRAWER
+    // NetworkBoundResource
+    // MOTION LAYOUT
+
+    // STATE/FLOW/
 }
