@@ -1,18 +1,21 @@
 package com.leaguechampions.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.leaguechampions.data.model.Champion
 
 @Dao
 interface ChampionDao {
 
-    @Query("SELECT * from champions ORDER BY name ASC")
-    fun getChampions(): LiveData<List<Champion>>
+    @Query("SELECT * FROM champions ORDER BY name ASC")
+    fun getChampions(): List<Champion>
 
-    @Insert
+    @Query("SELECT * FROM champions WHERE id = :id")
+    fun getChampion(id: String): Champion
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(champion: Champion)
 
     @Query("DELETE FROM champions")

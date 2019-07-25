@@ -4,7 +4,6 @@ import android.content.Context
 import com.google.gson.Gson
 import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
-import kotlinx.coroutines.Deferred
 import okio.buffer
 import okio.source
 import retrofit2.mock.BehaviorDelegate
@@ -71,15 +70,15 @@ class MockApi(
 //        }
 //    }
 
-    override fun getRealmAsync(): Deferred<RiotRealm> {
+    override suspend fun getRealm(): RiotRealm {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getChampionsAsync(version: String): Deferred<RiotResponse> {
+    override suspend fun getChampions(version: String): RiotResponse {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getChampionDetailsAsync(version: String, championId: String): Deferred<RiotResponse> {
+    override suspend fun getChampionDetails(version: String, championId: String): RiotResponse {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

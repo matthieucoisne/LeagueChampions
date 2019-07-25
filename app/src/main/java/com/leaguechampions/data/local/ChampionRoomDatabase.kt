@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.leaguechampions.data.model.Champion
 
 @Database(entities = [Champion::class], version = 1)
-public abstract class ChampionRoomDatabase : RoomDatabase() {
+abstract class ChampionRoomDatabase : RoomDatabase() {
 
     abstract fun championDao(): ChampionDao
 

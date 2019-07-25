@@ -4,14 +4,14 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.leaguechampions.R
 import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
+import com.leaguechampions.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 class ChampionDetailsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
@@ -25,25 +25,20 @@ class ChampionDetailsViewModel @Inject constructor(private val championRepositor
     private val _championId = MutableLiveData<String>()
 
     val viewState = _championId.switchMap { championId ->
-        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(ViewState.ShowLoading)
-            try {
-                emit(ViewState.ShowChampion(championRepository.getChampionDetails(championId)))
-            } catch (e: Exception) {
-                Timber.e(e)
-                val errorStringId = when (e) {
-                    is IOException -> R.string.error_io
-                    else -> R.string.error_something_went_wrong
-                }
-                emit(ViewState.ShowError(errorStringId))
-            }
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.Main) {
+            emitSource(championRepository.getChampionWithCacheFromDb(championId))
+        }
+    }.map { resource ->
+        when (resource) {
+            is Resource.Loading -> ViewState.ShowLoading
+            is Resource.Error -> ViewState.ShowError(R.string.error_something_went_wrong)
+            is Resource.Success -> ViewState.ShowChampion(resource.data)
         }
     }
 
     fun setChampionId(championId: String?) {
-        if (_championId.value == championId) {
-            return
+        if (_championId.value != championId) {
+            _championId.value = championId
         }
-        _championId.value = championId
     }
 }

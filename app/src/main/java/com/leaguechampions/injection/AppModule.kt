@@ -7,6 +7,8 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.leaguechampions.LeagueChampions
+import com.leaguechampions.data.local.ChampionDao
+import com.leaguechampions.data.local.ChampionRoomDatabase
 import com.leaguechampions.data.remote.Api
 import com.leaguechampions.data.repository.ChampionRepository
 import dagger.Module
@@ -41,7 +43,13 @@ class AppModule {
     // TODO put this somewhere else ? in DataModule ?
     @Provides
     @Singleton
-    fun provideChampionRepository(api: Api): ChampionRepository {
-        return ChampionRepository(api)
+    fun provideChampionRepository(api: Api, championDao: ChampionDao): ChampionRepository {
+        return ChampionRepository(api, championDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChampionDao(context: Context): ChampionDao {
+        return ChampionRoomDatabase.getDatabase(context).championDao()
     }
 }
