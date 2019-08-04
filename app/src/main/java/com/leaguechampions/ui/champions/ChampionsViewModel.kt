@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.leaguechampions.R
-import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.repository.ChampionRepository
 import com.leaguechampions.utils.Event
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +23,7 @@ class ChampionsViewModel @Inject constructor(private val championRepository: Cha
 
     sealed class ViewState {
         object ShowLoading : ViewState()
-        data class ShowChampions(val champions: List<Champion>) : ViewState()
+        data class ShowChampions(val champions: ChampionsUiModel) : ViewState()
         data class ShowError(@StringRes val errorStringId: Int) : ViewState()
     }
 
@@ -35,7 +34,7 @@ class ChampionsViewModel @Inject constructor(private val championRepository: Cha
     val viewState = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(ViewState.ShowLoading)
         try {
-            emit(ViewState.ShowChampions(championRepository.getChampions()))
+            emit(ViewState.ShowChampions(championRepository.getChampions().toChampionsUiModel()))
         } catch (e: Exception) {
             Timber.e(e)
             val errorStringId = when (e) {

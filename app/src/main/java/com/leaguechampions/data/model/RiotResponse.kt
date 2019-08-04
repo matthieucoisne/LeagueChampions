@@ -1,6 +1,6 @@
 package com.leaguechampions.data.model
 
-class RiotResponse(
+class RiotResponse<T>(
     val version: String,
-    val data: Map<String, Champion>
+    val data: Map<String, T>
 )

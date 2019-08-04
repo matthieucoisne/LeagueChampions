@@ -2,6 +2,7 @@ package com.leaguechampions.data.remote
 
 import android.content.Context
 import com.google.gson.Gson
+import com.leaguechampions.data.model.Champion
 import com.leaguechampions.data.model.RiotRealm
 import com.leaguechampions.data.model.RiotResponse
 import okio.buffer
@@ -74,11 +75,11 @@ class MockApi(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getChampions(version: String): RiotResponse {
+    override suspend fun getChampions(version: String): RiotResponse<Champion> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getChampionDetails(version: String, championId: String): RiotResponse {
+    override suspend fun getChampionDetails(version: String, championId: String): RiotResponse<Champion> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

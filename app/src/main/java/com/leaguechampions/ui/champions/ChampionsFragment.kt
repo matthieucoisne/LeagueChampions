@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
-import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.FragmentChampionsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import com.leaguechampions.ui.settings.SettingsActivity
@@ -51,11 +50,7 @@ class ChampionsFragment : DaggerFragment() {
         })
 
         viewModel.viewState.observe(this, Observer {
-            when (it) {
-                is ChampionsViewModel.ViewState.ShowLoading -> showToast("Loading")
-                is ChampionsViewModel.ViewState.ShowChampions -> setAdapter(it.champions)
-                is ChampionsViewModel.ViewState.ShowError -> showError(getString(it.errorStringId))
-            }
+            render(it)
         })
 
         return binding.root
@@ -76,7 +71,15 @@ class ChampionsFragment : DaggerFragment() {
         }
     }
 
-    private fun setAdapter(champions: List<Champion>) {
+    private fun render(viewState: ChampionsViewModel.ViewState) {
+        when (viewState) {
+            is ChampionsViewModel.ViewState.ShowLoading -> showToast("Loading")
+            is ChampionsViewModel.ViewState.ShowChampions -> setAdapter(viewState.champions)
+            is ChampionsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
+        }
+    }
+
+    private fun setAdapter(champions: ChampionsUiModel) {
         adapter = ChampionsAdapter(champions) { viewModel.onChampionClicked(it.id) }
         rvChampions.adapter = adapter
     }

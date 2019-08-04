@@ -5,12 +5,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.leaguechampions.R
-import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.ActivityChampionsItemBinding
 
 class ChampionsAdapter(
-        private val data: List<Champion>,
-        private val listener: (Champion) -> Unit
+        private val data: ChampionsUiModel,
+        private val listener: (ChampionUiModel) -> Unit
 ) : RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,14 +23,14 @@ class ChampionsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val champion = data[position]
+        val champion = data.champions[position]
         holder.binding.champion = champion
         holder.binding.root.setOnClickListener { listener(champion) }
         holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return data.champions.size
     }
 
     class ViewHolder(

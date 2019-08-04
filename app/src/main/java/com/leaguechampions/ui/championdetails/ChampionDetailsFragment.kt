@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
-import com.leaguechampions.data.model.Champion
 import com.leaguechampions.databinding.FragmentChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
@@ -29,20 +28,24 @@ class ChampionDetailsFragment : DaggerFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
         viewModel.viewState.observe(this, Observer {
-            when (it) {
-                is ChampionDetailsViewModel.ViewState.ShowLoading -> showToast("Loading")
-                is ChampionDetailsViewModel.ViewState.ShowChampion -> setChampion(it.champion)
-                is ChampionDetailsViewModel.ViewState.ShowError -> showError(getString(it.errorStringId))
-            }
+            render(it)
         })
 
-        val championId = arguments!!.getString(Const.KEY_CHAMPION_ID)
+        val championId = requireArguments().getString(Const.KEY_CHAMPION_ID)
         viewModel.setChampionId(championId)
 
         return binding.root
     }
 
-    private fun setChampion(champion: Champion) {
+    private fun render(viewState: ChampionDetailsViewModel.ViewState) {
+        when (viewState) {
+            is ChampionDetailsViewModel.ViewState.ShowLoading -> showToast("Loading")
+            is ChampionDetailsViewModel.ViewState.ShowChampionDetails -> setChampion(viewState.championDetails)
+            is ChampionDetailsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
+        }
+    }
+
+    private fun setChampion(champion: ChampionDetailsUiModel) {
         binding.champion = champion
     }
 

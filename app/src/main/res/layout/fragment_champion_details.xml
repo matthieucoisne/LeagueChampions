@@ -8,7 +8,7 @@
 
         <variable
             name="champion"
-            type="com.leaguechampions.data.model.Champion"/>
+            type="com.leaguechampions.ui.championdetails.ChampionDetailsUiModel"/>
 
     </data>
 

@@ -2,12 +2,12 @@ package com.leaguechampions.utils
 
 import android.content.Context
 import com.leaguechampions.data.local.Const
-import com.leaguechampions.data.model.Champion
+import java.util.Locale
 import java.util.Random
 
 object UrlUtils {
 
-    private val champions = arrayListOf(
+    private val championIds = arrayListOf(
             "Amumu",
             "Corki",
             "Garen",
@@ -27,17 +27,17 @@ object UrlUtils {
             "Ziggs"
     )
 
-    fun getImageUrl(context: Context, champion: Champion): String {
-        var championId = champion.id
+    fun getImageUrl(context: Context, championId: String, version: String): String {
+        var id = championId
         return if (PrefUtils.isMockMode(context)) {
             val scheme = if (Const.isGlide) "file:///android_asset/" else "mock:///"
-            if (!champions.contains(championId)) {
-                championId = champions[Random().nextInt(champions.size)]
+            if (!championIds.contains(id)) {
+                id = championIds[Random().nextInt(championIds.size)]
             }
 
-            "${scheme}images/ic_poro_${championId.toLowerCase()}.png"
+            "${scheme}images/ic_poro_${id.toLowerCase(Locale.getDefault())}.png"
         } else {
-            "${Const.URL_BASE}cdn/${champion.version}/img/champion/$championId.png"
+            "${Const.URL_BASE}cdn/$version/img/champion/$id.png"
         }
     }
 }
