@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.databinding.FragmentChampionDetailsBinding
@@ -25,9 +25,9 @@ class ChampionDetailsFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champion_details, container, false)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
-        viewModel.viewState.observe(this, Observer {
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {
             render(it)
         })
 

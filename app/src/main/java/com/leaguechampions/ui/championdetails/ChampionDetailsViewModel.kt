@@ -14,7 +14,9 @@ import com.leaguechampions.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-class ChampionDetailsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
+class ChampionDetailsViewModel @Inject constructor(
+        private val championRepository: ChampionRepository
+) : ViewModel() {
 
     sealed class ViewState {
         object ShowLoading : ViewState()

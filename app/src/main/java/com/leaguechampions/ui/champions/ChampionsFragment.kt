@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.leaguechampions.R
@@ -40,18 +40,18 @@ class ChampionsFragment : DaggerFragment() {
 
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ChampionsViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ChampionsViewModel::class.java)
 
-        viewModel.viewAction.observe(this, EventObserver {
+        viewModel.viewAction.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 is ChampionsViewModel.ViewAction.ShowDetails -> showDetails(it.championId)
                 is ChampionsViewModel.ViewAction.ShowSettings -> showSettings()
             }
         })
 
-        viewModel.viewState.observe(this, Observer {
+        viewModel.viewState.observe(viewLifecycleOwner) {
             render(it)
-        })
+        }
 
         return binding.root
     }

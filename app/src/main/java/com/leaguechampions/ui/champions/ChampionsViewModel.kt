@@ -14,7 +14,9 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-class ChampionsViewModel @Inject constructor(private val championRepository: ChampionRepository) : ViewModel() {
+class ChampionsViewModel @Inject constructor(
+        private val championRepository: ChampionRepository
+) : ViewModel() {
 
     sealed class ViewAction {
         data class ShowDetails(val championId: String) : ViewAction()
