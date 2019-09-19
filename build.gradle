@@ -12,22 +12,23 @@ buildscript {
 
         libraries = [
                 androidx                : "1.0.0",
-                androidx_core           : "1.2.0-alpha03",
-                androidx_lifecycle      : "2.2.0-alpha03",
+                androidx_core           : "1.2.0-alpha04",
+                androidx_fragment       : "1.1.0",
+                androidx_lifecycle      : "2.2.0-alpha05",
                 androidx_room           : "2.1.0",
                 annotation              : "1.0.2",
-                appCompat               : "1.0.2",
-                navigation              : "2.2.0-alpha01",
+                appCompat               : "1.1.0",
+                navigation              : "2.2.0-alpha03",
                 constraintLayout        : "1.1.3",
                 crashlytics             : "2.10.1",
                 dagger                  : "2.24",
                 firebase                : "16.0.3",
-                glide                   : "4.9.0",
+                glide                   : "4.10.0",
                 gson                    : "2.8.5",
                 javax_annotation        : "1.0",
                 jodaTime                : "2.9.9",
                 okio                    : "2.2.2",
-                okhttp                  : "4.1.0",
+                okhttp                  : "4.2.0",
                 picasso                 : "2.5.2",
                 picasso_okhttp          : "1.1.0",
                 retrofit                : "2.6.1",
@@ -40,7 +41,7 @@ buildscript {
 
                 // TESTING
                 androidxTest            : "1.2.0",
-                androidx_core_testing   : "2.0.1",
+                androidx_core_testing   : "2.1.0",
                 espresso                : "3.2.0",
                 hamcrest                : "1.3",
                 junit                   : "4.12",
@@ -62,7 +63,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$config.kotlin"
         classpath "io.fabric.tools:gradle:1.31.0"
         classpath "com.google.gms:google-services:4.3.2"
-        classpath "com.android.tools.build:gradle:3.6.0-alpha10"
+        classpath 'com.android.tools.build:gradle:3.6.0-alpha12'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$libraries.navigation"
     }
 }
