@@ -1,14 +1,9 @@
 package com.leaguechampions.ui.settings
 
 import android.content.SharedPreferences
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.widget.SwitchCompat
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.leaguechampions.BuildConfig
 import com.leaguechampions.R
 import com.leaguechampions.databinding.ActivitySettingsBinding
@@ -17,11 +12,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class SettingsActivity : DaggerAppCompatActivity() {
-
-    private lateinit var toolbar: Toolbar
-    private lateinit var tvVersion: TextView
-    private lateinit var llyDeveloperOptions: LinearLayout
-    private lateinit var switchMockMode: SwitchCompat
 
     private lateinit var binding: ActivitySettingsBinding
 
@@ -32,25 +22,14 @@ class SettingsActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
-        toolbar = binding.activitySettingsToolbar
-        tvVersion = binding.activitySettingsTvVersion
-        llyDeveloperOptions = binding.activitySettingsLlyDeveloperOptions
-        switchMockMode = binding.activitySettingsSwitchMockMode
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.settings)
 
-        tvVersion.text = String.format(getString(R.string.version), BuildConfig.VERSION_NAME)
-
-        if (buildType == "debug") {
-            llyDeveloperOptions.visibility = View.VISIBLE
-            switchMockMode.isChecked = PrefUtils.isMockMode(preferences)
-            switchMockMode.setOnCheckedChangeListener { _, isChecked ->
-                PrefUtils.setMockMode(preferences, isChecked)
-            }
-        }
+        render()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -60,6 +39,18 @@ class SettingsActivity : DaggerAppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun render() {
+        binding.tvVersion.text = String.format(getString(R.string.version), BuildConfig.VERSION_NAME)
+
+        if (buildType == "debug") {
+            binding.llyDeveloperOptions.visibility = View.VISIBLE
+            binding.switchMockMode.isChecked = PrefUtils.isMockMode(preferences)
+            binding.switchMockMode.setOnCheckedChangeListener { _, isChecked ->
+                PrefUtils.setMockMode(preferences, isChecked)
+            }
         }
     }
 }

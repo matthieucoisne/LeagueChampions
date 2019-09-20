@@ -2,10 +2,9 @@ package com.leaguechampions.ui.champions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.leaguechampions.R
 import com.leaguechampions.databinding.ActivityChampionsItemBinding
+import com.leaguechampions.utils.loadChampionImage
 
 class ChampionsAdapter(
         private val data: ChampionsUiModel,
@@ -13,25 +12,20 @@ class ChampionsAdapter(
 ) : RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DataBindingUtil.inflate<ActivityChampionsItemBinding>(
-                LayoutInflater.from(parent.context),
-                R.layout.activity_champions_item,
-                parent,
-                false
-        )
+        val binding = ActivityChampionsItemBinding.inflate(LayoutInflater.from(parent.context))
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val champion = data.champions[position]
-        holder.binding.champion = champion
-        holder.binding.root.setOnClickListener { listener(champion) }
-        holder.binding.executePendingBindings()
+        holder.binding.tvChampionName.text = champion.name
+        loadChampionImage(holder.binding.ivChampion, champion)
+        holder.binding.root.setOnClickListener {
+            listener(champion)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return data.champions.size
-    }
+    override fun getItemCount() = data.champions.size
 
     class ViewHolder(
             val binding: ActivityChampionsItemBinding

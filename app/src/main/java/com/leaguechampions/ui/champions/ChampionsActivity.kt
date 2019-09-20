@@ -1,8 +1,6 @@
 package com.leaguechampions.ui.champions
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,18 +12,15 @@ import dagger.android.support.DaggerAppCompatActivity
 
 class ChampionsActivity : DaggerAppCompatActivity() {
 
-    private lateinit var toolbar: Toolbar
-    private lateinit var binding: ActivityChampionsBinding
-
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_champions)
+        val binding = ActivityChampionsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        toolbar = binding.activityChampionsToolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setTitle(R.string.app_name)
 
         navController = findNavController(R.id.activity_champions_navHostFragment)

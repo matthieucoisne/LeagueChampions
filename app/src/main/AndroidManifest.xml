@@ -22,8 +22,6 @@
         </activity>
 
         <activity
-            android:name=".ui.championdetails.ChampionDetailsActivity"/>
-        <activity
             android:name=".ui.settings.SettingsActivity"/>
 
         <meta-data

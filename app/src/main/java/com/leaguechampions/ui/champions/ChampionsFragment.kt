@@ -10,11 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.databinding.FragmentChampionsBinding
@@ -26,8 +24,6 @@ import javax.inject.Inject
 
 class ChampionsFragment : DaggerFragment() {
 
-    private lateinit var rvChampions: RecyclerView
-
     private lateinit var adapter: ChampionsAdapter
     private lateinit var binding: FragmentChampionsBinding
     private lateinit var viewModel: ChampionsViewModel
@@ -35,8 +31,7 @@ class ChampionsFragment : DaggerFragment() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champions, container, false)
-        rvChampions = binding.fragmentChampionsRvChampions
+        binding = FragmentChampionsBinding.inflate(inflater)
 
         setHasOptionsMenu(true)
 
@@ -44,8 +39,7 @@ class ChampionsFragment : DaggerFragment() {
 
         viewModel.viewAction.observe(viewLifecycleOwner, EventObserver {
             when (it) {
-                is ChampionsViewModel.ViewAction.ShowDetails -> showDetails(it.championId)
-                is ChampionsViewModel.ViewAction.ShowSettings -> showSettings()
+                is ChampionsViewModel.ViewAction.NavigateToDetails -> navigateToDetails(it.championId)
             }
         })
 
@@ -64,7 +58,7 @@ class ChampionsFragment : DaggerFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_settings -> {
-                showSettings()
+                navigateToSettings()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -80,15 +74,20 @@ class ChampionsFragment : DaggerFragment() {
     }
 
     private fun setAdapter(champions: ChampionsUiModel) {
-        adapter = ChampionsAdapter(champions) { viewModel.onChampionClicked(it.id) }
-        rvChampions.adapter = adapter
+        adapter = ChampionsAdapter(champions) {
+            viewModel.onChampionClicked(it.id)
+        }
+        binding.rvChampions.adapter = adapter
     }
 
-    private fun showDetails(championId: String) {
-        findNavController().navigate(R.id.action_championsFragment_to_championDetailsFragment, bundleOf(Const.KEY_CHAMPION_ID to championId))
+    private fun navigateToDetails(championId: String) {
+        findNavController().navigate(
+                R.id.action_championsFragment_to_championDetailsFragment,
+                bundleOf(Const.KEY_CHAMPION_ID to championId)
+        )
     }
 
-    private fun showSettings() {
+    private fun navigateToSettings() {
         startActivity(Intent(requireContext(), SettingsActivity::class.java))
     }
 

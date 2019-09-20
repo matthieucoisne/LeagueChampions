@@ -5,25 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.leaguechampions.R
 import com.leaguechampions.data.local.Const
 import com.leaguechampions.databinding.FragmentChampionDetailsBinding
 import com.leaguechampions.injection.viewmodel.ViewModelFactory
+import com.leaguechampions.utils.loadChampionImage
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
 class ChampionDetailsFragment : DaggerFragment() {
 
     private lateinit var binding: FragmentChampionDetailsBinding
+
     private lateinit var viewModel: ChampionDetailsViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_champion_details, container, false)
+        binding = FragmentChampionDetailsBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ChampionDetailsViewModel::class.java)
 
@@ -40,13 +40,15 @@ class ChampionDetailsFragment : DaggerFragment() {
     private fun render(viewState: ChampionDetailsViewModel.ViewState) {
         when (viewState) {
             is ChampionDetailsViewModel.ViewState.ShowLoading -> showToast("Loading")
-            is ChampionDetailsViewModel.ViewState.ShowChampionDetails -> setChampion(viewState.championDetails)
+            is ChampionDetailsViewModel.ViewState.ShowChampionDetails -> showChampionDetails(viewState.championDetails)
             is ChampionDetailsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
         }
     }
 
-    private fun setChampion(champion: ChampionDetailsUiModel) {
-        binding.champion = champion
+    private fun showChampionDetails(championDetails: ChampionDetailsUiModel) {
+        binding.tvName.text = championDetails.name
+        binding.tvLore.text = championDetails.lore
+        loadChampionImage(binding.ivChampion, championDetails)
     }
 
     private fun showError(message: String) {

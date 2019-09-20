@@ -19,8 +19,7 @@ class ChampionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed class ViewAction {
-        data class ShowDetails(val championId: String) : ViewAction()
-        object ShowSettings : ViewAction()
+        data class NavigateToDetails(val championId: String) : ViewAction()
     }
 
     sealed class ViewState {
@@ -48,6 +47,6 @@ class ChampionsViewModel @Inject constructor(
     }
 
     fun onChampionClicked(championId: String) {
-        _viewAction.value = Event(ViewAction.ShowDetails(championId))
+        _viewAction.value = Event(ViewAction.NavigateToDetails(championId))
     }
 }
