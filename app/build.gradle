@@ -169,6 +169,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(':features:champions')
+    implementation project(':features:settings')
+    implementation project(':libraries:core')
 
     // KOTLIN
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"

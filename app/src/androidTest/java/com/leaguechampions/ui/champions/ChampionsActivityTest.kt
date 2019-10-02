@@ -3,10 +3,11 @@ package com.leaguechampions.ui.champions
 import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.leaguechampions.features.champions.champions.champions.ChampionsActivity
 
 import com.leaguechampions.ui.championdetails.ChampionDetailsRobot
 import com.leaguechampions.ui.settings.SettingsRobot
-import com.leaguechampions.utils.PrefUtils
+import com.leaguechampions.core.utils.PrefUtils
 
 import org.junit.After
 import org.junit.Before
@@ -21,7 +22,7 @@ class ChampionsActivityTest {
     @JvmField
     var activityTestRule: ActivityTestRule<ChampionsActivity> = object : ActivityTestRule<ChampionsActivity>(ChampionsActivity::class.java) {
         override fun beforeActivityLaunched() {
-            PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
+            com.leaguechampions.core.utils.PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
             super.beforeActivityLaunched()
         }
     }

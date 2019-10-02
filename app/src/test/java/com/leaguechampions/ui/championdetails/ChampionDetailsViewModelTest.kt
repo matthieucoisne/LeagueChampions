@@ -3,9 +3,9 @@ package com.leaguechampions.ui.championdetails
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.leaguechampions.data.model.Champion
-import com.leaguechampions.data.repository.ChampionRepository
-import com.leaguechampions.utils.Resource
+import com.leaguechampions.core.data.model.Champion
+import com.leaguechampions.core.data.repository.ChampionRepository
+import com.leaguechampions.core.utils.Resource
 import com.leaguechampions.utils.Status
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -22,22 +22,22 @@ import org.mockito.junit.MockitoJUnitRunner
 class ChampionDetailsViewModelTest {
 
     private val championId = "Riven"
-    private val champion = Champion(championId, "", "", "", "")
+    private val champion = com.leaguechampions.core.data.model.Champion(championId, "", "", "", "")
     private val error = "error"
-    private val viewStateLoading = ChampionDetailsViewModel.ViewState(status = Status.LOADING)
-    private val viewStateSuccess = ChampionDetailsViewModel.ViewState(status = Status.SUCCESS, champion = champion)
-    private val viewStateError = ChampionDetailsViewModel.ViewState(status = Status.ERROR, error = error)
+    private val viewStateLoading = com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel.ViewState(status = Status.LOADING)
+    private val viewStateSuccess = com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel.ViewState(status = Status.SUCCESS, champion = champion)
+    private val viewStateError = com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel.ViewState(status = Status.ERROR, error = error)
 
-    private lateinit var viewModel: ChampionDetailsViewModel
+    private lateinit var viewModel: com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel
 
-    @Mock private lateinit var repository: ChampionRepository
-    @Mock private lateinit var observerViewState: Observer<ChampionDetailsViewModel.ViewState>
+    @Mock private lateinit var repository: com.leaguechampions.core.data.repository.ChampionRepository
+    @Mock private lateinit var observerViewState: Observer<com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel.ViewState>
 
     @get:Rule var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
-        viewModel = ChampionDetailsViewModel(repository)
+        viewModel = com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel(repository)
         viewModel.viewState.observeForever(observerViewState)
     }
 
@@ -48,8 +48,8 @@ class ChampionDetailsViewModelTest {
 
     @Test
     fun testSetChampionId_loading() {
-        val resource = MutableLiveData<Resource<Champion>>()
-        resource.value = Resource.loading()
+        val resource = MutableLiveData<com.leaguechampions.core.utils.Resource<com.leaguechampions.core.data.model.Champion>>()
+        resource.value = com.leaguechampions.core.utils.Resource.loading()
         `when`(repository.getChampionDetails(championId)).thenReturn(resource)
 
         viewModel.setChampionId(championId)
@@ -61,8 +61,8 @@ class ChampionDetailsViewModelTest {
 
     @Test
     fun testSetChampionId_success() {
-        val resource = MutableLiveData<Resource<Champion>>()
-        resource.value = Resource.success(champion)
+        val resource = MutableLiveData<com.leaguechampions.core.utils.Resource<com.leaguechampions.core.data.model.Champion>>()
+        resource.value = com.leaguechampions.core.utils.Resource.success(champion)
         `when`(repository.getChampionDetails(championId)).thenReturn(resource)
 
         viewModel.setChampionId(championId)
@@ -74,8 +74,8 @@ class ChampionDetailsViewModelTest {
 
     @Test
     fun testSetChampionId_error() {
-        val resource = MutableLiveData<Resource<Champion>>()
-        resource.value = Resource.error(error)
+        val resource = MutableLiveData<com.leaguechampions.core.utils.Resource<com.leaguechampions.core.data.model.Champion>>()
+        resource.value = com.leaguechampions.core.utils.Resource.error(error)
         `when`(repository.getChampionDetails(championId)).thenReturn(resource)
 
         viewModel.setChampionId(championId)

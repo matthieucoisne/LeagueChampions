@@ -1,9 +1,9 @@
 package com.leaguechampions.injection
 
-import com.leaguechampions.ui.championdetails.ChampionDetailsFragment
-import com.leaguechampions.ui.champions.ChampionsActivity
-import com.leaguechampions.ui.champions.ChampionsFragment
-import com.leaguechampions.ui.settings.SettingsActivity
+import com.leaguechampions.features.champions.championdetails.ChampionDetailsFragment
+import com.leaguechampions.features.champions.champions.ChampionsActivity
+import com.leaguechampions.features.champions.champions.ChampionsFragment
+import com.leaguechampions.features.settings.SettingsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

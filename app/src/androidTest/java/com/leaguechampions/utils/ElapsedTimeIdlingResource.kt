@@ -2,9 +2,9 @@ package com.leaguechampions.utils
 
 import androidx.test.espresso.IdlingResource
 
-import com.leaguechampions.data.local.Const
+import com.leaguechampions.core.data.local.Const
 
-class ElapsedTimeIdlingResource(private val waitingTime: Long = Const.BEHAVIOR_DELAY_MILLIS) : IdlingResource {
+class ElapsedTimeIdlingResource(private val waitingTime: Long = com.leaguechampions.core.data.local.Const.BEHAVIOR_DELAY_MILLIS) : IdlingResource {
 
     private val startTime: Long = System.currentTimeMillis()
     private var resourceCallback: IdlingResource.ResourceCallback? = null

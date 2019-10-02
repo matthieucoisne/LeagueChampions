@@ -5,7 +5,7 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 
-import com.leaguechampions.utils.PrefUtils
+import com.leaguechampions.core.utils.PrefUtils
 
 import org.junit.After
 import org.junit.Before
@@ -24,7 +24,7 @@ class ChampionDetailsActivityTest {
     @JvmField
     var activityTestRule: ActivityTestRule<ChampionDetailsActivity> = object : ActivityTestRule<ChampionDetailsActivity>(ChampionDetailsActivity::class.java) {
         override fun beforeActivityLaunched() {
-            PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
+            com.leaguechampions.core.utils.PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
             super.beforeActivityLaunched()
         }
 

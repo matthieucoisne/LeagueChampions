@@ -1,0 +1,143 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation project(':libraries:core')
+
+    // KOTLIN
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$config.kotlin"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
+
+    // ANDROIDX
+    implementation "com.google.android.material:material:$libraries.androidx"
+
+    implementation "androidx.activity:activity-ktx:1.1.0-alpha03"
+    implementation "androidx.appcompat:appcompat:$libraries.appCompat"
+    implementation "androidx.constraintlayout:constraintlayout:$libraries.constraintLayout"
+    implementation "androidx.core:core:$libraries.androidx_core"
+    implementation "androidx.core:core-ktx:$libraries.androidx_core"
+    implementation "androidx.fragment:fragment:$libraries.androidx_fragment"
+    implementation "androidx.legacy:legacy-support-core-utils:$libraries.androidx"
+    implementation "androidx.legacy:legacy-support-core-ui:$libraries.androidx"
+    implementation "androidx.lifecycle:lifecycle-extensions:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha05"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$libraries.androidx_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$libraries.androidx_lifecycle"
+//    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+    implementation "androidx.navigation:navigation-runtime-ktx:$libraries.navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$libraries.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$libraries.navigation"
+    implementation "androidx.recyclerview:recyclerview:$libraries.androidx"
+
+    // ROOM
+    implementation "androidx.room:room-runtime:$libraries.androidx_room"
+    implementation "androidx.room:room-ktx:$libraries.androidx_room"
+    kapt "androidx.room:room-compiler:$libraries.androidx_room"
+    androidTestImplementation "androidx.room:room-testing:$libraries.androidx_room"
+
+
+    // DAGGER
+    implementation "com.google.dagger:dagger:$libraries.dagger"
+    implementation "com.google.dagger:dagger-android:$libraries.dagger"
+    implementation "com.google.dagger:dagger-android-support:$libraries.dagger"
+    kapt "com.google.dagger:dagger-compiler:$libraries.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$libraries.dagger"
+
+    // GSON
+    implementation "com.google.code.gson:gson:$libraries.gson"
+
+    // OKIO
+    implementation "com.squareup.okio:okio:$libraries.okio"
+
+    // OKHTTP
+    implementation "com.squareup.okhttp3:okhttp:$libraries.okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$libraries.okhttp"
+
+    // RETROFIT
+    implementation "com.squareup.retrofit2:retrofit:$libraries.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$libraries.retrofit"
+    debugImplementation "com.squareup.retrofit2:retrofit-mock:$libraries.retrofit"
+
+    // PICASSO
+    implementation "com.squareup.picasso:picasso:$libraries.picasso"
+    implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:$libraries.picasso_okhttp"
+
+    // GLIDE
+    implementation "com.github.bumptech.glide:glide:$libraries.glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$libraries.glide"
+
+    // TIMBER
+    implementation "com.jakewharton.timber:timber:$libraries.timber"
+
+    // CRASHLYTICS
+    implementation "com.crashlytics.sdk.android:crashlytics:$libraries.crashlytics"
+
+    // LEAK CANARY
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$libraries.leakcanary"
+
+
+    // UNIT TESTS
+    testImplementation "androidx.arch.core:core-testing:$libraries.androidx_core_testing"
+
+    testImplementation "junit:junit:$libraries.junit"
+
+    testImplementation "org.mockito:mockito-core:$libraries.mockito"
+    //http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html#0.2
+    testImplementation "org.mockito:mockito-inline:$libraries.mockito"
+
+    testImplementation("org.robolectric:robolectric:$libraries.robolectric") {
+        exclude group: "commons-logging", module: "commons-logging"
+        exclude group: "org.apache.httpcomponents", module: "httpclient"
+    }
+
+    testImplementation "org.assertj:assertj-core:$libraries.assertj"
+
+    testImplementation "org.hamcrest:hamcrest-library:$libraries.hamcrest"
+
+
+    // INSTRUMENTATION TESTS
+    androidTestImplementation "androidx.test:runner:$libraries.androidxTest"
+    androidTestImplementation "androidx.test:rules:$libraries.androidxTest"
+    androidTestImplementation "androidx.annotation:annotation:$libraries.annotation"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$libraries.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$libraries.espresso"
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$libraries.espresso") {
+        exclude group: "com.android.support", module: "appcompat-v7"
+        exclude group: "com.android.support", module: "design"
+        exclude group: "com.android.support", module: "support-v4"
+        exclude module: "recyclerview-v7"
+    }
+}

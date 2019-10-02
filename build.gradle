@@ -51,6 +51,7 @@ buildscript {
                 // Do not update this because this is the last version that supports android. (see assertj for android - square)
                 assertj                 : "1.7.1",
         ]
+        kotlin_version = '1.3.50'
     }
 
     repositories {

@@ -2,8 +2,8 @@ package com.leaguechampions.injection.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.leaguechampions.ui.championdetails.ChampionDetailsViewModel
-import com.leaguechampions.ui.champions.ChampionsViewModel
+import com.leaguechampions.core.injection.ViewModelFactory
+import com.leaguechampions.features.champions.champions.ChampionsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,8 +18,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ChampionDetailsViewModel::class)
-    internal abstract fun bindChampionDetailsViewModel(championDetailsViewModel: ChampionDetailsViewModel): ViewModel
+    @ViewModelKey(com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel::class)
+    internal abstract fun bindChampionDetailsViewModel(championDetailsViewModel: com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel): ViewModel
 
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

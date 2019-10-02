@@ -3,7 +3,6 @@ package com.leaguechampions.ui.settings
 import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import com.leaguechampions.utils.PrefUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -15,9 +14,9 @@ class SettingsActivityTest {
 
     @Rule
     @JvmField
-    var activityTestRule: ActivityTestRule<SettingsActivity> = object : ActivityTestRule<SettingsActivity>(SettingsActivity::class.java) {
+    var activityTestRule: ActivityTestRule<com.leaguechampions.features.settings.SettingsActivity> = object : ActivityTestRule<com.leaguechampions.features.settings.SettingsActivity>(com.leaguechampions.features.settings.SettingsActivity::class.java) {
         override fun beforeActivityLaunched() {
-            PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
+            com.leaguechampions.core.utils.PrefUtils.setMockMode(InstrumentationRegistry.getTargetContext(), true)
             super.beforeActivityLaunched()
         }
     }
