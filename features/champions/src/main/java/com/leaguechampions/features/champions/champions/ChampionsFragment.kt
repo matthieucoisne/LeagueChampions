@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.leaguechampions.core.data.local.Const
 import com.leaguechampions.core.injection.ViewModelFactory
 import com.leaguechampions.core.utils.EventObserver
+import com.leaguechampions.core.utils.Router
 import com.leaguechampions.features.champions.R
 import com.leaguechampions.features.champions.databinding.FragmentChampionsBinding
 import dagger.android.support.DaggerFragment
@@ -80,13 +81,13 @@ class ChampionsFragment : DaggerFragment() {
 
     private fun navigateToDetails(championId: String) {
         findNavController().navigate(
-                R.id.action_championsFragment_to_championDetailsFragment,
-                bundleOf(Const.KEY_CHAMPION_ID to championId)
+            R.id.action_championsFragment_to_championDetailsFragment,
+            bundleOf(Const.KEY_CHAMPION_ID to championId)
         )
     }
 
     private fun navigateToSettings() {
-//        startActivity(Intent(requireContext(), SettingsActivity::class.java))
+        startActivity(Router.getSettingsIntent(requireContext()))
     }
 
     private fun showError(message: String) {

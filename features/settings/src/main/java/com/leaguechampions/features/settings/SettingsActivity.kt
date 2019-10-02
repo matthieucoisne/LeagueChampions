@@ -6,8 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import com.leaguechampions.core.BuildConfig
 import com.leaguechampions.core.utils.PrefUtils
-import com.leaguechampions.settings.R
-import com.leaguechampions.settings.databinding.ActivitySettingsBinding
+import com.leaguechampions.features.settings.databinding.ActivitySettingsBinding
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -47,7 +46,7 @@ class SettingsActivity : DaggerAppCompatActivity() {
 
         if (buildType == "debug") {
             binding.llyDeveloperOptions.visibility = View.VISIBLE
-            binding.switchMockMode.isChecked = com.leaguechampions.core.utils.PrefUtils.isMockMode(preferences)
+            binding.switchMockMode.isChecked = PrefUtils.isMockMode(preferences)
             binding.switchMockMode.setOnCheckedChangeListener { _, isChecked ->
                 PrefUtils.setMockMode(preferences, isChecked)
             }

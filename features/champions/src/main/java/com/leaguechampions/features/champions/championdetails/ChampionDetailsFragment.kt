@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.leaguechampions.core.data.local.Const
 import com.leaguechampions.core.injection.ViewModelFactory
+import com.leaguechampions.core.utils.loadChampionImage
 import com.leaguechampions.features.champions.databinding.FragmentChampionDetailsBinding
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -48,7 +49,7 @@ class ChampionDetailsFragment : DaggerFragment() {
     private fun showChampionDetails(championDetails: ChampionDetailsUiModel) {
         binding.tvName.text = championDetails.name
         binding.tvLore.text = championDetails.lore
-//        loadChampionImage(binding.ivChampion, championDetails)
+        loadChampionImage(binding.ivChampion, championDetails.id, championDetails.version)
     }
 
     private fun showError(message: String) {

@@ -3,6 +3,7 @@ package com.leaguechampions.features.champions.champions
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.leaguechampions.core.utils.loadChampionImage
 import com.leaguechampions.features.champions.databinding.ActivityChampionsItemBinding
 
 class ChampionsAdapter(
@@ -18,7 +19,7 @@ class ChampionsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val champion = data.champions[position]
         holder.binding.tvChampionName.text = champion.name
-//        loadChampionImage(holder.binding.ivChampion, champion)
+        loadChampionImage(holder.binding.ivChampion, champion.id, champion.version)
         holder.binding.root.setOnClickListener {
             listener(champion)
         }
