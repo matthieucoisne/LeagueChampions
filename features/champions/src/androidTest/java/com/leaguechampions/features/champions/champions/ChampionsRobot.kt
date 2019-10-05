@@ -1,4 +1,4 @@
-package com.leaguechampions.ui.champions
+package com.leaguechampions.features.champions.champions
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry
@@ -10,18 +10,18 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.leaguechampions.R
+import com.leaguechampions.features.champions.R
 
 class ChampionsRobot {
 
     fun verifyChampionsAreDisplayed(): ChampionsRobot {
-        onView(withId(R.id.activity_champions_rvChampions))
+        onView(withId(R.id.rvChampions))
                 .check(matches(isDisplayed()))
         return this
     }
 
     fun clickChampionAtPosition(position: Int): ChampionsRobot {
-        onView(withId(R.id.activity_champions_rvChampions))
+        onView(withId(R.id.rvChampions))
                 .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
         return this
     }

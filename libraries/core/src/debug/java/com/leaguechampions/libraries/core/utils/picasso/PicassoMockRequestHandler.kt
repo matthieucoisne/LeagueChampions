@@ -1,4 +1,4 @@
-package com.leaguechampions.utils.picasso
+package com.leaguechampions.libraries.core.utils.picasso
 
 import android.content.res.AssetManager
 import android.graphics.Bitmap
@@ -12,6 +12,7 @@ import com.squareup.picasso.RequestHandler
 import retrofit2.mock.NetworkBehavior
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 /**
  * A Picasso [com.squareup.picasso.Downloader] which loads images from assets but attempts to emulate the
@@ -31,7 +32,7 @@ class PicassoMockRequestHandler(
     /** Emulate the disk cache by storing the URLs in an LRU using its size as the value.  */
     private val emulatedDiskCache = object : LruCache<String, Long>(DISK_CACHE_SIZE) {
         override fun sizeOf(key: String, value: Long?): Int {
-            return Math.min(value!!, Integer.MAX_VALUE.toLong()).toInt()
+            return min(value!!, Integer.MAX_VALUE.toLong()).toInt()
         }
     }
 
@@ -48,7 +49,7 @@ class PicassoMockRequestHandler(
 
         // If there's a hit, grab the image stream and return it.
         if (cacheHit) {
-            return RequestHandler.Result(loadBitmap(imagePath), Picasso.LoadedFrom.DISK)
+            return Result(loadBitmap(imagePath), Picasso.LoadedFrom.DISK)
         }
 
         // If we are not allowed to hit the network and the cache missed return a big fat nothing.
@@ -74,7 +75,7 @@ class PicassoMockRequestHandler(
         emulatedDiskCache.put(imagePath, size)
 
         // Grab the image stream and return it.
-        return RequestHandler.Result(loadBitmap(imagePath), Picasso.LoadedFrom.NETWORK)
+        return Result(loadBitmap(imagePath), Picasso.LoadedFrom.NETWORK)
     }
 
     private fun loadBitmap(imagePath: String): Bitmap {

@@ -5,7 +5,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 
 import com.leaguechampions.features.champions.championdetails.ChampionDetailsRobot
-import com.leaguechampions.ui.champions.ChampionsRobot
 
 import org.junit.After
 import org.junit.Before

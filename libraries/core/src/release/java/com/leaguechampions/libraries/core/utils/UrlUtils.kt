@@ -1,4 +1,4 @@
-package com.leaguechampions.utils
+package com.leaguechampions.libraries.core.utils
 
 import android.content.Context
 import com.leaguechampions.libraries.core.data.local.Const

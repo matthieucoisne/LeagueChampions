@@ -1,4 +1,4 @@
-package com.leaguechampions.injection
+package com.leaguechampions.libraries.core.injection
 
 import android.content.Context
 import com.google.gson.Gson

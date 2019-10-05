@@ -1,13 +1,13 @@
-package com.leaguechampions.injection
+package com.leaguechampions.libraries.core.injection
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.jakewharton.picasso.OkHttp3Downloader
-import com.leaguechampions.data.remote.MockApi
 import com.leaguechampions.libraries.core.data.local.Const
 import com.leaguechampions.libraries.core.data.remote.Api
-import com.leaguechampions.utils.picasso.PicassoMockRequestHandler
+import com.leaguechampions.libraries.core.data.remote.MockApi
+import com.leaguechampions.libraries.core.utils.picasso.PicassoMockRequestHandler
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides

@@ -4,7 +4,6 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.leaguechampions.libraries.core.data.local.Const
-import com.leaguechampions.utils.UrlUtils
 import com.squareup.picasso.Picasso
 
 fun loadChampionImage(ivChampion: ImageView, championId: String, championVersion: String) {
