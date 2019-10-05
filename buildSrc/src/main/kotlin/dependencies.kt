@@ -1,55 +1,53 @@
 import org.gradle.api.JavaVersion
 
 object Config {
-    val compileSdk = 28
-    val targetSdk = 28
-    val minSdk = 21
-    val buildTools = "28.0.3"
+    val compileSdk                      = 28
+    val targetSdk                       = 28
+    val minSdk                          = 21
+    val buildTools                      = "28.0.3"
 }
 
 object Versions {
-    val gradle_plugin_android = "3.6.0-alpha12"
-    val gradle_plugin_google_services = "4.3.2"
-    val gradle_plugin_fabric = "1.31.0"
+    val gradle_plugin_android           = "3.6.0-alpha12"
+    val gradle_plugin_google_services   = "4.3.2"
+    val gradle_plugin_fabric            = "1.31.0"
 
-    val java = JavaVersion.VERSION_1_8
-    val kotlin = "1.3.50"
-    val kotlin_coroutines = "1.3.1"
+    val java                            = JavaVersion.VERSION_1_8
+    val kotlin                          = "1.3.50"
+    val kotlin_coroutines               = "1.3.1"
 
-    val androidx = "1.0.0"
-    val androidx_core = "1.2.0-alpha04"
-    val androidx_fragment = "1.1.0"
-    val androidx_lifecycle = "2.2.0-alpha05"
-    val androidx_room = "2.1.0"
-    val annotation = "1.0.2"
-    val androidx_appCompat = "1.1.0"
-    val androidx_navigation = "2.2.0-alpha03"
-    val androidx_constraintLayout = "1.1.3"
-    val crashlytics = "2.10.1"
-    val dagger = "2.24"
-//    val firebase = "16.0.3"
-    val glide = "4.10.0"
-    val gson = "2.8.5"
-//    val jodaTime = "2.9.9"
-    val leakcanary = "1.6.3"
-//    val multidex = "2.0.1"
-    val okio = "2.2.2"
-    val okhttp = "4.2.0"
-    val picasso = "2.5.2"
-    val picasso_okhttp = "1.1.0"
-    val retrofit = "2.6.1"
-//    val rxandroid = "2.1.1"
-    val timber = "4.7.1"
+    val androidx                        = "1.0.0"
+    val androidx_activity               = "1.1.0-alpha03"
+    val androidx_appCompat              = "1.1.0"
+    val androidx_constraintLayout       = "1.1.3"
+    val androidx_core                   = "1.2.0-alpha04"
+    val androidx_fragment               = "1.1.0"
+    val androidx_lifecycle              = "2.2.0-alpha05"
+    val androidx_lifecycle_savedState   = "1.0.0-alpha05"
+    val androidx_navigation             = "2.2.0-alpha03"
+    val androidx_room                   = "2.1.0"
+    val annotation                      = "1.0.2"
+    val crashlytics                     = "2.10.1"
+    val dagger                          = "2.24"
+    val glide                           = "4.10.0"
+    val gson                            = "2.8.5"
+    val leakcanary                      = "1.6.3"
+    val okio                            = "2.2.2"
+    val okhttp                          = "4.2.0"
+    val picasso                         = "2.5.2"
+    val picasso_okhttp                  = "1.1.0"
+    val retrofit                        = "2.6.1"
+    val timber                          = "4.7.1"
 
     // TESTING
-    val androidx_test = "1.2.0"
-    val androidx_core_testing = "2.1.0"
-    val espresso = "3.2.0"
-    val hamcrest = "1.3"
-    val junit = "4.12"
-    val mockito = "2.25.0"
-    val robolectric = "4.3"
-    val assertj = "1.7.1" // Do not update. It is the last version that supports android. (see assertj for android - square)
+    val androidx_test                   = "1.2.0"
+    val androidx_core_testing           = "2.1.0"
+    val espresso                        = "3.2.0"
+    val hamcrest                        = "1.3"
+    val junit                           = "4.12"
+    val mockito                         = "2.25.0"
+    val robolectric                     = "4.3"
+    val assertj                         = "1.7.1" // Do not update. It is the last version that supports android. (see assertj for android - square)
 }
 
 object Dependencies {
@@ -59,7 +57,7 @@ object Dependencies {
     val kotlin_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlin_coroutines}"
 
     // ANDROIDX
-    val androidx_activity_ktx = "androidx.activity:activity-ktx:1.1.0-alpha03"
+    val androidx_activity_ktx = "androidx.activity:activity-ktx:${Versions.androidx_activity}"
     val androidx_appcompat = "androidx.appcompat:appcompat:${Versions.androidx_appCompat}"
     val androidx_constraintlayout = "androidx.constraintlayout:constraintlayout:${Versions.androidx_constraintLayout}"
     val androidx_core_ktx = "androidx.core:core-ktx:${Versions.androidx_core}"
@@ -69,7 +67,7 @@ object Dependencies {
     val androidx_lifecycle_extentions = "androidx.lifecycle:lifecycle-extensions:${Versions.androidx_lifecycle}"
     val androidx_lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.androidx_lifecycle}"
     val androidx_lifecycle_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.androidx_lifecycle}"
-    val androidx_lifecycle_viewmodel_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha05"
+    val androidx_lifecycle_viewmodel_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.androidx_lifecycle_savedState}"
     val androidx_lifecycle_livedata_core_ktx = "androidx.lifecycle:lifecycle-livedata-core-ktx:${Versions.androidx_lifecycle}"
     val androidx_lifecycle_livedata_ktx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.androidx_lifecycle}"
     val androidx_lifecycle_common_java8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.androidx_lifecycle}"

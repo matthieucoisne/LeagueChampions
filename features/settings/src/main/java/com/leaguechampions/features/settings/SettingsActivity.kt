@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import com.leaguechampions.core.BuildConfig
-import com.leaguechampions.core.utils.PrefUtils
+import com.leaguechampions.libraries.core.BuildConfig
+import com.leaguechampions.libraries.core.utils.PrefUtils
 import com.leaguechampions.features.settings.databinding.ActivitySettingsBinding
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject

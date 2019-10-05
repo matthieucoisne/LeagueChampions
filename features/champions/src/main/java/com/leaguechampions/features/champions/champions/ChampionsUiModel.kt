@@ -1,6 +1,6 @@
 package com.leaguechampions.features.champions.champions
 
-import com.leaguechampions.core.data.model.Champion
+import com.leaguechampions.libraries.core.data.model.Champion
 
 data class ChampionsUiModel(
         val champions: List<ChampionUiModel>

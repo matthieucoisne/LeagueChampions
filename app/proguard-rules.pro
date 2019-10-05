@@ -84,17 +84,6 @@
 -dontwarn com.google.errorprone.annotations.*
 ##---------------End: proguard configuration for Dagger 2.10  ----------
 
-##---------------Begin: proguard configuration for ButterKnife  ----------
-# Retain generated class which implement Unbinder.
--keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
-
-# Prevent obfuscation of types which use ButterKnife annotations since the simple name
-# is used to reflectively look up the generated ViewBinding.
--keep class butterknife.*
--keepclasseswithmembernames class * { @butterknife.* <methods>; }
--keepclasseswithmembernames class * { @butterknife.* <fields>; }
-##---------------End: proguard configuration for ButterKnife  ----------
-
 ##---------------Begin: proguard configuration for Picasso  ----------
 -dontwarn com.squareup.okhttp.**
 ##---------------End: proguard configuration for Picasso  ----------
@@ -137,6 +126,6 @@
 -keep class * implements com.google.gson.JsonDeserializer
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.leaguechampions.data.model.** { *; }
+-keep class com.leaguechampions.libraries.core.data.model.** { *; }
 
 ##---------------End: proguard configuration for Gson  ----------

@@ -12,10 +12,10 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.leaguechampions.core.data.local.Const
-import com.leaguechampions.core.injection.ViewModelFactory
-import com.leaguechampions.core.utils.EventObserver
-import com.leaguechampions.core.utils.Router
+import com.leaguechampions.libraries.core.data.local.Const
+import com.leaguechampions.libraries.core.injection.ViewModelFactory
+import com.leaguechampions.libraries.core.utils.EventObserver
+import com.leaguechampions.libraries.core.utils.Router
 import com.leaguechampions.features.champions.R
 import com.leaguechampions.features.champions.databinding.FragmentChampionsBinding
 import dagger.android.support.DaggerFragment

@@ -3,7 +3,7 @@ package com.leaguechampions.features.champions.champions
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.leaguechampions.core.utils.loadChampionImage
+import com.leaguechampions.libraries.core.utils.loadChampionImage
 import com.leaguechampions.features.champions.databinding.ActivityChampionsItemBinding
 
 class ChampionsAdapter(

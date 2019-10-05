@@ -3,7 +3,7 @@ package com.leaguechampions.features.champions.championdetails
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
-import com.leaguechampions.core.data.model.Champion
+import com.leaguechampions.libraries.core.data.model.Champion
 
 data class ChampionDetailsUiModel(
         val id: String,

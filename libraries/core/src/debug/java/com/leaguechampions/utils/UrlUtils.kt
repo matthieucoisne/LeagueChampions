@@ -1,8 +1,8 @@
 package com.leaguechampions.utils
 
 import android.content.Context
-import com.leaguechampions.core.data.local.Const
-import com.leaguechampions.core.utils.PrefUtils
+import com.leaguechampions.libraries.core.data.local.Const
+import com.leaguechampions.libraries.core.utils.PrefUtils
 import java.util.Locale
 import java.util.Random
 

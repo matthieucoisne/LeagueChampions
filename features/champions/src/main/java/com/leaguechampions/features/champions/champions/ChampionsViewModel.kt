@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.leaguechampions.core.data.repository.ChampionRepository
-import com.leaguechampions.core.utils.Event
+import com.leaguechampions.libraries.core.data.repository.ChampionRepository
+import com.leaguechampions.libraries.core.utils.Event
 import com.leaguechampions.features.champions.R
 import kotlinx.coroutines.Dispatchers
 import timber.log.Timber

@@ -8,8 +8,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.leaguechampions.core.data.repository.ChampionRepository
-import com.leaguechampions.core.utils.Resource
+import com.leaguechampions.libraries.core.data.repository.ChampionRepository
+import com.leaguechampions.libraries.core.utils.Resource
 import com.leaguechampions.features.champions.R
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

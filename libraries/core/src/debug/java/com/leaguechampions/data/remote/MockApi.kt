@@ -2,10 +2,10 @@ package com.leaguechampions.data.remote
 
 import android.content.Context
 import com.google.gson.Gson
-import com.leaguechampions.core.data.model.Champion
-import com.leaguechampions.core.data.model.RiotRealm
-import com.leaguechampions.core.data.model.RiotResponse
-import com.leaguechampions.core.data.remote.Api
+import com.leaguechampions.libraries.core.data.model.Champion
+import com.leaguechampions.libraries.core.data.model.RiotRealm
+import com.leaguechampions.libraries.core.data.model.RiotResponse
+import com.leaguechampions.libraries.core.data.remote.Api
 import okio.buffer
 import okio.source
 import retrofit2.mock.BehaviorDelegate
