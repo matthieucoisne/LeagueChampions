@@ -2,11 +2,11 @@ package com.leaguechampions.injection
 
 import com.leaguechampions.LeagueChampions
 import com.leaguechampions.injection.viewmodel.ViewModelModule
+import com.leaguechampions.libraries.core.injection.DataModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
-
 
 @Singleton
 @Component(modules = [

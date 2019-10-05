@@ -7,15 +7,13 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.leaguechampions.LeagueChampions
-import com.leaguechampions.data.local.ChampionDao
-import com.leaguechampions.data.local.ChampionRoomDatabase
-import com.leaguechampions.data.remote.Api
-import com.leaguechampions.data.repository.ChampionRepository
+import com.leaguechampions.libraries.core.data.local.ChampionDao
+import com.leaguechampions.libraries.core.data.local.ChampionRoomDatabase
+import com.leaguechampions.libraries.core.data.remote.Api
+import com.leaguechampions.libraries.core.data.repository.ChampionRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-
-
 
 @Module //(includes = ViewModelModule.class)
 class AppModule {

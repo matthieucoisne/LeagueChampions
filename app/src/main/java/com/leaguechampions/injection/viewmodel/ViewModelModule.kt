@@ -2,12 +2,12 @@ package com.leaguechampions.injection.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.leaguechampions.ui.championdetails.ChampionDetailsViewModel
-import com.leaguechampions.ui.champions.ChampionsViewModel
+import com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel
+import com.leaguechampions.features.champions.champions.ChampionsViewModel
+import com.leaguechampions.libraries.core.injection.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-
 
 @Module
 abstract class ViewModelModule {

@@ -19,30 +19,3 @@ class LeagueChampions : DaggerApplication() {
         return DaggerAppComponent.builder().create(this)
     }
 }
-
-
-
-
-// repeat() a la place de for
-// channels pour communiquer entre coroutines
-// runBlocking utiliser pour les test ou rares cas
-// coroutineScope pour demarrer une coroutine, puis launch fireAndForget ou async pour garder le defered result et possiblement attendre la fin
-
-/*
-fun List<User>.aggregate(): List<User> {
-    return groupBy { it.login }
-        .map { (key, value) -> User(key, value.sumBy { it.contributions }) }
-        .sortedByDescending { it.contributions }
-}
- */
-
-
-// TODO
-// MODEL MAP UI MODEL
-// SAVED STATE HANDLE
-// IMPROVE ROOM
-// MOTION LAYOUT
-// MVI
-// BETTER UNDERSTAND COROUTINES
-// KOTLIN FLOW ?
-// KOIN / TOOTHPICK
