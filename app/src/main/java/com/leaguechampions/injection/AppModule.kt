@@ -7,10 +7,8 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.leaguechampions.LeagueChampions
-import com.leaguechampions.libraries.core.data.local.ChampionDao
-import com.leaguechampions.libraries.core.data.local.ChampionRoomDatabase
-import com.leaguechampions.libraries.core.data.remote.Api
-import com.leaguechampions.libraries.core.data.repository.ChampionRepository
+import com.leaguechampions.features.champions.data.local.ChampionDao
+import com.leaguechampions.ChampionRoomDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -36,13 +34,6 @@ class AppModule {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         return gsonBuilder.create()
-    }
-
-    // TODO put this somewhere else ? in DataModule ?
-    @Provides
-    @Singleton
-    fun provideChampionRepository(api: Api, championDao: ChampionDao): ChampionRepository {
-        return ChampionRepository(api, championDao)
     }
 
     @Provides

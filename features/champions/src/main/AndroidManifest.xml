@@ -2,7 +2,7 @@
     package="com.leaguechampions.features.champions" >
 
     <application android:theme="@style/AppTheme">
-        <activity android:name=".champions.ChampionsActivity">
+        <activity android:name=".presentation.champions.ChampionsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/championsFragment"
-        android:name="com.leaguechampions.features.champions.champions.ChampionsFragment"
+        android:name="com.leaguechampions.features.champions.presentation.champions.ChampionsFragment"
         tools:layout="@layout/fragment_champions">
         <action
             android:id="@+id/action_championsFragment_to_championDetailsFragment"
@@ -21,6 +21,6 @@
 
     <fragment
         android:id="@+id/championDetailsFragment"
-        android:name="com.leaguechampions.features.champions.championdetails.ChampionDetailsFragment"
+        android:name="com.leaguechampions.features.champions.presentation.championdetails.ChampionDetailsFragment"
         tools:layout="@layout/fragment_champion_details"/>
 </navigation>

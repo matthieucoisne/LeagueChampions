@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.leaguechampions.libraries.core.data.local.Const
-import com.leaguechampions.libraries.core.data.remote.Api
 import com.leaguechampions.libraries.core.data.remote.MockApi
+import com.leaguechampions.libraries.core.data.remote.RiotApi
 import com.leaguechampions.libraries.core.utils.picasso.PicassoMockRequestHandler
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -54,11 +54,11 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideApi(context: Context, retrofit: Retrofit, mockRetrofit: MockRetrofit, @Named("mockMode") mockMode: Boolean): Api {
+    internal fun provideApi(context: Context, retrofit: Retrofit, mockRetrofit: MockRetrofit, @Named("mockMode") mockMode: Boolean): RiotApi {
         return if (mockMode) {
-            MockApi(context, mockRetrofit.create(Api::class.java))
+            MockApi(context, mockRetrofit.create(RiotApi::class.java))
         } else {
-            retrofit.create(Api::class.java)
+            retrofit.create(RiotApi::class.java)
         }
     }
 
