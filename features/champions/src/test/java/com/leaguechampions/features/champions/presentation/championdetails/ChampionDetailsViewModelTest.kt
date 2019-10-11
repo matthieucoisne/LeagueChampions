@@ -3,7 +3,7 @@ package com.leaguechampions.features.champions.presentation.championdetails
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.leaguechampions.features.champions.data.model.ChampionEntity
-import com.leaguechampions.features.champions.data.repository.ChampionDataRepository
+import com.leaguechampions.features.champions.domain.usecase.GetChampionDetailsUseCase
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -25,14 +25,14 @@ class ChampionDetailsViewModelTest {
 
     private lateinit var viewModel: ChampionDetailsViewModel
 
-    @Mock private lateinit var repository: ChampionDataRepository
+    @Mock private lateinit var getChampionDetailsUseCase: GetChampionDetailsUseCase
     @Mock private lateinit var observerViewState: Observer<ChampionDetailsViewModel.ViewState>
 
     @get:Rule var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
-        viewModel = ChampionDetailsViewModel(repository)
+        viewModel = ChampionDetailsViewModel(getChampionDetailsUseCase)
         viewModel.viewState.observeForever(observerViewState)
     }
 
