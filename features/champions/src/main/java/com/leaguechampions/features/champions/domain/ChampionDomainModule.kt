@@ -3,7 +3,7 @@ package com.leaguechampions.features.champions.domain
 import com.leaguechampions.features.champions.domain.repository.ChampionRepository
 import com.leaguechampions.features.champions.domain.usecase.GetChampionDetailsUseCase
 import com.leaguechampions.features.champions.domain.usecase.GetChampionsUseCase
-import com.leaguechampions.libraries.core.data.repository.RiotRepository
+import com.leaguechampions.libraries.core.domain.repository.RiotRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

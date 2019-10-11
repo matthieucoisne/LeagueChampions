@@ -3,7 +3,7 @@ package com.leaguechampions.injection
 import com.leaguechampions.features.champions.presentation.championdetails.ChampionDetailsFragment
 import com.leaguechampions.features.champions.presentation.champions.ChampionsActivity
 import com.leaguechampions.features.champions.presentation.champions.ChampionsFragment
-import com.leaguechampions.features.settings.SettingsActivity
+import com.leaguechampions.features.settings.presentation.settings.SettingsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

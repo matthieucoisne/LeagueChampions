@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".features.settings.SettingsActivity"/>
+            android:name=".features.settings.presentation.settings.SettingsActivity"/>
 
         <meta-data
             android:name="com.crashlytics.ApiKey"

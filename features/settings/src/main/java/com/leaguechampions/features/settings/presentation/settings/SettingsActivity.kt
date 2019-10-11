@@ -1,12 +1,13 @@
-package com.leaguechampions.features.settings
+package com.leaguechampions.features.settings.presentation.settings
 
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import com.leaguechampions.features.settings.R
+import com.leaguechampions.features.settings.databinding.ActivitySettingsBinding
 import com.leaguechampions.libraries.core.BuildConfig
 import com.leaguechampions.libraries.core.utils.PrefUtils
-import com.leaguechampions.features.settings.databinding.ActivitySettingsBinding
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 

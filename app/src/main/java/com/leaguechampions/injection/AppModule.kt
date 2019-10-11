@@ -7,8 +7,8 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.leaguechampions.LeagueChampions
+import com.leaguechampions.data.local.AppRoomDatabase
 import com.leaguechampions.features.champions.data.local.ChampionDao
-import com.leaguechampions.ChampionRoomDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -39,6 +39,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideChampionDao(context: Context): ChampionDao {
-        return ChampionRoomDatabase.getDatabase(context).championDao()
+        return AppRoomDatabase.getDatabase(context).championDao()
     }
 }

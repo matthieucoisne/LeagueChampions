@@ -1,4 +1,4 @@
-package com.leaguechampions
+package com.leaguechampions.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -8,15 +8,15 @@ import com.leaguechampions.features.champions.data.local.ChampionDao
 import com.leaguechampions.features.champions.data.model.ChampionEntity
 
 @Database(entities = [ChampionEntity::class], version = 1)
-abstract class ChampionRoomDatabase : RoomDatabase() {
+abstract class AppRoomDatabase : RoomDatabase() {
 
     abstract fun championDao(): ChampionDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ChampionRoomDatabase? = null
+        private var INSTANCE: AppRoomDatabase? = null
 
-        fun getDatabase(context: Context): ChampionRoomDatabase {
+        fun getDatabase(context: Context): AppRoomDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -24,7 +24,7 @@ abstract class ChampionRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                         context.applicationContext,
-                        ChampionRoomDatabase::class.java,
+                        AppRoomDatabase::class.java,
                         "Champion_database"
                 ).build()
                 INSTANCE = instance

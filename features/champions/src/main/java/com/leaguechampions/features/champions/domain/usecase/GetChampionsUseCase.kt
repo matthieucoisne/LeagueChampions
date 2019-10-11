@@ -2,7 +2,7 @@ package com.leaguechampions.features.champions.domain.usecase
 
 import com.leaguechampions.features.champions.domain.model.Champion
 import com.leaguechampions.features.champions.domain.repository.ChampionRepository
-import com.leaguechampions.libraries.core.data.repository.RiotRepository
+import com.leaguechampions.libraries.core.domain.repository.RiotRepository
 
 class GetChampionsUseCase(
     private val riotRepository: RiotRepository,
