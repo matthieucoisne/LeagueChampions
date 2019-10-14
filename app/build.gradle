@@ -24,6 +24,16 @@ def static getBuildNumber() {
 android {
     defaultConfig {
         applicationId "com.leaguechampions"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
     }
 
     signingConfigs {
