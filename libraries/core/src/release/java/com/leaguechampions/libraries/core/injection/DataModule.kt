@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.leaguechampions.libraries.core.data.local.Const
-import com.leaguechampions.libraries.core.data.remote.Api
+import com.leaguechampions.libraries.core.data.remote.RiotApi
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -28,8 +28,8 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideApi(retrofit: Retrofit): Api {
-        return retrofit.create(Api::class.java)
+    internal fun provideApi(retrofit: Retrofit): RiotApi {
+        return retrofit.create(RiotApi::class.java)
     }
 
     @Provides
