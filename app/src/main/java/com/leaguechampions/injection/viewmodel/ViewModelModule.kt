@@ -2,8 +2,8 @@ package com.leaguechampions.injection.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.leaguechampions.features.champions.championdetails.ChampionDetailsViewModel
-import com.leaguechampions.features.champions.champions.ChampionsViewModel
+import com.leaguechampions.features.champions.presentation.championdetails.ChampionDetailsViewModel
+import com.leaguechampions.features.champions.presentation.champions.ChampionsViewModel
 import com.leaguechampions.libraries.core.injection.ViewModelFactory
 import dagger.Binds
 import dagger.Module

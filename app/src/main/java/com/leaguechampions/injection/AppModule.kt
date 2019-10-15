@@ -7,10 +7,8 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.leaguechampions.LeagueChampions
-import com.leaguechampions.libraries.core.data.local.ChampionDao
-import com.leaguechampions.libraries.core.data.local.ChampionRoomDatabase
-import com.leaguechampions.libraries.core.data.remote.Api
-import com.leaguechampions.libraries.core.data.repository.ChampionRepository
+import com.leaguechampions.data.local.AppRoomDatabase
+import com.leaguechampions.features.champions.data.local.ChampionDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -38,16 +36,9 @@ class AppModule {
         return gsonBuilder.create()
     }
 
-    // TODO put this somewhere else ? in DataModule ?
-    @Provides
-    @Singleton
-    fun provideChampionRepository(api: Api, championDao: ChampionDao): ChampionRepository {
-        return ChampionRepository(api, championDao)
-    }
-
     @Provides
     @Singleton
     fun provideChampionDao(context: Context): ChampionDao {
-        return ChampionRoomDatabase.getDatabase(context).championDao()
+        return AppRoomDatabase.getDatabase(context).championDao()
     }
 }

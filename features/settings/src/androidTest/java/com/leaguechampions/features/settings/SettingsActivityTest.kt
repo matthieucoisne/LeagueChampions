@@ -3,6 +3,7 @@ package com.leaguechampions.features.settings
 import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.leaguechampions.features.settings.presentation.settings.SettingsActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

@@ -127,5 +127,8 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.leaguechampions.libraries.core.data.model.** { *; }
+-keep class com.leaguechampions.features.champions.data.model.** { *; }
+-keep class com.leaguechampions.features.champions.domain.model.** { *; }
+
 
 ##---------------End: proguard configuration for Gson  ----------

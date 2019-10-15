@@ -2,9 +2,7 @@ package com.leaguechampions.libraries.core.data.remote
 
 import android.content.Context
 import com.google.gson.Gson
-import com.leaguechampions.libraries.core.data.model.Champion
 import com.leaguechampions.libraries.core.data.model.RiotRealm
-import com.leaguechampions.libraries.core.data.model.RiotResponse
 import okio.buffer
 import okio.source
 import retrofit2.mock.BehaviorDelegate
@@ -13,8 +11,8 @@ import java.nio.charset.Charset
 
 class MockApi(
     private val context: Context,
-    private val delegate: BehaviorDelegate<Api>
-) : Api {
+    private val delegate: BehaviorDelegate<RiotApi>
+) : RiotApi {
 
     private val gson: Gson = Gson()
 
@@ -72,14 +70,6 @@ class MockApi(
 //    }
 
     override suspend fun getRealm(): RiotRealm {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun getChampions(version: String): RiotResponse<Champion> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override suspend fun getChampionDetails(version: String, championId: String): RiotResponse<Champion> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

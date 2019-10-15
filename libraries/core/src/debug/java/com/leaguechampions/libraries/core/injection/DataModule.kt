@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.jakewharton.picasso.OkHttp3Downloader
 import com.leaguechampions.libraries.core.data.local.Const
-import com.leaguechampions.libraries.core.data.remote.Api
 import com.leaguechampions.libraries.core.data.remote.MockApi
+import com.leaguechampions.libraries.core.data.remote.RiotApi
 import com.leaguechampions.libraries.core.utils.picasso.PicassoMockRequestHandler
 import com.squareup.picasso.Picasso
 import dagger.Module
@@ -27,18 +27,18 @@ class DataModule {
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(Const.URL_BASE)
-                .client(okHttpClient)
-                .build()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl(Const.URL_BASE)
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides
     @Singleton
     internal fun provideMockRetrofit(retrofit: Retrofit, networkBehavior: NetworkBehavior): MockRetrofit {
         return MockRetrofit.Builder(retrofit)
-                .networkBehavior(networkBehavior)
-                .build()
+            .networkBehavior(networkBehavior)
+            .build()
     }
 
     @Provides
@@ -54,11 +54,11 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun provideApi(context: Context, retrofit: Retrofit, mockRetrofit: MockRetrofit, @Named("mockMode") mockMode: Boolean): Api {
+    internal fun provideRiotApi(context: Context, retrofit: Retrofit, mockRetrofit: MockRetrofit, @Named("mockMode") mockMode: Boolean): RiotApi {
         return if (mockMode) {
-            MockApi(context, mockRetrofit.create(Api::class.java))
+            MockApi(context, mockRetrofit.create(RiotApi::class.java))
         } else {
-            retrofit.create(Api::class.java)
+            retrofit.create(RiotApi::class.java)
         }
     }
 
@@ -67,11 +67,12 @@ class DataModule {
     internal fun providePicasso(context: Context, okHttpClient: OkHttpClient, @Named("mockMode") mockMode: Boolean): Picasso {
         val builder = Picasso.Builder(context)
         if (mockMode) {
-            val networkBehavior = NetworkBehavior.create()
-            networkBehavior.setDelay(0, TimeUnit.MILLISECONDS)
-            networkBehavior.setErrorPercent(0)
-            networkBehavior.setFailurePercent(0)
-            networkBehavior.setVariancePercent(0)
+            val networkBehavior = NetworkBehavior.create().apply {
+                setDelay(0, TimeUnit.MILLISECONDS)
+                setErrorPercent(0)
+                setFailurePercent(0)
+                setVariancePercent(0)
+            }
             builder.addRequestHandler(PicassoMockRequestHandler(networkBehavior, context.assets))
         }
         builder.downloader(OkHttp3Downloader(okHttpClient))

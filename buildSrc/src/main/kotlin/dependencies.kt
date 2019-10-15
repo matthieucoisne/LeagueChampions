@@ -8,41 +8,43 @@ object Config {
 }
 
 object Versions {
-    val gradle_plugin_android           = "3.6.0-alpha12"
+    val gradle_plugin_android           = "3.6.0-beta01"
     val gradle_plugin_google_services   = "4.3.2"
-    val gradle_plugin_fabric            = "1.31.0"
+    val gradle_plugin_fabric            = "1.31.1"
 
     val java                            = JavaVersion.VERSION_1_8
     val kotlin                          = "1.3.50"
-    val kotlin_coroutines               = "1.3.1"
+    val kotlin_coroutines               = "1.3.2"
 
+    val android_material                = "1.1.0-beta01"
     val androidx                        = "1.0.0"
-    val androidx_activity               = "1.1.0-alpha03"
+    val androidx_activity               = "1.1.0-beta01"
     val androidx_appCompat              = "1.1.0"
     val androidx_constraintLayout       = "1.1.3"
-    val androidx_core                   = "1.2.0-alpha04"
-    val androidx_fragment               = "1.1.0"
-    val androidx_lifecycle              = "2.2.0-alpha05"
-    val androidx_lifecycle_savedState   = "1.0.0-alpha05"
-    val androidx_navigation             = "2.2.0-alpha03"
-    val androidx_room                   = "2.1.0"
-    val annotation                      = "1.0.2"
+    val androidx_core                   = "1.2.0-beta01"
+    val androidx_fragment               = "1.2.0-beta01"
+    val androidx_lifecycle              = "2.2.0-beta01"
+    val androidx_lifecycle_savedState   = "1.0.0-beta01"
+    val androidx_navigation             = "2.2.0-beta01"
+    val androidx_recyclerview           = "1.1.0-beta05"
+    val androidx_room                   = "2.2.0"
+    val annotation                      = "1.1.0"
     val crashlytics                     = "2.10.1"
     val dagger                          = "2.24"
     val glide                           = "4.10.0"
-    val gson                            = "2.8.5"
+    val gson                            = "2.8.6"
     val leakcanary                      = "1.6.3"
     val okio                            = "2.2.2"
-    val okhttp                          = "4.2.0"
+    val okhttp                          = "4.2.2"
     val picasso                         = "2.5.2"
     val picasso_okhttp                  = "1.1.0"
-    val retrofit                        = "2.6.1"
+    val retrofit                        = "2.6.2"
     val timber                          = "4.7.1"
 
     // TESTING
-    val androidx_test                   = "1.2.0"
+    val androidx_test                   = "1.3.0-alpha02"
     val androidx_core_testing           = "2.1.0"
-    val espresso                        = "3.2.0"
+    val espresso                        = "3.3.0-alpha02"
     val hamcrest                        = "1.3"
     val junit                           = "4.12"
     val mockito                         = "2.25.0"
@@ -74,10 +76,10 @@ object Dependencies {
     val androidx_navigation_runtime_ktx = "androidx.navigation:navigation-runtime-ktx:${Versions.androidx_navigation}"
     val androidx_navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.androidx_navigation}"
     val androidx_navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.androidx_navigation}"
-    val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.androidx}"
+    val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.androidx_recyclerview}"
 
     // MATERIAL
-    val android_material = "com.google.android.material:material:${Versions.androidx}"
+    val android_material = "com.google.android.material:material:${Versions.android_material}"
 
     // ROOM
     val androidx_room_runtime = "androidx.room:room-runtime:${Versions.androidx_room}"

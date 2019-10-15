@@ -1,10 +1,10 @@
 package com.leaguechampions.libraries.core.data.repository
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.leaguechampions.libraries.core.utils.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -14,11 +14,11 @@ import kotlin.coroutines.coroutineContext
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
-    private val result = MutableLiveData<com.leaguechampions.libraries.core.utils.Resource<ResultType>>()
+    private val result = MutableLiveData<Resource<ResultType>>()
     private val supervisorJob = SupervisorJob()
 
     suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
-        setValue(com.leaguechampions.libraries.core.utils.Resource.Loading())
+        setValue(Resource.Loading())
 
         CoroutineScope(coroutineContext).launch(Dispatchers.IO + supervisorJob) {
             val dbResult = loadFromDb()
@@ -27,29 +27,29 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     fetchFromNetwork(dbResult)
                 } catch (e: Exception) {
                     Timber.e("An error happened: $e")
-                    setValue(com.leaguechampions.libraries.core.utils.Resource.Error(e.toString(), loadFromDb()))
+                    setValue(Resource.Error(e.toString(), loadFromDb()))
                 }
             } else {
                 Timber.d("Return data from local database")
-                setValue(com.leaguechampions.libraries.core.utils.Resource.Success(dbResult))
+                setValue(Resource.Success(dbResult))
             }
         }
         return this
     }
 
-    fun asLiveData() = result as LiveData<com.leaguechampions.libraries.core.utils.Resource<ResultType>>
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
 
     private suspend fun fetchFromNetwork(dbResult: ResultType) {
-        Log.d(NetworkBoundResource::class.java.name, "Fetch data from network")
-        setValue(com.leaguechampions.libraries.core.utils.Resource.Loading(dbResult)) // Dispatch latest value quickly (UX purpose)
+        Timber.d("Fetch data from network")
+        setValue(Resource.Loading(dbResult)) // Dispatch latest value quickly (UX purpose)
         val apiResponse = createCall()
-        Log.e(NetworkBoundResource::class.java.name, "Data fetched from network")
+        Timber.e("Data fetched from network")
         saveCallResults(processResponse(apiResponse))
-        setValue(com.leaguechampions.libraries.core.utils.Resource.Success(loadFromDb()))
+        setValue(Resource.Success(loadFromDb()))
     }
 
     @MainThread
-    private fun setValue(newValue: com.leaguechampions.libraries.core.utils.Resource<ResultType>) {
+    private fun setValue(newValue: Resource<ResultType>) {
         Timber.d("Resource: $newValue")
         if (result.value != newValue) {
             result.postValue(newValue)
