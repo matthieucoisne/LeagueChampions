@@ -1,0 +1,234 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "0b231794135b130e75f70cde6f8e7b0d",
+    "entities": [
+      {
+        "tableName": "Champions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `version` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ChampionDetails",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `title` TEXT NOT NULL, `lore` TEXT NOT NULL, `version` TEXT NOT NULL, `info_attack` INTEGER NOT NULL, `info_defense` INTEGER NOT NULL, `info_magic` INTEGER NOT NULL, `info_difficulty` INTEGER NOT NULL, `stats_hp` REAL NOT NULL, `stats_hpPerLevel` REAL NOT NULL, `stats_mp` REAL NOT NULL, `stats_mpPerLevel` REAL NOT NULL, `stats_moveSpeed` REAL NOT NULL, `stats_armor` REAL NOT NULL, `stats_armorPerLevel` REAL NOT NULL, `stats_spellBlock` REAL NOT NULL, `stats_spellBlockPerLevel` REAL NOT NULL, `stats_attackRange` INTEGER NOT NULL, `stats_hpRegen` REAL NOT NULL, `stats_hpRegenPerLevel` REAL NOT NULL, `stats_mpRegen` REAL NOT NULL, `stats_mpRegenPerLevel` REAL NOT NULL, `stats_crit` REAL NOT NULL, `stats_critPerLevel` REAL NOT NULL, `stats_attackDamage` REAL NOT NULL, `stats_attackDamagePerLevel` REAL NOT NULL, `stats_attackSpeedPerLevel` REAL NOT NULL, `stats_attackSpeed` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lore",
+            "columnName": "lore",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "info.attack",
+            "columnName": "info_attack",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "info.defense",
+            "columnName": "info_defense",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "info.magic",
+            "columnName": "info_magic",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "info.difficulty",
+            "columnName": "info_difficulty",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.hp",
+            "columnName": "stats_hp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.hpPerLevel",
+            "columnName": "stats_hpPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.mp",
+            "columnName": "stats_mp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.mpPerLevel",
+            "columnName": "stats_mpPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.moveSpeed",
+            "columnName": "stats_moveSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.armor",
+            "columnName": "stats_armor",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.armorPerLevel",
+            "columnName": "stats_armorPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.spellBlock",
+            "columnName": "stats_spellBlock",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.spellBlockPerLevel",
+            "columnName": "stats_spellBlockPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.attackRange",
+            "columnName": "stats_attackRange",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.hpRegen",
+            "columnName": "stats_hpRegen",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.hpRegenPerLevel",
+            "columnName": "stats_hpRegenPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.mpRegen",
+            "columnName": "stats_mpRegen",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.mpRegenPerLevel",
+            "columnName": "stats_mpRegenPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.crit",
+            "columnName": "stats_crit",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.critPerLevel",
+            "columnName": "stats_critPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.attackDamage",
+            "columnName": "stats_attackDamage",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.attackDamagePerLevel",
+            "columnName": "stats_attackDamagePerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.attackSpeedPerLevel",
+            "columnName": "stats_attackSpeedPerLevel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stats.attackSpeed",
+            "columnName": "stats_attackSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0b231794135b130e75f70cde6f8e7b0d')"
+    ]
+  }
+}

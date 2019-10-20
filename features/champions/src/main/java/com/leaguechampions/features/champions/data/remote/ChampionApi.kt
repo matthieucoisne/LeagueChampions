@@ -1,5 +1,6 @@
 package com.leaguechampions.features.champions.data.remote
 
+import com.leaguechampions.features.champions.data.model.ChampionDetailsEntity
 import com.leaguechampions.features.champions.data.model.ChampionEntity
 import com.leaguechampions.libraries.core.data.model.RiotResponse
 import retrofit2.http.GET
@@ -15,5 +16,5 @@ interface ChampionApi {
     suspend fun getChampions(@Path("version") version: String): RiotResponse<ChampionEntity>
 
     @GET("cdn/{version}/data/en_US/champion/{championId}.json")
-    suspend fun getChampionDetails(@Path("championId") championId: String, @Path("version") version: String): RiotResponse<ChampionEntity>
+    suspend fun getChampionDetails(@Path("championId") championId: String, @Path("version") version: String): RiotResponse<ChampionDetailsEntity>
 }

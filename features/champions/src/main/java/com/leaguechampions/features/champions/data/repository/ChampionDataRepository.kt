@@ -14,12 +14,16 @@ class ChampionDataRepository @Inject constructor(
 
     override suspend fun getChampions(version: String): List<Champion> {
         val result = championApi.getChampions(version)
-        return result.data.values.toMutableList().apply { sort() }.map { it.toChampion() }
+        val champions = result.data.values.toMutableList()
+        championDao.saveChampions(champions)
+        return champions.map { it.toChampion() }
     }
 
     override suspend fun getChampionDetails(championId: String, version: String): Champion {
         val result = championApi.getChampionDetails(championId, version)
-        return result.data.getValue(championId).apply { this.version = version }.toChampion()
+        val championDetails = result.data.getValue(championId).apply { this.version = version }
+        championDao.saveChampionDetails(championDetails)
+        return championDetails.toChampion()
     }
 
 //    override suspend fun getChampionWithCacheFromDb(championId: String): LiveData<Resource<Champion>> {
