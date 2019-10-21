@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.leaguechampions.features.champions.databinding.FragmentChampionDetailsBinding
 import com.leaguechampions.libraries.core.data.local.Const
 import com.leaguechampions.libraries.core.injection.ViewModelFactory
 import com.leaguechampions.libraries.core.utils.loadChampionImage
-import com.leaguechampions.features.champions.databinding.FragmentChampionDetailsBinding
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -40,7 +40,10 @@ class ChampionDetailsFragment : DaggerFragment() {
 
     private fun render(viewState: ChampionDetailsViewModel.ViewState) {
         when (viewState) {
-            is ChampionDetailsViewModel.ViewState.ShowLoading -> showToast("Loading")
+            is ChampionDetailsViewModel.ViewState.ShowLoading -> {
+                showToast("Loading")
+                viewState.championDetails?.let { showChampionDetails(it) }
+            }
             is ChampionDetailsViewModel.ViewState.ShowChampionDetails -> showChampionDetails(viewState.championDetails)
             is ChampionDetailsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
         }

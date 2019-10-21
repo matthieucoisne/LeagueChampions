@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.leaguechampions.features.champions.R
 import com.leaguechampions.features.champions.domain.usecase.GetChampionsUseCase
 import com.leaguechampions.libraries.core.utils.Event
+import com.leaguechampions.libraries.core.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 class ChampionsViewModel @Inject constructor(
@@ -23,7 +23,7 @@ class ChampionsViewModel @Inject constructor(
     }
 
     sealed class ViewState {
-        object ShowLoading : ViewState()
+        data class ShowLoading(val champions: ChampionsUiModel?) : ViewState()
         data class ShowChampions(val champions: ChampionsUiModel) : ViewState()
         data class ShowError(@StringRes val errorStringId: Int) : ViewState()
     }
@@ -32,18 +32,20 @@ class ChampionsViewModel @Inject constructor(
     val viewAction: LiveData<Event<ViewAction>>
         get() = _viewAction
 
-    val viewState = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(ViewState.ShowLoading)
-        try {
-            emit(ViewState.ShowChampions(getChampionsUseCase.execute().toChampionsUiModel()))
-        } catch (e: Exception) {
-            Timber.e(e)
-            val errorStringId = when (e) {
-                is IOException -> R.string.error_io
-                else -> R.string.error_something_went_wrong
+    private val _viewState: MutableLiveData<ViewState>
+    val viewState: LiveData<ViewState>
+        get() = _viewState
+
+    init {
+        _viewState = liveData(context = viewModelScope.coroutineContext + Dispatchers.Main) {
+            emitSource(getChampionsUseCase.execute())
+        }.map { resource ->
+            when (resource) {
+                is Resource.Loading -> ViewState.ShowLoading(resource.data?.toChampionsUiModel())
+                is Resource.Error -> ViewState.ShowError(R.string.error_something_went_wrong)
+                is Resource.Success -> ViewState.ShowChampions(resource.data.toChampionsUiModel())
             }
-            emit(ViewState.ShowError(errorStringId))
-        }
+        } as MutableLiveData<ViewState>
     }
 
     fun onChampionClicked(championId: String) {

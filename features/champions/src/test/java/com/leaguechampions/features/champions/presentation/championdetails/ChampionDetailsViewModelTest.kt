@@ -17,7 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class ChampionDetailsViewModelTest {
 
     private val championId = "Riven"
-    private val champion = ChampionEntity(championId, "", "", "", "")
+    private val champion = ChampionEntity(championId, "", "")
     private val error = "error"
 //    private val viewStateLoading = ChampionDetailsViewModel.ViewState(status = Status.LOADING)
 //    private val viewStateSuccess = ChampionDetailsViewModel.ViewState(status = Status.SUCCESS, champion = champion)

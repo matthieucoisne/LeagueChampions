@@ -10,11 +10,11 @@ import com.leaguechampions.features.champions.data.model.ChampionEntity
 @Dao
 interface ChampionDao {
 
-    @Query("SELECT * FROM Champions ORDER BY name ASC")
-    fun getChampions(): List<ChampionEntity>
+    @Query(value = "SELECT * FROM Champions ORDER BY name ASC")
+    suspend fun getChampions(): List<ChampionEntity>
 
-    @Query("SELECT * FROM ChampionDetails WHERE id = :id")
-    fun getChampion(id: String): ChampionDetailsEntity
+    @Query(value = "SELECT * FROM ChampionDetails WHERE id = :championId")
+    suspend fun getChampion(championId: String): ChampionDetailsEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveChampions(champions: List<ChampionEntity>)
