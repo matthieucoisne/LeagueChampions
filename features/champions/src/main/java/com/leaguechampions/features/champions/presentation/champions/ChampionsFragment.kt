@@ -46,6 +46,11 @@ class ChampionsFragment : DaggerFragment() {
             render(it)
         }
 
+        adapter = ChampionsAdapter {
+            viewModel.onChampionClicked(it.id)
+        }
+        binding.rvChampions.adapter = adapter
+
         return binding.root
     }
 
@@ -66,17 +71,17 @@ class ChampionsFragment : DaggerFragment() {
 
     private fun render(viewState: ChampionsViewModel.ViewState) {
         when (viewState) {
-            is ChampionsViewModel.ViewState.ShowLoading -> showToast("Loading")
-            is ChampionsViewModel.ViewState.ShowChampions -> setAdapter(viewState.champions)
+            is ChampionsViewModel.ViewState.ShowLoading -> {
+                showToast("Loading")
+                viewState.champions?.let { showChampions(it) }
+            }
+            is ChampionsViewModel.ViewState.ShowChampions -> showChampions(viewState.champions)
             is ChampionsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
         }
     }
 
-    private fun setAdapter(champions: ChampionsUiModel) {
-        adapter = ChampionsAdapter(champions) {
-            viewModel.onChampionClicked(it.id)
-        }
-        binding.rvChampions.adapter = adapter
+    private fun showChampions(champions: ChampionsUiModel) {
+        adapter.setData(champions)
     }
 
     private fun navigateToDetails(championId: String) {

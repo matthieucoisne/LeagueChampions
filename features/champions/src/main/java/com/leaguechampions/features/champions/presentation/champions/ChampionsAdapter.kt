@@ -7,9 +7,10 @@ import com.leaguechampions.features.champions.databinding.ActivityChampionsItemB
 import com.leaguechampions.libraries.core.utils.loadChampionImage
 
 class ChampionsAdapter(
-    private val data: ChampionsUiModel,
     private val listener: (ChampionUiModel) -> Unit
 ) : RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
+
+    private var data = ChampionsUiModel(emptyList())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ActivityChampionsItemBinding.inflate(LayoutInflater.from(parent.context))
@@ -26,6 +27,11 @@ class ChampionsAdapter(
     }
 
     override fun getItemCount() = data.champions.size
+
+    fun setData(data: ChampionsUiModel) {
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(
         val binding: ActivityChampionsItemBinding
