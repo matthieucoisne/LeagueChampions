@@ -47,6 +47,26 @@ subprojects {
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                 }
 
+                flavorDimensions "server"
+                productFlavors {
+                    prod
+                    dev
+                }
+
+                variantFilter { variant ->
+                    def buildType = variant.buildType.name
+                    def flavor = variant.flavors.get(0).name
+                    if (buildType == "debug") {
+                        if (flavor == "prod") {
+                            variant.setIgnore(true)
+                        }
+                    } else if (buildType == "release") {
+                        if (flavor == "dev") {
+                            variant.setIgnore(true)
+                        }
+                    }
+                }
+
                 compileOptions {
                     sourceCompatibility Versions.java
                     targetCompatibility Versions.java
