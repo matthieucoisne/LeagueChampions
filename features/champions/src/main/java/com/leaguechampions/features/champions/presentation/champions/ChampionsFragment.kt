@@ -42,8 +42,11 @@ class ChampionsFragment : DaggerFragment() {
             }
         })
 
-        viewModel.viewState.observe(viewLifecycleOwner) {
+        viewModel.stateLiveData.observe(viewLifecycleOwner) {
             render(it)
+        }
+        viewModel.viewState2.observe(viewLifecycleOwner) {
+            //
         }
 
         adapter = ChampionsAdapter {
@@ -70,14 +73,15 @@ class ChampionsFragment : DaggerFragment() {
     }
 
     private fun render(viewState: ChampionsViewModel.ViewState) {
-        when (viewState) {
-            is ChampionsViewModel.ViewState.ShowLoading -> {
-                showToast("Loading")
-                viewState.champions?.let { showChampions(it) }
-            }
-            is ChampionsViewModel.ViewState.ShowChampions -> showChampions(viewState.champions)
-            is ChampionsViewModel.ViewState.ShowError -> showError(getString(viewState.errorStringId))
+        if (viewState.isLoading) {
+            showToast("Loading")
         }
+
+        if (viewState.isError) {
+            showError(getString(R.string.error_something_went_wrong))
+        }
+
+        viewState.champions?.let { showChampions(it) }
     }
 
     private fun showChampions(champions: ChampionsUiModel) {

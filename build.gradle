@@ -68,8 +68,8 @@ subprojects {
                 }
 
                 compileOptions {
-                    sourceCompatibility Versions.java
-                    targetCompatibility Versions.java
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
                 }
 
                 viewBinding {

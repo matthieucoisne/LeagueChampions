@@ -10,6 +10,7 @@ dependencies {
     implementation Dependencies.kotlin
     implementation Dependencies.kotlin_coroutines_core
     implementation Dependencies.kotlin_coroutines_android
+    implementation Dependencies.kotlin_reflect
 
     implementation Dependencies.android_material
 
