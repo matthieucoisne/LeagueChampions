@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.leaguechampions.features.champions.domain.model.Champion
 
 @Entity(tableName = "Champions")
-class ChampionEntity(
+data class ChampionEntity(
     @PrimaryKey var id: String,
     val name: String,
 //    val tags: List<String>,

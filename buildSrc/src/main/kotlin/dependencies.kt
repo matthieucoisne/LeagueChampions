@@ -1,19 +1,19 @@
 import org.gradle.api.JavaVersion
 
 object Config {
-    val compileSdk                      = 28
-    val targetSdk                       = 28
+    val compileSdk                      = 29
+    val targetSdk                       = 29
     val minSdk                          = 21
-    val buildTools                      = "28.0.3"
+    val buildTools                      = "29.0.2"
 }
 
 object Versions {
-    val gradle_plugin_android           = "3.6.0-beta01"
+    val gradle_plugin_android           = "4.0.0-alpha09"
     val gradle_plugin_google_services   = "4.3.2"
     val gradle_plugin_fabric            = "1.31.1"
 
     val java                            = JavaVersion.VERSION_1_8
-    val kotlin                          = "1.3.50"
+    val kotlin                          = "1.3.61"
     val kotlin_coroutines               = "1.3.2"
 
     val android_material                = "1.1.0-beta01"

@@ -13,7 +13,7 @@ class ChampionsAdapter(
     private var data = ChampionsUiModel(emptyList())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ActivityChampionsItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ActivityChampionsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

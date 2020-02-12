@@ -5,6 +5,7 @@ buildscript {
         google()
         jcenter()
         maven { url "https://maven.fabric.io/public" }
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     }
 
     dependencies {
@@ -25,6 +26,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://maven.fabric.io/public" }
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -36,7 +38,7 @@ allprojects {
 
 subprojects {
     afterEvaluate { project ->
-        if (project.hasProperty('android')) {
+        if (project.hasProperty("android")) {
             android {
                 buildToolsVersion Config.buildTools
                 compileSdkVersion Config.compileSdk
