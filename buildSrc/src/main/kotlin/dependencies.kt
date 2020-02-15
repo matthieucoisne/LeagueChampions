@@ -1,5 +1,3 @@
-import org.gradle.api.JavaVersion
-
 object Config {
     val compileSdk                      = 29
     val targetSdk                       = 29
@@ -9,46 +7,46 @@ object Config {
 
 object Versions {
     val gradle_plugin_android           = "4.0.0-alpha09"
-    val gradle_plugin_google_services   = "4.3.2"
-    val gradle_plugin_fabric            = "1.31.1"
+    val gradle_plugin_google_services   = "4.3.3"
+    val gradle_plugin_fabric            = "1.31.2"
 
-    val java                            = JavaVersion.VERSION_1_8
+    val java                            = "1.8"
     val kotlin                          = "1.3.61"
     val kotlin_coroutines               = "1.3.2"
 
-    val android_material                = "1.1.0-beta01"
+    val android_material                = "1.2.0-alpha04"
     val androidx                        = "1.0.0"
-    val androidx_activity               = "1.1.0-beta01"
-    val androidx_appCompat              = "1.1.0"
+    val androidx_activity               = "1.1.0"
+    val androidx_appCompat              = "1.2.0-alpha02"
     val androidx_constraintLayout       = "1.1.3"
-    val androidx_core                   = "1.2.0-beta01"
-    val androidx_fragment               = "1.2.0-beta01"
-    val androidx_lifecycle              = "2.2.0-beta01"
-    val androidx_lifecycle_savedState   = "1.0.0-beta01"
-    val androidx_navigation             = "2.2.0-beta01"
-    val androidx_recyclerview           = "1.1.0-beta05"
-    val androidx_room                   = "2.2.0"
+    val androidx_core                   = "1.3.0-alpha01"
+    val androidx_fragment               = "1.2.1"
+    val androidx_lifecycle              = "2.2.0"
+    val androidx_lifecycle_savedState   = "2.2.0"
+    val androidx_navigation             = "2.3.0-alpha01"
+    val androidx_recyclerview           = "1.2.0-alpha01"
+    val androidx_room                   = "2.2.3"
     val annotation                      = "1.1.0"
     val crashlytics                     = "2.10.1"
-    val dagger                          = "2.24"
-    val glide                           = "4.10.0"
+    val dagger                          = "2.26"
+    val glide                           = "4.11.0"
     val gson                            = "2.8.6"
-    val leakcanary                      = "1.6.3"
+    val leakcanary                      = "2.2"
     val okio                            = "2.2.2"
-    val okhttp                          = "4.2.2"
+    val okhttp                          = "4.3.1"
     val picasso                         = "2.5.2"
     val picasso_okhttp                  = "1.1.0"
-    val retrofit                        = "2.6.2"
+    val retrofit                        = "2.7.1"
     val timber                          = "4.7.1"
 
     // TESTING
-    val androidx_test                   = "1.3.0-alpha02"
+    val androidx_test                   = "1.3.0-alpha03"
     val androidx_core_testing           = "2.1.0"
-    val espresso                        = "3.3.0-alpha02"
+    val espresso                        = "3.3.0-alpha03"
     val hamcrest                        = "1.3"
-    val junit                           = "4.12"
+    val junit                           = "4.13"
     val mockito                         = "2.25.0"
-    val robolectric                     = "4.3"
+    val robolectric                     = "4.3.1"
     val assertj                         = "1.7.1" // Do not update. It is the last version that supports android. (see assertj for android - square)
 }
 
