@@ -3,6 +3,7 @@ package com.leaguechampions.features.champions.presentation.champions
 import androidx.test.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.leaguechampions.features.champions.presentation.ChampionsActivity
 
 import com.leaguechampions.features.champions.presentation.championdetails.ChampionDetailsRobot
 import com.leaguechampions.libraries.core.utils.PrefUtils

@@ -1,4 +1,4 @@
-package com.leaguechampions.injection
+package com.leaguechampions.injection.module
 
 import android.content.Context
 import dagger.Module
@@ -15,9 +15,9 @@ class NetworkModule {
     @Singleton
     internal fun provideOkHttpClient(cache: Cache, loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-                .cache(cache)
-                .addInterceptor(loggingInterceptor)
-                .build()
+            .cache(cache)
+            .addInterceptor(loggingInterceptor)
+            .build()
     }
 
     @Provides

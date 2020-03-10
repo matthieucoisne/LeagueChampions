@@ -1,4 +1,4 @@
-package com.leaguechampions.libraries.core.data
+package com.leaguechampions.libraries.core.injection
 
 import com.leaguechampions.libraries.core.data.remote.RiotApi
 import com.leaguechampions.libraries.core.data.repository.RiotDataRepository

@@ -6,7 +6,7 @@ object Config {
 }
 
 object Versions {
-    val gradle_plugin_android           = "4.0.0-alpha09"
+    val gradle_plugin_android           = "4.0.0-beta01"
     val gradle_plugin_google_services   = "4.3.3"
     val gradle_plugin_fabric            = "1.31.2"
 
@@ -24,6 +24,7 @@ object Versions {
     val androidx_lifecycle              = "2.2.0"
     val androidx_lifecycle_savedState   = "2.2.0"
     val androidx_navigation             = "2.3.0-alpha01"
+    val androidx_preference             = "1.1.0"
     val androidx_recyclerview           = "1.2.0-alpha01"
     val androidx_room                   = "2.2.3"
     val annotation                      = "1.1.0"
@@ -74,6 +75,7 @@ object Dependencies {
     val androidx_navigation_runtime_ktx = "androidx.navigation:navigation-runtime-ktx:${Versions.androidx_navigation}"
     val androidx_navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.androidx_navigation}"
     val androidx_navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.androidx_navigation}"
+    val androidx_preference_ktx = "androidx.preference:preference-ktx:${Versions.androidx_preference}"
     val androidx_recyclerview = "androidx.recyclerview:recyclerview:${Versions.androidx_recyclerview}"
 
     // MATERIAL

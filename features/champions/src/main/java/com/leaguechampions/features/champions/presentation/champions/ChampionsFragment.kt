@@ -1,5 +1,6 @@
 package com.leaguechampions.features.champions.presentation.champions
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,25 +10,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.leaguechampions.features.champions.R
 import com.leaguechampions.features.champions.databinding.FragmentChampionsBinding
+import com.leaguechampions.features.champions.presentation.ChampionsActivity
 import com.leaguechampions.libraries.core.data.local.Const
 import com.leaguechampions.libraries.core.injection.ViewModelFactory
 import com.leaguechampions.libraries.core.utils.EventObserver
 import com.leaguechampions.libraries.core.utils.Router
-import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class ChampionsFragment : DaggerFragment() {
+class ChampionsFragment : Fragment() {
 
     private lateinit var adapter: ChampionsAdapter
     private lateinit var binding: FragmentChampionsBinding
     private lateinit var viewModel: ChampionsViewModel
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as ChampionsActivity).championComponent.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentChampionsBinding.inflate(inflater)

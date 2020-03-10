@@ -1,12 +1,14 @@
 package com.leaguechampions
 
-import com.leaguechampions.injection.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import android.app.Application
+import com.leaguechampions.features.champions.injection.ChampionComponent
+import com.leaguechampions.features.champions.injection.ChampionComponentProvider
+import com.leaguechampions.injection.component.AppComponent
+import com.leaguechampions.injection.component.DaggerAppComponent
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-class LeagueChampions : DaggerApplication() {
+class LeagueChampions : Application(), ChampionComponentProvider {
 
     override fun onCreate() {
         super.onCreate()
@@ -15,7 +17,11 @@ class LeagueChampions : DaggerApplication() {
 //        Picasso.setSingletonInstance(appComponent.getPicasso());
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().create(this)
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.factory().create(applicationContext)
+    }
+
+    override fun provideChampionComponent(): ChampionComponent {
+        return appComponent.championComponent().create()
     }
 }

@@ -13,4 +13,3 @@ data class Champion(
         return name.compareTo(other.name)
     }
 }
-

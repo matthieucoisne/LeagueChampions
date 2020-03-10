@@ -1,26 +1,19 @@
-package com.leaguechampions.injection
+package com.leaguechampions.injection.module
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.leaguechampions.LeagueChampions
 import com.leaguechampions.data.local.AppDatabase
 import com.leaguechampions.features.champions.data.local.ChampionDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module //(includes = ViewModelModule.class)
-class AppModule {
-
-    @Provides
-    @Singleton
-    internal fun providesContext(application: LeagueChampions): Context {
-        return application
-    }
+@Module
+class StorageModule {
 
     @Provides
     @Singleton
@@ -30,7 +23,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    internal fun provideGson(): Gson {
+    internal fun provideGson(): Gson { // TODO use Moshi
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         return gsonBuilder.create()

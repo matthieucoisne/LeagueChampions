@@ -20,10 +20,10 @@ class DataModule {
     @Singleton
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(Const.URL_BASE)
-                .client(okHttpClient)
-                .build()
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl(Const.URL_BASE)
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides
@@ -36,7 +36,7 @@ class DataModule {
     @Singleton
     internal fun providePicasso(context: Context, okHttpClient: OkHttpClient): Picasso {
         return Picasso.Builder(context)
-                .downloader(OkHttp3Downloader(okHttpClient))
-                .build()
+            .downloader(OkHttp3Downloader(okHttpClient))
+            .build()
     }
 }

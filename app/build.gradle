@@ -148,6 +148,9 @@ dependencies {
     // KOTLIN
     implementation Dependencies.kotlin
 
+    // ANDROIDX
+    implementation Dependencies.androidx_preference_ktx
+
     // ROOM
     implementation Dependencies.androidx_room_runtime
     implementation Dependencies.androidx_room_ktx
